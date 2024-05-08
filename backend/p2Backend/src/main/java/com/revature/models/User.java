@@ -1,7 +1,10 @@
 package com.revature.models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Entity
@@ -10,7 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private int userId;
+    private int Id;
 
     @Column(nullable = false)
     private String username;
@@ -30,16 +33,19 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @CurrentTimestamp
     @Column(nullable = false)
     private String timestamp;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Follow> follow;
 
 
     public User() {
     }
 
-    public User(int userId, String username, String firstName, String role, String lastName, String email, String timestamp, String password) {
-        this.userId = userId;
+    public User(int Id, String username, String firstName, String role, String lastName, String email, String timestamp, String password) {
+        this.Id = Id;
         this.username = username;
         this.firstName = firstName;
         this.role = role;
@@ -50,7 +56,7 @@ public class User {
     }
 
     public int getUserId() {
-        return userId;
+        return Id;
     }
 
     public String getUsername() {
@@ -84,7 +90,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "userId=" + Id +
                 ", username='" + username + '\'' +
                 ", password=" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
