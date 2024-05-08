@@ -45,7 +45,7 @@ public class Item {
         this.image = image;
     }
 
-    public int getItemId() {
+    public int getId() {
         return id;
     }
 
@@ -72,7 +72,7 @@ public class Item {
     public String getImage() {
         return image;
     }
-    public void setItemId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
