@@ -33,24 +33,27 @@ public class Review {
     private double rating;
 
     @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Score> score;
+    private List<Score> scores;
 
     @Column(nullable = false)
     @CurrentTimestamp
     private String timestamp;
 
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies;
     public Review() {
     }
 
-    public Review(int id, String title, String body, User user, Item item, double rating, List<Score> score, String timestamp) {
+    public Review(int id, String title, String body, User user, Item item, double rating, List<Score> scores, String timestamp, List<Reply> replies) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.user = user;
         this.item = item;
         this.rating = rating;
-        this.score = score;
+        this.scores = scores;
         this.timestamp = timestamp;
+        this.replies = replies;
     }
 
     public int getId() {
@@ -102,11 +105,11 @@ public class Review {
     }
 
     public List<Score> getScore() {
-        return score;
+        return scores;
     }
 
-    public void setScore(List<Score> score) {
-        this.score = score;
+    public void setScore(List<Score> scores) {
+        this.scores = scores;
     }
 
     public String getTimestamp() {
@@ -115,6 +118,22 @@ public class Review {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
     }
 
     @Override
@@ -126,8 +145,9 @@ public class Review {
                 ", user=" + user +
                 ", item=" + item +
                 ", rating=" + rating +
-                ", score=" + score +
+                ", scores=" + scores +
                 ", timestamp='" + timestamp + '\'' +
+                ", replies=" + replies +
                 '}';
     }
 }
