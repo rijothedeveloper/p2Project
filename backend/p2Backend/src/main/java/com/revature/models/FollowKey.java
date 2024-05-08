@@ -1,13 +1,19 @@
 package com.revature.models;
 
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Embeddable
 public class FollowKey implements Serializable {
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "following_id")
     private int followingUserId;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "followed_id")
     private int followedUserId;
 
     // getters, setters, equals, and hashCode methods

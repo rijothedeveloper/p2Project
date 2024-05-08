@@ -16,8 +16,9 @@ public class Item {
     @Column
     private String name;
 
-    @Column
-    private int producer_id;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     @Column(nullable = false)
     private double rating;
@@ -34,10 +35,10 @@ public class Item {
     public Item() {
     }
 
-    public Item(int id, String name, int producer_id, double rating, String description, String category, String image) {
+    public Item(int id, String name, Producer producer, double rating, String description, String category, String image) {
         this.id = id;
         this.name = name;
-        this.producer_id = producer_id;
+        this.producer = producer;
         this.rating = rating;
         this.description = description;
         this.category = category;
@@ -52,8 +53,8 @@ public class Item {
         return name;
     }
 
-    public int getProducer_id() {
-        return producer_id;
+    public Producer getProducer() {
+        return producer;
     }
 
     public double getRating() {
@@ -79,8 +80,8 @@ public class Item {
         this.name = name;
     }
 
-    public void setProducer_id(int producer_id) {
-        this.producer_id = producer_id;
+    public void setProducer_id(Producer producer) {
+        this.producer = producer;
     }
 
     public void setRating(double rating) {
@@ -103,7 +104,7 @@ public class Item {
         return "Item{" +
                 "itemId=" + id +
                 ", name='" + name + '\'' +
-                ", producer_id=" + producer_id +
+                ", producer_id=" + producer +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
