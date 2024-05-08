@@ -10,11 +10,11 @@ public class FollowKey implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "following_id")
-    private int followingUserId;
+    private User followingUser;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "followed_id")
-    private int followedUserId;
+    private User followedUser;
 
     // getters, setters, equals, and hashCode methods
 
@@ -22,32 +22,32 @@ public class FollowKey implements Serializable {
     public FollowKey() {
     }
 
-    public FollowKey(int followingUserId, int followedUserId) {
-        this.followingUserId = followingUserId;
-        this.followedUserId = followedUserId;
+    public FollowKey(User followingUser, User followedUser) {
+        this.followingUser = followingUser;
+        this.followedUser = followedUser;
     }
 
-    public int getFollowingUserId() {
-        return followingUserId;
+    public User getFollowingUser() {
+        return followingUser;
     }
 
-    public void setFollowingUserId(int followingUserId) {
-        this.followingUserId = followingUserId;
+    public void setFollowingUser(User followingUser) {
+        this.followingUser = followingUser;
     }
 
-    public int getFollowedUserId() {
-        return followedUserId;
+    public User getFollowedUser() {
+        return followedUser;
     }
 
-    public void setFollowedUserId(int followedUserId) {
-        this.followedUserId = followedUserId;
+    public void setFollowedUser(User followedUser) {
+        this.followedUser = followedUser;
     }
 
     @Override
     public String toString() {
         return "FollowKey{" +
-                "followingUserId=" + followingUserId +
-                ", followedUserId=" + followedUserId +
+                "followingUser=" + followingUser +
+                ", followedUser=" + followedUser +
                 '}';
     }
 }

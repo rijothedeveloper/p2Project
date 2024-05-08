@@ -37,14 +37,11 @@ public class User {
     @Column(nullable = false)
     private String timestamp;
 
-    @OneToMany(mappedBy = "id.followingUserId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.followingUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Follow> follow;
 
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
-
-
-
 
     public User() {
     }
