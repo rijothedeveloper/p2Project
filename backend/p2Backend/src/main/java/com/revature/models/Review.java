@@ -29,10 +29,10 @@ public class Review {
     @JoinColumn(name = "itemId")
     private Item item;
 
-    @Column(nullable = true)
+    @Column
     private double rating;
 
-    @OneToMany(mappedBy = "score", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> score;
 
     @Column(nullable = false)
