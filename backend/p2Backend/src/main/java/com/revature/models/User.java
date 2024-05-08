@@ -37,7 +37,7 @@ public class User {
     @Column(nullable = false)
     private String timestamp;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.followingUserId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Follow> follow;
 
 
