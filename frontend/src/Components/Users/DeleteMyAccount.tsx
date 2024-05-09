@@ -1,5 +1,8 @@
 import axios from "axios"
+import { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const DeleteMyAccount: React.FC = () => {
 
@@ -19,24 +22,39 @@ export const DeleteMyAccount: React.FC = () => {
         const response = axios.delete("HTMLADDRESSNEEDSFIXING", {withCredentials:true}) //We need to know what to pass where and if there is data in the request body that needs to be sent.
         .then((response) => {alert(response.data)})  //for now alert any message returned from the delete command
         .then(() => {navigate("/")})  //then go back to the main splash page.  We also need to end their session and reset any variables associated with such.
-        .catch((error) => {alert(error.response.data)})  //If there is an error then display the error in an alert.  Likely to change.
+        .catch((error) => {alert(error.response.data)})  //If there is an error then display the error in an alert.  Likely to change.  
     }
 
 
-    const verifyDelete = () => {
-        //This function will prompt the user to confirm or deny that they wish to delete their account.  If the user says no then nothing happens, if yes then call deleteOwnAccount
-        let verified = window.confirm("Would you like to delete your own account? \nThis will also delete your reviews and replies, \nas well as any replies attached to those reviews. \n \nPress OK to delete your account or Cancel to cancel.")
-        if(verified){
-            deleteOwnAccount()
-        }else{
-
-        }
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const handleCloseConfirm = () => {
+        setShow(false)
+        deleteOwnAccount()
     }
 
 
 
     return(
-        <button onClick={verifyDelete}>Delete my account</button>
+        <div>
+            <button onClick={handleShow}>Delete my account</button>
+
+            <Modal show={show}>
+                <Modal.Header>
+                    <Modal.Title>Delete your account?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Deleting your account will delete all your reviews and replies, as well as replies to your reviews. <br /><br />Click OK to delete account, Cancel to cancel.</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleCloseConfirm}>
+                        OK
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
     )
 
 
