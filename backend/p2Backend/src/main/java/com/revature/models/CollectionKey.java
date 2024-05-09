@@ -1,42 +1,49 @@
 package com.revature.models;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Embeddable
 public class CollectionKey implements Serializable{
 
-    private int itemId;
-    private int userId;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_id")
+    private Item item;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;;
 
     public CollectionKey() {
     }
 
-    public CollectionKey(int itemId, int userId) {
-        this.itemId = itemId;
-        this.userId = userId;
+    public CollectionKey(Item item, User user) {
+        this.item = item;
+        this.user = user;
     }
 
-    public int getItemId() {
-        return itemId;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItem(Item item) {
+        this.item = item;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "CollectionKey{" +
-                "itemId=" + itemId +
-                ", userId=" + userId +
+                "item=" + item +
+                ", user=" + user +
                 '}';
     }
 }

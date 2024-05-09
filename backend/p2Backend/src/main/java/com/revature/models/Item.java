@@ -11,13 +11,14 @@ public class Item {
 
     @Id
     @GeneratedValue
-    private int itemId;
+    private int id;
 
     @Column
     private String name;
 
-    @Column
-    private double producer_id;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "producer_id")
+    private Producer producer;
 
     @Column(nullable = false)
     private double rating;
@@ -34,26 +35,26 @@ public class Item {
     public Item() {
     }
 
-    public Item(int itemId, String name, double producer_id, double rating, String description, String category, String image) {
-        this.itemId = itemId;
+    public Item(int id, String name, Producer producer, double rating, String description, String category, String image) {
+        this.id = id;
         this.name = name;
-        this.producer_id = producer_id;
+        this.producer = producer;
         this.rating = rating;
         this.description = description;
         this.category = category;
         this.image = image;
     }
 
-    public int getItemId() {
-        return itemId;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getProducer_id() {
-        return producer_id;
+    public Producer getProducer() {
+        return producer;
     }
 
     public double getRating() {
@@ -71,16 +72,16 @@ public class Item {
     public String getImage() {
         return image;
     }
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setProducer_id(double producer_id) {
-        this.producer_id = producer_id;
+    public void setProducer_id(Producer producer) {
+        this.producer = producer;
     }
 
     public void setRating(double rating) {
@@ -101,9 +102,9 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "itemId=" + itemId +
+                "itemId=" + id +
                 ", name='" + name + '\'' +
-                ", producer_id=" + producer_id +
+                ", producer_id=" + producer +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +

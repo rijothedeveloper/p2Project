@@ -6,17 +6,15 @@ public class ItemDTO {
     private int producerId;
     private String description;
     private String category;
-    private String image;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String name, int producerId, String description, String category, String image) {
+    public ItemDTO(String name, int producerId, String description, String category) {
         this.name = name;
         this.producerId = producerId;
         this.description = description;
         this.category = category;
-        this.image = image;
     }
 
     public String getName() {
@@ -39,9 +37,6 @@ public class ItemDTO {
         return description;
     }
 
-    public String getImage() {
-        return image;
-    }
     public void setDescription(String description) {
         this.description = description;
     }
@@ -53,9 +48,6 @@ public class ItemDTO {
     public void setCategory(String category) {
         this.category = category;
     }
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @Override
     public String toString() {
@@ -64,7 +56,6 @@ public class ItemDTO {
                 ", producerId=" + producerId +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
-                ", image='" + image + '\'' +
                 '}';
     }
 }

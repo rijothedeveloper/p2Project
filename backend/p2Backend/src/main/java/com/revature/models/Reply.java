@@ -17,7 +17,10 @@ public class Reply {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
-    private int reviewId;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "reviewId")
+    private Review review;
 
     private String body;
 
@@ -29,10 +32,10 @@ public class Reply {
     public Reply() {
     }
 
-    public Reply(int id, User user, int reviewId, String body, String timestamp) {
+    public Reply(int id, User user, Review review, String body, String timestamp) {
         this.id = id;
         this.user = user;
-        this.reviewId = reviewId;
+        this.review = review;
         this.body = body;
         this.timestamp = timestamp;
     }
@@ -53,12 +56,12 @@ public class Reply {
         this.user = user;
     }
 
-    public int getReviewId() {
-        return reviewId;
+    public Review getReview() {
+        return review;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setReviewId(Review review) {
+        this.review = review;
     }
 
     public String getBody() {
@@ -82,7 +85,7 @@ public class Reply {
         return "Reply{" +
                 "id=" + id +
                 ", user=" + user +
-                ", reviewId=" + reviewId +
+                ", reviewId=" + review +
                 ", body='" + body + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
