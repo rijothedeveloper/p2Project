@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Collection;
+import com.revature.models.Item;
 import com.revature.services.CollectionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +28,13 @@ public class CollectionController {
 
 
     @GetMapping("/my_collection")
-    public ResponseEntity<List<Collection>> getCollection(HttpSession session) {
+    public ResponseEntity<List<Item>> getCollection(HttpSession session) {
 
         int userId = 1;
         //int userId = (int) session.getAttribute(("userId"));
 
         //if the user is logged in, call userService.getCollection(), otherwise, return an empty list
-        return userId == 0? ResponseEntity.ok(new ArrayList<Collection>()) : ResponseEntity.ok(collectionService.getCollection(userId));
+        return userId == 0? ResponseEntity.ok(new ArrayList<Item>()) : ResponseEntity.ok(collectionService.getCollection(userId));
     }
 
 }
