@@ -6,6 +6,7 @@ import { UserDetails } from './Components/Users/UserDetails';
 import { UserContext } from './Contexts/UserContext';
 import { useState } from 'react';
 import { UserInterface } from './Interfaces/UserInterface';
+import { AllRevByUser } from './Components/Review/AllRevByUser';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/user/:userId?" element={<UserDetails />} />
+                        <Route path="/review/:userId" element={<AllRevByUser/>}/>
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>
