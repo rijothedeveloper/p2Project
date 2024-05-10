@@ -1,7 +1,6 @@
 package com.revature.controllers;
 
 
-import com.revature.daos.UserDAO;
 import com.revature.models.User;
 import com.revature.models.dtos.CreateUserDTO;
 import com.revature.services.UserService;
