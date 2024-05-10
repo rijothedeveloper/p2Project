@@ -28,10 +28,12 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
+      
         Optional<OutgoingUserDTO> userDTO = userService.findUserByUsername(username);
 
         if (userDTO.isPresent()) {
             return ResponseEntity.ok(userDTO.get());
+
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist");
         }
