@@ -38,7 +38,11 @@ export const DeleteMyAccount: React.FC = () => {
 
     return(
         <div>
+<<<<<<< HEAD
             <button onClick={handleShow}>Delete my account</button>
+=======
+            <button onClick={handleShow} className="btn btn-warning ms-1">Delete my account</button>
+>>>>>>> d5d0ac64 (Creation of delete review branch and component and adding the delete account button to navbar.)
 
             <Modal show={show}>
                 <Modal.Header>
