@@ -1,44 +1,49 @@
 package com.revature.models;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
 @Embeddable
 public class ScoreKey implements Serializable {
 
-    private int userId;
-    private int reviewId;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "review_id")
+    private Review review;
 
     public ScoreKey() {
     }
 
-    public ScoreKey(int userId, int reviewId) {
-        this.userId = userId;
-        this.reviewId = reviewId;
+    public ScoreKey(User user, Review review) {
+        this.user = user;
+        this.review = review;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getReviewId() {
-        return reviewId;
+    public Review getReview() {
+        return review;
     }
 
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public void setReview(Review review) {
+        this.review = review;
     }
 
     @Override
     public String toString() {
         return "ScoreKey{" +
-                "userId=" + userId +
-                ", reviewId=" + reviewId +
+                "user=" + user +
+                ", review=" + review +
                 '}';
     }
 }
