@@ -1,5 +1,19 @@
 import * as React from "react"
 import axios from "axios"
+import CollectionItem from "./CollectionItem"
+// TODO uncomment import and use proper ItemInterface
+// import { ItemInterface } from "../../Interfaces/ItemInterface"
+
+// TODO REMOVE AREA BELOW
+/***************************  DEFINE ItemInterface BELOW  ****************************/
+interface ItemInterface {
+    id: number,
+    image: string,
+    name: string,
+    rating: number
+}
+/***************************  DEFINE ItemInterface  ABOVE ****************************/
+
 
 /*
     This componenet will display the items of the user aka collection
@@ -8,10 +22,10 @@ import axios from "axios"
 const Collection: React.FC<{
     userId: number
 }> = ({userdId}) {
- 
+
 
     // state to store collection
-    const [ collection, setCollection ] = React.useState([])
+    const [ collection, setCollection ] = React.useState([] as ItemInterface[])
 
     // title variable used as the header for the component
     const title = "Collection"
@@ -43,8 +57,31 @@ const Collection: React.FC<{
             }
         }
 
+        
+        
+        // TODO remove area below
+        /***************************  ADD MOCK COLLECTION DATA BELOW  ****************************/
+        const item: ItemInterface = {
+            id: 9,
+            image: "'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
+            name: "Book",
+            rating: 4.2
+        }
+        
+        const mockCollection: ItemInterface[] = [];
+        for(let i = 0; i < 7; i++) {
+            mockCollection.push(item)
+        }
+        /***************************  ADD MOCK DATA  ABOVE ****************************/
+        
+
+        // TODO uncomment invoking getCollection()
+        // set collection state
         // invoke getCollection function
-        getCollection()
+        // getCollection()
+
+        // TODO remove line below
+        setCollection(mockCollection)
 
     }, [])
 
