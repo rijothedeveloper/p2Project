@@ -18,7 +18,7 @@ export const DeleteReview: React.FC = (review:any) => {
         const response = axios.delete("HTMLADDRESSNEEDSFIXING", {withCredentials:true}) //We need to know what to pass where and if there is data in the request body that needs to be sent.
         .then((response) => {alert(response.data)})  //for now alert any message returned from the delete command
         .then(() => {navigate("/")})  //We need to know where to go from here and which list to refresh.  Do we go back to item or users list?
-
+        
 
 
 
@@ -37,7 +37,7 @@ export const DeleteReview: React.FC = (review:any) => {
 
     return (
         <div>
-            <button onClick={handleClose}></button>
+            <button onClick={handleShow} className="btn btn-warning ms-1">Delete Review</button>
             
             <Modal show={show}>
                 <Modal.Header>
