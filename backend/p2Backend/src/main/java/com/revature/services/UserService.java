@@ -24,4 +24,8 @@ public class UserService {
             throw new IllegalArgumentException("Username already exists");
         }
     }
+
+    public boolean isUsernameDuplicate(User user) {
+        return userDAO.existsByUsername(user.getUsername());
+    }
 }
