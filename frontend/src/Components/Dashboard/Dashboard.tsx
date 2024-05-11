@@ -2,19 +2,20 @@ import { useContext, useState } from "react";
 import { Container, Form } from "react-bootstrap"
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import Collection from "./Collection";
 
 export const Dashboard: React.FC = () => {
 
     // TODO: Create the actual dashboard. This is skeleton code for the dashboard component. It should display the current users collection of items, reviews and maybe their information.
 
-    // Navigation to navigate to different pages
-    const navigate = useNavigate();
-    // Get currentUser from user context
-    const { currentUser } = useContext(UserContext);
-    // Check if a user is logged in
-    if (!currentUser) {
-        navigate("/");
-    }
+    // // Navigation to navigate to different pages
+    // const navigate = useNavigate();
+    // // Get currentUser from user context
+    // const { currentUser } = useContext(UserContext);
+    // // Check if a user is logged in
+    // if (!currentUser) {
+    //     navigate("/");
+    // }
 
     // Current view state - defaults to myCollection
     const [currentView, setCurrentView] = useState("myCollection");
@@ -62,6 +63,10 @@ export const Dashboard: React.FC = () => {
             </Container>
             <Container id="collection-review-container">
                 {/* Conditionally render my collection or my reviews based on currentView */}
+                { currentView === "myCollection"
+                ? (<Collection />)
+                : <h1>reviews</h1> 
+                }
             </Container>
         </>
     )
