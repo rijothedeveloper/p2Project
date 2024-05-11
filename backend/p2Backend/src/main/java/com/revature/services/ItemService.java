@@ -2,8 +2,11 @@ package com.revature.services;
 
 import com.revature.daos.ItemDAO;
 import com.revature.models.Item;
+import com.revature.models.Producer;
+import com.revature.models.dtos.ItemDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.revature.daos.ProducerDAO;
 
 import java.util.List;
 
@@ -11,10 +14,32 @@ import java.util.List;
 public class ItemService {
 
     private ItemDAO itemDAO;
+    private ProducerDAO producerDAO;
 
     @Autowired
     public ItemService(ItemDAO itemDAO) {
         this.itemDAO = itemDAO;
+    }
+
+    public Item addItem(ItemDTO itemdto) {
+        if(itemdto.getName().isBlank() || itemdto.getName() == null){
+            throw new IllegalArgumentException("Item Name cannot be empty");
+        }
+
+        if(itemdto.getDescription().isBlank() || itemdto.getDescription() == null){
+            throw new IllegalArgumentException("Item Description cannot be empty");
+        }
+
+        if(itemdto.getCategory().isBlank() || itemdto.getCategory() == null){
+            throw new IllegalArgumentException("Item Category cannot be empty");
+        }
+
+        Producer producer = producerDAO.findById(itemdto.getProducerId()).get();
+
+        Item item = new Item(itemdto.getName(), itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
+
+        item.setProducer(producer);
+        return item;
     }
 
     public Item getItemById(int itemId) {
