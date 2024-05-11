@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import com.revature.models.Item;
+import com.revature.models.dtos.ItemDTO;
 import com.revature.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,16 @@ public class ItemController {
     @Autowired
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
+    }
+
+    @PostMapping("/newItem")
+    public ResponseEntity<String> addItem(@RequestBody ItemDTO itemdto) {
+        try {
+            Item item = itemService.addItem(itemdto);
+            return ResponseEntity.status(201).body(item.getName() + " has been added");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @GetMapping
