@@ -1,14 +1,16 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="">
+    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="merge from dev">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ProducerDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/ItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/ItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ItemService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -31,57 +33,56 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;history&quot;: [
-    {
-      &quot;state&quot;: &quot;OPEN&quot;,
-      &quot;assignee&quot;: &quot;William-Nettles&quot;,
-      &quot;author&quot;: &quot;Kemosabe1900&quot;
-    },
-    {
-      &quot;state&quot;: &quot;OPEN&quot;,
-      &quot;assignee&quot;: &quot;William-Nettles&quot;,
-      &quot;reviewState&quot;: &quot;REQUIRED&quot;,
-      &quot;author&quot;: &quot;Kemosabe1900&quot;
-    }
-  ],
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;William-Nettles&quot;,
-    &quot;reviewState&quot;: &quot;REQUIRED&quot;,
-    &quot;author&quot;: &quot;Kemosabe1900&quot;
-  }
-}</component>
+            &quot;history&quot;: [
+            {
+            &quot;state&quot;: &quot;OPEN&quot;,
+            &quot;assignee&quot;: &quot;William-Nettles&quot;,
+            &quot;author&quot;: &quot;Kemosabe1900&quot;
+            },
+            {
+            &quot;state&quot;: &quot;OPEN&quot;,
+            &quot;assignee&quot;: &quot;William-Nettles&quot;,
+            &quot;reviewState&quot;: &quot;REQUIRED&quot;,
+            &quot;author&quot;: &quot;Kemosabe1900&quot;
+            }
+            ],
+            &quot;lastFilter&quot;: {
+            &quot;state&quot;: &quot;OPEN&quot;,
+            &quot;assignee&quot;: &quot;William-Nettles&quot;,
+            &quot;reviewState&quot;: &quot;REQUIRED&quot;,
+            &quot;author&quot;: &quot;Kemosabe1900&quot;
+            }
+            }</component>
   <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
-    {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOL3-TxM5vCTkF&quot;,
-        &quot;number&quot;: 6
-      },
-      &quot;lastSeen&quot;: 1715292935185
-    }
-  ]
-}</component>
+            &quot;prStates&quot;: [
+            {
+            &quot;id&quot;: {
+            &quot;id&quot;: &quot;PR_kwDOL3-TxM5vCTkF&quot;,
+            &quot;number&quot;: 6
+            },
+            &quot;lastSeen&quot;: 1715292935185
+            }
+            ]
+            }</component>
   <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/rijothedeveloper/p2Project.git&quot;,
-    &quot;accountId&quot;: &quot;f27fe61f-4746-49b6-90b5-4b2bddbdcff6&quot;
+            &quot;selectedUrlAndAccountId&quot;: {
+            &quot;url&quot;: &quot;https://github.com/rijothedeveloper/p2Project.git&quot;,
+            &quot;accountId&quot;: &quot;f27fe61f-4746-49b6-90b5-4b2bddbdcff6&quot;
 
-  },
-  &quot;recentNewPullRequestHead&quot;: {
-    &quot;server&quot;: {
-      &quot;useHttp&quot;: false,
-      &quot;host&quot;: &quot;github.com&quot;,
-      &quot;port&quot;: null,
-      &quot;suffix&quot;: null
-    },
-    &quot;owner&quot;: &quot;rijothedeveloper&quot;,
-    &quot;repository&quot;: &quot;p2Project&quot;
+            },
+            &quot;recentNewPullRequestHead&quot;: {
+            &quot;server&quot;: {
+            &quot;useHttp&quot;: false,
+            &quot;host&quot;: &quot;github.com&quot;,
+            &quot;port&quot;: null,
+            &quot;suffix&quot;: null
+            },
+            &quot;owner&quot;: &quot;rijothedeveloper&quot;,
+            &quot;repository&quot;: &quot;p2Project&quot;
 
-  }
-}</component>
+            }
+            }</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -93,8 +94,8 @@
     <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
+            &quot;associatedIndex&quot;: 5
+            }</component>
   <component name="ProjectId" id="2g9VpVd7LKjIFEJxJFBFsbZaJMR" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -103,21 +104,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.P2BackendApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;findUserByUsername&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mati Work/Desktop/revature/Projects/p2/backend/p2Backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.P2BackendApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "createItem",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Mati Work/Desktop/revature/Projects/p2/backend/p2Backend",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.revature.models" />
@@ -198,79 +198,7 @@
     <MESSAGE value="created review model" />
     <MESSAGE value="Fixed bugs in the skeleton" />
     <MESSAGE value="Fixed bugs in the skeleton pt 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs in the skeleton pt 2" />
+    <MESSAGE value="merge from dev" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge from dev" />
   </component>
-=======
-}</component>
-  <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="com.revature.models" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="P2BackendApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.revature.p2Backend.P2BackendApplication" />
-      <module name="p2Backend" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.revature.p2Backend.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.P2BackendApplication" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="" />
-      <created>1715109964089</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1715109964089</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Fixed bugs in the skeleton">
-      <option name="closed" value="true" />
-      <created>1715181400507</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1715181400507</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Fixed bugs in the skeleton pt 2">
-      <option name="closed" value="true" />
-      <created>1715186114876</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1715186114876</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
-    <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="created review model" />
-    <MESSAGE value="Fixed bugs in the skeleton" />
-    <MESSAGE value="Fixed bugs in the skeleton pt 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs in the skeleton pt 2" />
-  </component>
-
 </project>

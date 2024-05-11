@@ -20,7 +20,7 @@ public class Item {
     @JoinColumn(name = "producer_id")
     private Producer producer;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double rating;
 
     @Column(nullable = false)
@@ -37,6 +37,15 @@ public class Item {
 
     public Item(int id, String name, Producer producer, double rating, String description, String category, String image) {
         this.id = id;
+        this.name = name;
+        this.producer = producer;
+        this.rating = rating;
+        this.description = description;
+        this.category = category;
+        this.image = image;
+    }
+
+    public Item(String name, String description, String category, String image) {
         this.name = name;
         this.producer = producer;
         this.rating = rating;
@@ -72,6 +81,7 @@ public class Item {
     public String getImage() {
         return image;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -99,6 +109,11 @@ public class Item {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
