@@ -1,6 +1,8 @@
 import * as React from "react"
 import axios from "axios"
 import CollectionItem from "./CollectionItem"
+import { UserContext } from "../../Contexts/UserContext"
+import { useNavigate } from "react-router-dom"
 // TODO uncomment import and use proper ItemInterface
 // import { ItemInterface } from "../../Interfaces/ItemInterface"
 
@@ -17,15 +19,28 @@ interface ItemInterface {
 
 /*
     This componenet will display the items of the user aka collection
-    It recieves the userId as prop (COULD ALSO USE THE CONTEXT FOR GETTING THE USER WHO IS LOGGED IN)
+    Will determine the useContext
 */
-const Collection: React.FC<{
-    userId: number
-}> = ({userdId}) {
+
+// TODO : delete if we use context
+// const Collection: React.FC<{
+//     userId: number
+// }> = ({userdId}) {
+
+
+const Collection: React.FC<{}> = () => {
 
 
     // state to store collection
     const [ collection, setCollection ] = React.useState([] as ItemInterface[])
+    // // get current user from UserContext
+    // const { currentUser } = React.useContext(UserContext)
+
+    // const navigate = useNavigate();
+    // // if a user is not logged in navigate to home page
+    // if (!currentUser) {
+    //     navigate("/");
+    // }
 
     // title variable used as the header for the component
     const title = "Collection"
