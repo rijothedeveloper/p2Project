@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/items")
-@CrossOrigin //(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin (origins = "http://localhost:3000", allowCredentials = "true")
 public class ItemController {
 
     private ItemService itemService;
