@@ -21,10 +21,10 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route path="/" element={<Layout />} >
+                        <Route element={<Layout />}>
                             {/* Include all routes with a navbar below */}
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="user/:userId" element={<UserDetails />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/user/:userId" element={<UserDetails />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
