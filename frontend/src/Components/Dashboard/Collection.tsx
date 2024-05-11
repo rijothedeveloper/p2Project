@@ -3,6 +3,7 @@ import axios from "axios"
 import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
 import { useNavigate } from "react-router-dom"
+import { Container, Row } from "react-bootstrap"
 // TODO uncomment import and use proper ItemInterface
 // import { ItemInterface } from "../../Interfaces/ItemInterface"
 
@@ -78,7 +79,7 @@ const Collection: React.FC<{}> = () => {
         /***************************  ADD MOCK COLLECTION DATA BELOW  ****************************/
         const item: ItemInterface = {
             id: 9,
-            image: "'https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
+            image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
             name: "Book",
             rating: 4.2
         }
@@ -104,14 +105,18 @@ const Collection: React.FC<{}> = () => {
     return (
         <>
             {/* section title */}
-            <h2>{title}</h2>
+            {/* <h2>{title}</h2> */}
+            <Container className="mt-4 d-flex">
+                <Row className="justify-content-evenly" >
+                    {/* display collection items */}
+                    {collection.map(item => {
+                        return (<CollectionItem item = {item} />)
+                    })}
 
-            {/* display collection items */}
-            {collection.map(item => {
-                <CollectionItem
-                    item = {item}
-                />
-            })}
+                </Row>
+
+            </Container>
+
         </>
     )
 }
