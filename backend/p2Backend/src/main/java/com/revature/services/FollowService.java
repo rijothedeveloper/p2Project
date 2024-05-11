@@ -25,12 +25,17 @@ public class FollowService {
 
     public Follow followUser(int targetUserId, int userId) {
 
+        if (userId == targetUserId) {
+            throw new RuntimeException("You cannot follow yourself.");
+        }
+
         Optional<User> user = userDAO.findById(userId);
         Optional<User> targetUser = userDAO.findById(targetUserId);
 
         if (user.isEmpty() || targetUser.isEmpty()) {
             throw new RuntimeException("User not found.");
         }
+
         FollowKey key = new FollowKey(user.get(), targetUser.get());
         Follow follow = new Follow(key);
         return followDAO.save(follow);
