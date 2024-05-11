@@ -42,13 +42,26 @@ const CollectionItem: React.FC<{
         navigate("/${baseUrl}/items/${id}")
     }
 
+    // function to determine color of rating
+    const ratingColor = () => {
+      if(rating >= 4) return "text-success";
+      if(rating >= 3) return "text-primary";
+      if(rating >= 2) return "text-warning"
+      return "text-danger"
+    }
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src={ image } />
+        <Card style={{ width: '14rem' }} className="m-1">
+            <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
-                    { rating }
+                    Rating: 
+                        <span id="rating" className={ratingColor()}>
+                            {/* TODO find beter way for spacing  */}
+                            {`  ${rating}`}
+                        </span>
+
                 </Card.Text>
                 <Button 
                     variant="primary"
