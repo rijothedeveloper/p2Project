@@ -40,6 +40,8 @@ const addItemEndpoint = itemControllerEndpoint;
 const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";
+const deleteItemEndpoint = itemControllerEndpoint;
+const updateItemEndpoint = itemControllerEndpoint;
 
 /**
  * Add an item to the collection
@@ -92,6 +94,37 @@ export const getItemById = async (itemId: number) => {
 export const getItemByName = async (name: string) => {
     const url = apiURL(getItemByNameEndpoint + `/${name}`);
     const response = await axios.get(url)
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
+/**
+ * Delete an item by its id
+ * @param itemId - id of the item to delete
+ */
+export const deleteItem = async (itemId: number) => {
+    const url = apiURL(`${deleteItemEndpoint}/${itemId}`);
+    const response = await axios.delete(url)
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
+/**
+ * Update an item by its id
+ * @param itemId - id of the item to update
+ * @param item - data to update the item with
+ */
+export const updateItem = async (itemId: number, item: ItemInterface) => {
+    const url = apiURL(`${updateItemEndpoint}/${itemId}`);
+    const response = await axios.patch(url, item)
     .then((response: AxiosResponse) => {
         return response.data;
     })
