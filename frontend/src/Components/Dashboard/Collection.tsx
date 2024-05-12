@@ -43,11 +43,32 @@ const Collection: React.FC<{}> = () => {
     //     navigate("/");
     // }
 
+    // TODO delete mock user
+    /****************** CREATE MOCK USER BELOW *********************/
+    const currentUser = {
+        id: 1,
+        role: "admin"
+    }
+    /******************* CREATE MOCK USER ABOVE *******************/
+
+
+    // get role of current user
+    const userRole = currentUser.role
+
     // title variable used as the header for the component
-    const title = "Collection"
+    // TODO not used at the moment delete if it is still the case
+    // const title = "Collection"
 
     // TODO get baseUrl frmo useConstext
     const baseUrl = "localhost:3000"
+
+
+    const handleDeleteItem = (itemId: number) => {
+        // create new collection with the deleted item removed
+        const updatedCollection = collection.filter(item => item.id != itemId)
+        // update collection state
+        setCollection(updatedCollection)
+    }
 
 
     // get collection on component rendering
@@ -56,9 +77,14 @@ const Collection: React.FC<{}> = () => {
         // function to get collection of user
         const getCollection = async () => {
 
-            // TODO set url to proper endpoint
-            const url = `${baseUrl}\items\${userId}`;
-            
+            // TODO set url to proper endpoints
+            // set url based on user role
+            const url = userRole == "user"
+                // if the role is user only get the items of the current user
+                ? `${baseUrl}/items/${currentUser.id}`
+                // if the role is admin get all items
+                : `${baseUrl}/items`
+    
             try {
                 // fetch collection from server
                 const { data, status } = await axios(url)
@@ -73,9 +99,7 @@ const Collection: React.FC<{}> = () => {
             }
         }
 
-        
-        
-        // TODO remove area below
+        // TODO remove mock data below
         /***************************  ADD MOCK COLLECTION DATA BELOW  ****************************/
         const item: ItemInterface = {
             id: 9,
@@ -86,11 +110,10 @@ const Collection: React.FC<{}> = () => {
         
         const mockCollection: ItemInterface[] = [];
         for(let i = 0; i < 7; i++) {
-            mockCollection.push(item)
+            mockCollection.push({...item, id: item.id + i})
         }
         /***************************  ADD MOCK DATA  ABOVE ****************************/
         
-
         // TODO uncomment invoking getCollection()
         // set collection state
         // invoke getCollection function
@@ -104,19 +127,19 @@ const Collection: React.FC<{}> = () => {
 
     return (
         <>
-            {/* section title */}
-            {/* <h2>{title}</h2> */}
             <Container className="mt-4 d-flex">
                 <Row className="justify-content-evenly" >
                     {/* display collection items */}
                     {collection.map(item => {
-                        return (<CollectionItem item = {item} />)
+                        return (
+                            <CollectionItem 
+                                key = { item.id }
+                                item = { item } 
+                                handleDeleteItem= { handleDeleteItem }
+                            />)
                     })}
-
                 </Row>
-
             </Container>
-
         </>
     )
 }
