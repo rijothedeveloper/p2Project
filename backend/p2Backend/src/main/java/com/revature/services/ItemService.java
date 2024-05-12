@@ -17,8 +17,9 @@ public class ItemService {
     private ProducerDAO producerDAO;
 
     @Autowired
-    public ItemService(ItemDAO itemDAO) {
+    public ItemService(ItemDAO itemDAO, ProducerDAO producerDAO) {
         this.itemDAO = itemDAO;
+        this.producerDAO = producerDAO;
     }
 
     public Item addItem(ItemDTO itemdto) {
@@ -34,17 +35,15 @@ public class ItemService {
             throw new IllegalArgumentException("Item Category cannot be empty");
         }
 
-        Producer producer = producerDAO.findById(itemdto.getProducerId()).get();
+        Producer producer = producerDAO.findById(itemdto.getProducerId()).orElseThrow(()-> new IllegalArgumentException("No producer exists with Id: " + itemdto.getProducerId()));
 
-        Item item = new Item(itemdto.getName(), itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
-
-        item.setProducer(producer);
+        Item item = new Item(itemdto.getName(), producer, itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
+        itemDAO.save(item);
         return item;
     }
 
     public Item getItemById(int itemId) {
-        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + itemId));
-        return item;
+        return itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with Id: " + itemId));
     }
 
     /* This method gets all Items */
@@ -70,7 +69,7 @@ public class ItemService {
             throw new IllegalArgumentException("Item Category cannot be empty");
         }
 
-        Item itemToBeSaved = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + itemId));
+        Item itemToBeSaved = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with Id: " + itemId));
 
         itemToBeSaved.setName(item.getName());
         itemToBeSaved.setDescription(item.getDescription());
@@ -86,7 +85,7 @@ public class ItemService {
      * parameters: itemId in the URL
      * */
     public Item deleteItem (int itemId) {
-        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + itemId));
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with Id: " + itemId));
         itemDAO.deleteById(itemId);
         return item;
     }
@@ -95,12 +94,10 @@ public class ItemService {
      * parameters: Specify value for an Item's Name - in the URL
      * */
     public Item getItemByName (String Name) {
-        if(Name.isBlank() || Name== null){
+        if(Name.isBlank()){
             throw new IllegalArgumentException("Item Name cannot be empty");
         }
-
-        Item item = itemDAO.findByName(Name).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + Name));
-        return item;
+        return itemDAO.findByName(Name).orElseThrow(() -> new IllegalArgumentException("No item found named: " + Name));
     }
 
 }
