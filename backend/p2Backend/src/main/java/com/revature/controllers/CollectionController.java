@@ -6,10 +6,7 @@ import com.revature.services.CollectionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,4 +34,13 @@ public class CollectionController {
         return userId == 0? ResponseEntity.ok(new ArrayList<Item>()) : ResponseEntity.ok(collectionService.getCollection(userId));
     }
 
+    @PostMapping
+    public ResponseEntity<String> addItem(@RequestBody int userId, int  itemId) {
+        try {
+            Collection collection = collectionService.addItemToCollection(userId, itemId);
+            return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " for Username : " + collection.getId().getUser().getUsername() + " has been added to the Collection");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
