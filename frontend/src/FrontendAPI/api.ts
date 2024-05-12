@@ -132,3 +132,23 @@ export const updateItem = async (itemId: number, item: ItemInterface) => {
         // Handle error response
     });
 };
+
+// ReplyController
+
+// ReviewController
+
+// ScoreController
+
+// UserController
+const findUserByUsernameEndpoint = "/users";
+
+export const findUserByUsername = async (username: string) => {
+    const url = apiURL(`${findUserByUsernameEndpoint}/${username}`);
+    const response = await axios.get(url)
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
