@@ -142,6 +142,10 @@ export const updateItem = async (itemId: number, item: ItemInterface) => {
 // UserController
 const findUserByUsernameEndpoint = "/users";
 
+/**
+ * Find a user by username
+ * @param username - username of the user to fetch
+ */
 export const findUserByUsername = async (username: string) => {
     const url = apiURL(`${findUserByUsernameEndpoint}/${username}`);
     const response = await axios.get(url)
