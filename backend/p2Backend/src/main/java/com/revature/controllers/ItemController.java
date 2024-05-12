@@ -20,7 +20,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping("/newItem")
+    @PostMapping
     public ResponseEntity<String> addItem(@RequestBody ItemDTO itemdto) {
         try {
             Item item = itemService.addItem(itemdto);
@@ -39,16 +39,16 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/{itemid}")
-    public ResponseEntity <?> getItemById(@PathVariable int itemid) {
+    @GetMapping("/id/{itemId}")
+    public ResponseEntity <?> getItemById(@PathVariable int itemId) {
         try {
-            return ResponseEntity.ok(itemService.getItemById(itemid));
+            return ResponseEntity.ok(itemService.getItemById(itemId));
         } catch (Exception e){
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
-    @GetMapping("/Name/{Name}")
+    @GetMapping("/name/{Name}")
     public ResponseEntity <?> getItemByName(@PathVariable String Name) {
         try {
             return ResponseEntity.ok(itemService.getItemByName(Name));
@@ -57,19 +57,19 @@ public class ItemController {
         }
     }
 
-    @DeleteMapping("/{itemid}")
-    public ResponseEntity <Object> deleteItem(@PathVariable int itemid) {
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity <Object> deleteItem(@PathVariable int itemId) {
         try {
-            return ResponseEntity.ok(itemService.deleteItem(itemid));
+            return ResponseEntity.ok(itemService.deleteItem(itemId));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
-    @PatchMapping("/{itemid}")
-    public ResponseEntity <Object> updateItem(@RequestBody Item item, @PathVariable int itemid){
+    @PatchMapping("/{itemId}")
+    public ResponseEntity <Object> updateItem(@RequestBody Item item, @PathVariable int itemId){
        try {
-            return ResponseEntity.ok(itemService.updateItem(item, itemid));
+            return ResponseEntity.ok(itemService.updateItem(item, itemId));
         }catch (Exception e) {
             return ResponseEntity.status(400).body("Update item failed");
         }
