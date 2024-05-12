@@ -35,8 +35,11 @@ export const getCollection = async () => {
 // FollowController
 
 // ItemController
-const addItemEndpoint = "/items";
-const getAllItemsEndpoint = "/items";
+const itemControllerEndpoint = "/items";
+const addItemEndpoint = itemControllerEndpoint;
+const getAllItemsEndpoint = itemControllerEndpoint;
+const getItemByIdEndpoint = itemControllerEndpoint + "/id";
+const getItemByNameEndpoint = itemControllerEndpoint + "/name";
 
 /**
  * Add an item to the collection
@@ -58,6 +61,36 @@ export const addItem = async (item: ItemInterface) => {
  */
 export const getAllItems = async () => {
     const url = apiURL(getAllItemsEndpoint);
+    const response = await axios.get(url)
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
+/**
+ * Get item by its id
+ * @param itemId - id of the item to fetch
+ */
+export const getItemById = async (itemId: number) => {
+    const url = apiURL(`${getItemByIdEndpoint}/${itemId}`);
+    const response = await axios.get(url)
+    .then((respones: AxiosResponse) => {
+        return respones.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
+/**
+ * Get item by its name
+ * @param name - name of the item to fetch
+ */
+export const getItemByName = async (name: string) => {
+    const url = apiURL(getItemByNameEndpoint + `/${name}`);
     const response = await axios.get(url)
     .then((response: AxiosResponse) => {
         return response.data;
