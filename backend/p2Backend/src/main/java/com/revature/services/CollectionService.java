@@ -37,7 +37,7 @@ public class CollectionService {
         //return  collectionDAO.findAll().stream().filter(collection -> {return collection.getId().getUser().getId() == userId;}).toList();
     }
 
-    /**
+    /*
      * Create a new CollectionKey. Users can create a new CollectionKey
      * @param userId and itemId to create a new CollectionKey, and then
      *               create a Collection object using the newly created CollectionKey
