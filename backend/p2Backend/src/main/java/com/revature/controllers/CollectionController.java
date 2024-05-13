@@ -6,17 +6,15 @@ import com.revature.services.CollectionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.revature.models.dtos.AddItemToCollectionDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/collections")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin // (origins = "http://localhost:3000", allowCredentials = "true")
 public class CollectionController {
 
     CollectionService collectionService;
@@ -37,4 +35,14 @@ public class CollectionController {
         return userId == 0? ResponseEntity.ok(new ArrayList<Item>()) : ResponseEntity.ok(collectionService.getCollection(userId));
     }
 
+    @PostMapping
+    public ResponseEntity<String> addItemToCollection(@RequestBody AddItemToCollectionDTO addItemToCollectionDTO) {
+
+        try {
+            Collection collection = collectionService.addItemToCollection(addItemToCollectionDTO);
+            return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " : has been added to user's collection for Username : " + collection.getId().getUser().getUsername());
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
