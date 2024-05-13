@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { UserInterface } from "../../Interfaces/UserInterface"
+import { Container } from "react-bootstrap";
 
 export const Login: React.FC = () => {
 
@@ -8,8 +9,10 @@ export const Login: React.FC = () => {
     // TODO: On successful login, set the current user
 
     return (
-        <div>
+        <Container className="d-flex flex-column justify-content-center m-5 px-5">
+            <Container className="w-75 p-3">
 
-        </div>
+            </Container>
+        </Container>
     )
 }

@@ -1,20 +1,24 @@
 package com.revature.controllers;
 
 
-import com.revature.models.User;
 import com.revature.models.dtos.CreateUserDTO;
+import com.revature.daos.UserDAO;
+import com.revature.models.User;
+import com.revature.models.dtos.OutgoingUserDTO;
 import com.revature.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.springframework.web.server.ResponseStatusException;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/users")
@@ -100,7 +104,19 @@ public class UserController {
     }
 
 
+    @GetMapping("/{username}")
+    public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
+      
+        Optional<OutgoingUserDTO> userDTO = userService.findUserByUsername(username);
 
+        if (userDTO.isPresent()) {
+            return ResponseEntity.ok(userDTO.get());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist");
+        }
+
+    }
 
 }
 
