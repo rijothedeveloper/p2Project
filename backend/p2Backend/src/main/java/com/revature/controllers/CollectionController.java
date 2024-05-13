@@ -7,13 +7,14 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.revature.models.dtos.AddItemToCollectionDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/collections")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin // (origins = "http://localhost:3000", allowCredentials = "true")
 public class CollectionController {
 
     CollectionService collectionService;
@@ -35,10 +36,14 @@ public class CollectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addItem(@RequestBody int userId, int  itemId) {
+    public ResponseEntity<String> addItemToCollection(@RequestBody AddItemToCollectionDTO addItemToCollectionDTO) {
+
+        int userId = addItemToCollectionDTO.getUserId();
+        int itemId = addItemToCollectionDTO.getItemId();
+
         try {
-            Collection collection = collectionService.addItemToCollection(userId, itemId);
-            return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " for Username : " + collection.getId().getUser().getUsername() + " has been added to the Collection");
+            Collection collection = collectionService.addItemToCollection(addItemToCollectionDTO);
+            return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " : has been added to user's collection for Username : " + collection.getId().getUser().getUsername());
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
