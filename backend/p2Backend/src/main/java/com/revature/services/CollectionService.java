@@ -46,8 +46,6 @@ public class CollectionService {
      */
     public Collection addItemToCollection(AddItemToCollectionDTO addItemToCollectionDTO) throws IllegalArgumentException {
 
-        System.out.println(addItemToCollectionDTO);
-
         int userId = addItemToCollectionDTO.getUserId();
         int itemId = addItemToCollectionDTO.getUserId();
 
