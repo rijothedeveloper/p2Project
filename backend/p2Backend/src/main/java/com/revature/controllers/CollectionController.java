@@ -25,7 +25,7 @@ public class CollectionController {
         this.collectionService = collectionService;
     }
 
-
+    //get all items in the user's collection
     @GetMapping("/my_collection")
     public ResponseEntity<List<Item>> getCollection(HttpSession session) {
 
