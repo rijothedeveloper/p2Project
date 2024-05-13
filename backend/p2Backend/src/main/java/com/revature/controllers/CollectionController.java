@@ -38,9 +38,6 @@ public class CollectionController {
     @PostMapping
     public ResponseEntity<String> addItemToCollection(@RequestBody AddItemToCollectionDTO addItemToCollectionDTO) {
 
-        int userId = addItemToCollectionDTO.getUserId();
-        int itemId = addItemToCollectionDTO.getItemId();
-
         try {
             Collection collection = collectionService.addItemToCollection(addItemToCollectionDTO);
             return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " : has been added to user's collection for Username : " + collection.getId().getUser().getUsername());
