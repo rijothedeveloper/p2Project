@@ -9,6 +9,7 @@ import com.revature.models.Item;
 import com.revature.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.revature.models.dtos.AddItemToCollectionDTO;
 
 import java.util.List;
 
@@ -43,7 +44,12 @@ public class CollectionService {
      * @return the newly created Collection item
      * @throws IllegalArgumentException if either user or item is not found
      */
-    public Collection addItemToCollection(int userId, int itemId) throws IllegalArgumentException {
+    public Collection addItemToCollection(AddItemToCollectionDTO addItemToCollectionDTO) throws IllegalArgumentException {
+
+        System.out.println(addItemToCollectionDTO);
+
+        int userId = addItemToCollectionDTO.getUserId();
+        int itemId = addItemToCollectionDTO.getUserId();
 
         if (userId <= 0) {
             throw new IllegalArgumentException("User ID must be greater than zero");
