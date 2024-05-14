@@ -6,6 +6,7 @@ public class ItemDTO {
     private int producerId;
     private String description;
     private String category;
+    private String image;
 
     public ItemDTO() {
     }
@@ -47,6 +48,14 @@ public class ItemDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

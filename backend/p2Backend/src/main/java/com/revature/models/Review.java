@@ -104,13 +104,13 @@ public class Review {
         this.rating = rating;
     }
 
-    //public List<Score> getScore() {
-    //    return scores;
-    //}
+    public List<Score> getScore() {
+        return scores;
+    }
 
-    //public void setScore(List<Score> scores) {
-    //    this.scores = scores;
-    //}
+    public void setScore(List<Score> scores) {
+        this.scores = scores;
+    }
 
     public String getTimestamp() {
         return timestamp;

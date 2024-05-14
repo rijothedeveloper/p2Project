@@ -4,6 +4,8 @@ package com.revature.controllers;
 import com.revature.daos.UserDAO;
 import com.revature.models.dtos.IncomingUserDTO;
 import com.revature.services.TokenService;
+import com.revature.models.User;
+import com.revature.models.dtos.OutgoingUserDTO;
 import com.revature.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -27,7 +34,6 @@ public class UserController {
         this.tokenService = tokenService;
 
     }
-
 
     @PostMapping("/authenticate")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -47,4 +53,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
+      
+        Optional<OutgoingUserDTO> userDTO = userService.findUserByUsername(username);
+
+        if (userDTO.isPresent()) {
+            return ResponseEntity.ok(userDTO.get());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist");
+        }
+
+    }
 }
