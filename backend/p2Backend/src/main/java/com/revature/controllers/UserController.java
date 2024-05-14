@@ -5,6 +5,7 @@ import com.revature.daos.UserDAO;
 import com.revature.models.User;
 import com.revature.models.dtos.OutgoingUserDTO;
 import com.revature.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +37,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist");
         }
 
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteAccount(HttpSession session){
+
+        Integer userId = (Integer) session.getAttribute("userId");
+        if(userId == null){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in to delete an account");
+        }
+        userService.deleteAccount(userId);
+        return ResponseEntity.ok("Account Deleted Successfully");
     }
 }

@@ -43,6 +43,12 @@ public class User {
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
 
+    @OneToMany(mappedBy="id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy ="id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies;
+
     public User() {
     }
 

@@ -32,14 +32,14 @@ public class Review {
     @Column
     private double rating;
 
-    @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
     @Column(nullable = false)
     @CurrentTimestamp
     private String timestamp;
 
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies;
     public Review() {
     }
