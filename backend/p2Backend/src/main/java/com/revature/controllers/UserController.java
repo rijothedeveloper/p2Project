@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -102,7 +101,6 @@ public class UserController {
 
         return user;
     }
-
 
     @GetMapping("/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username) {

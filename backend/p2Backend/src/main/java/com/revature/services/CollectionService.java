@@ -10,7 +10,7 @@ import com.revature.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.models.dtos.AddItemToCollectionDTO;
-
+import java.util.List;
 import java.util.List;
 
 @Service
@@ -33,8 +33,6 @@ public class CollectionService {
     public List<Item> getCollection(int userId) {
         return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
 
-        //having trouble getting the custom DAO method to work so this is a quasi-temporary soltuion
-        //return  collectionDAO.findAll().stream().filter(collection -> {return collection.getId().getUser().getId() == userId;}).toList();
     }
 
     /*

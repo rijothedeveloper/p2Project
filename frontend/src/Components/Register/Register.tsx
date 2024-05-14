@@ -5,7 +5,6 @@ import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container } from "react-bootstrap"
 
-
 export const Register: React.FC = () => {
 
     const navigate = useNavigate()
@@ -108,6 +107,5 @@ export const Register: React.FC = () => {
           </div>
         </div>
       </div>
-
     )
 }

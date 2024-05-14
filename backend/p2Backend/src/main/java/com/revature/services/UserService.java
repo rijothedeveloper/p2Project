@@ -34,7 +34,6 @@ public class UserService {
         return userDAO.existsByUsername(user.getUsername());
     }
       
-  
     public Optional<OutgoingUserDTO> findUserByUsername(String username){
 
         Optional<User> user = userDAO.findByUsername(username);
