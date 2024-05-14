@@ -13,14 +13,14 @@ public class Item {
     @GeneratedValue
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "producer_id")
     private Producer producer;
 
-    @Column(nullable = false)
+    @Column
     private double rating;
 
     @Column(nullable = false)
@@ -35,11 +35,11 @@ public class Item {
     public Item() {
     }
 
-    public Item(int id, String name, Producer producer, double rating, String description, String category, String image) {
-        this.id = id;
+
+    public Item(String name, Producer producer, String description, String category, String image) {
         this.name = name;
         this.producer = producer;
-        this.rating = rating;
+        this.rating = 0;
         this.description = description;
         this.category = category;
         this.image = image;
@@ -72,16 +72,13 @@ public class Item {
     public String getImage() {
         return image;
     }
+
     public void setId(int id) {
         this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setProducer_id(Producer producer) {
-        this.producer = producer;
     }
 
     public void setRating(double rating) {
@@ -99,6 +96,11 @@ public class Item {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
