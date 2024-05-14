@@ -43,16 +43,16 @@ public class User {
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
 
-    @OneToMany(mappedBy="id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy ="id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy ="user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection) {
+    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection, List<Review> reviews, List<Reply> replies) {
         Id = id;
         this.username = username;
         this.password = password;
@@ -63,6 +63,8 @@ public class User {
         this.timestamp = timestamp;
         this.follow = follow;
         this.collection = collection;
+        this.reviews = reviews;
+        this.replies = replies;
     }
 
 
@@ -104,6 +106,22 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
     }
 
     public String getLastName() {

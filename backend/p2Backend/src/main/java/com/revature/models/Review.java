@@ -39,7 +39,7 @@ public class Review {
     @CurrentTimestamp
     private String timestamp;
 
-    @OneToMany(mappedBy = "id.review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies;
     public Review() {
     }

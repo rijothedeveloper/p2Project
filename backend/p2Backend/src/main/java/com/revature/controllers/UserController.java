@@ -40,12 +40,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteAccount(HttpSession session){
+    public ResponseEntity<String> deleteAccount(HttpSession session, @PathVariable int userId){
 
-        Integer userId = (Integer) session.getAttribute("userId");
-        if(userId == null){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in to delete an account");
-        }
+//        Integer userId = (Integer) session.getAttribute("userId");
+//        if(userId == null){
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in to delete an account");
+//        }
         userService.deleteAccount(userId);
         return ResponseEntity.ok("Account Deleted Successfully");
     }
