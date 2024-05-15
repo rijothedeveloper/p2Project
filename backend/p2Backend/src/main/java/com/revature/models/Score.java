@@ -20,6 +20,9 @@ public class Score {
     public Score(ScoreKey id, int vote) {
         this.id = id;
         this.vote = vote;
+
+    public Score(int vote) {
+        this.vote=vote;
     }
 
     public ScoreKey getId() {

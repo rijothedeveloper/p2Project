@@ -3,7 +3,7 @@ import { useState } from "react"
 import { UserInterface } from '../../Interfaces/UserInterface'
 import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { Container } from "react-bootstrap"
 
 export const Register: React.FC = () => {
 
