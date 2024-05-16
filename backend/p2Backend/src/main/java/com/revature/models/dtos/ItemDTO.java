@@ -11,11 +11,12 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(String name, int producerId, String description, String category) {
+    public ItemDTO(String name, int producerId, String description, String category, String image) {
         this.name = name;
         this.producerId = producerId;
         this.description = description;
         this.category = category;
+        this.image = image;
     }
 
     public String getName() {
@@ -60,11 +61,12 @@ public class ItemDTO {
 
     @Override
     public String toString() {
-        return "IncomingItemDTO{" +
+        return "ItemDTO{" +
                 "name='" + name + '\'' +
                 ", producerId=" + producerId +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

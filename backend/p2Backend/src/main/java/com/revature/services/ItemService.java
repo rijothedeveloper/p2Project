@@ -99,5 +99,4 @@ public class ItemService {
         }
         return itemDAO.findByName(Name).orElseThrow(() -> new IllegalArgumentException("No item found named: " + Name));
     }
-
 }

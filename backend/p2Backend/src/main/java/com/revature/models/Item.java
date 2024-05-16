@@ -41,6 +41,7 @@ public class Item {
         this.producer = producer;
         this.rating = rating;
     }
+
     public Item(String name, Producer producer, String description, String category, String image) {
         this.name = name;
         this.producer = producer;
