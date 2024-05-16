@@ -47,10 +47,6 @@ public class UserController {
 
 
     private PasswordEncoder passwordEncoder; //SPRING SECURITY - lets us encode our passwords
-    private final String EMAIL_REGEX =
-            "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
-                    "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private final Pattern pattern = Pattern.compile(EMAIL_REGEX);
   
     @Autowired
     public UserController(UserService userService, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder) {
