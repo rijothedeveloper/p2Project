@@ -53,7 +53,7 @@ public class UserService {
       
     public Optional<OutgoingUserDTO> findUserByUsername(String username){
 
-        Optional<User> user = userDAO.findByUsername(username);
+        Optional<User> user = Optional.ofNullable(userDAO.findByUsername(username));
 
         if(user.isPresent()){
             User u = user.get();

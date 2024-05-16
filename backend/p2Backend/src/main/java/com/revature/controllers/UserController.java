@@ -47,12 +47,7 @@ public class UserController {
 
 
     private PasswordEncoder passwordEncoder; //SPRING SECURITY - lets us encode our passwords
-
-    private final String EMAIL_REGEX =
-            "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
-                    "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    private final Pattern pattern = Pattern.compile(EMAIL_REGEX);
-
+  
     @Autowired
     public UserController(UserService userService, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.userService = userService;
@@ -61,49 +56,6 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Object> addUser(@RequestBody CreateUserDTO input) {
-
-        if (input.getUsername().isEmpty() ||
-                input.getPassword().isEmpty() ||
-                input.getFirstName().isEmpty() ||
-                input.getLastName().isEmpty() ||
-                input.getEmail().isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)//400
-                    .body("Invalid input: User information cannot be empty");
-        }
-
-        if (!isValidEmail(input.getEmail())) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)//400
-                    .body("Invalid email: User email format incorrect");
-        }
-
-
-        User user = convertUserFromCreateUserDTO(input);
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
-
-
-        if (userService.isUsernameDuplicate(user)) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)//409
-                    .body("Username already exists");
-        }
-        Optional<User> addedUser = Optional.ofNullable(userService.addUser(user));
-
-        if (addedUser.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)//500
-                    .body("Failed to add user: User information is invalid");
-        }
-
-
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED) //201
-                .body("User added successfully");
-    }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody IncomingUserDTO input) {
@@ -148,31 +100,9 @@ public class UserController {
     }
 
 
-    public boolean isValidEmail(String email) {
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    }
-
-    public User convertUserFromCreateUserDTO(CreateUserDTO input) {
-
-        User user = new User();
-        user.setUsername(input.getUsername());
-        user.setPassword(input.getPassword());
-        user.setFirstName(input.getFirstName());
-        user.setLastName(input.getLastName());
-        user.setRole("USER");
-        user.setEmail(input.getEmail());
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-        String formattedDateTime = now.format(formatter);
-        user.setTimestamp(formattedDateTime);
-        user.setFollow(Collections.emptyList());
-        user.setCollection(Collections.emptyList());
-
-        return user;
-    }
 
     public User convertUserFromIncomingUserDTO(IncomingUserDTO input) {
+
 
         User user = new User();
         user.setUsername(input.getUsername());

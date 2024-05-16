@@ -45,6 +45,15 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Score> scores;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies;
+
     public User() {
     }
 
@@ -61,6 +70,21 @@ public class User implements UserDetails {
         this.collection = collection;
     }
 
+    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection, List<Review> reviews, List<Score> scores, List<Reply> replies) {
+        Id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.role = role;
+        this.lastName = lastName;
+        this.email = email;
+        this.timestamp = timestamp;
+        this.follow = follow;
+        this.collection = collection;
+        this.reviews = reviews;
+        this.scores = scores;
+        this.replies = replies;
+    }
 
     public int getId() {
         return Id;
@@ -142,6 +166,30 @@ public class User implements UserDetails {
         this.collection = collection;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -155,6 +203,9 @@ public class User implements UserDetails {
                 ", timestamp='" + timestamp + '\'' +
                 ", follow=" + follow +
                 ", collection=" + collection +
+                ", reviews=" + reviews +
+                ", scores=" + scores +
+                ", replies=" + replies +
                 '}';
     }
 
