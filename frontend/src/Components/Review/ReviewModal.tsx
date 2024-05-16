@@ -1,4 +1,12 @@
-export const ReviewModal: React.FC = () => {
+import { useState } from "react"
+import { ReviewInterface } from "../../Interfaces/ReviewInterface"
+import StarRating from "./StarRating"
+
+export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
+
+    const [thisReview, setThisReview] = useState<ReviewInterface>(review)
+
+
 
     return (
         <div>
@@ -7,6 +15,28 @@ export const ReviewModal: React.FC = () => {
              * the view of wherever we were when the review was deleted.  Without that information the view displaying the review will still show and might confuse users.
              * Alternatively we could close the review modal when the delete button is pressed (we will be opening up a new modal) and then simply refresh the content.
              */}
+        
+            <div className="modal fade" id="reviewModal" tabIndex={-1} aria-labelledby="reviewModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="reviewModalLabel">{review.title}</h5>
+                            <h6 className="modal-title">{review.username}</h6>
+                            <span>{<StarRating {...thisReview}/>} </span>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <p>{review.body}</p>
+                        </div>
+                        <div className="modal-footer">
+                            <span>{thisReview.score}</span>
+                            <button type="button" className="btn btn-primary">Reply</button>
+                            <button type="button" className="btn btn-secondary" >View Replies</button>
+                            <button type="button" className="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                </div> 
+            </div>
         </div>
     )
 }
