@@ -29,6 +29,23 @@ public class UserService {
         }
     }
 
+    public User login(User inputUser) {
+
+        String username = inputUser.getUsername();
+        String password = inputUser.getPassword();
+
+        User user = userDAO.findByUsername(username);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        return user;
+    }
+
+    public User getUser(String username){
+        return userDAO.findByUsername(username);
+    }
   
     public boolean isUsernameDuplicate(User user) {
         return userDAO.existsByUsername(user.getUsername());
@@ -54,4 +71,5 @@ public class UserService {
             return Optional.empty();
         }
     }
+
 }

@@ -68,5 +68,4 @@ public class ScoreController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }

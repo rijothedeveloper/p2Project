@@ -34,7 +34,7 @@ public class Review {
 
     @Column
     private int score;
-
+  
     @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
@@ -108,6 +108,7 @@ public class Review {
         this.rating = rating;
     }
 
+
     public String getTimestamp() {
         return timestamp;
     }
@@ -126,6 +127,23 @@ public class Review {
 
     public void setScore(int score) {
         this.score = score;
+
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
+    public List<Score> getScores() {
+        return scores;
     }
 
     public void setScores(List<Score> scores) {

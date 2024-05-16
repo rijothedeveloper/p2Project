@@ -9,5 +9,5 @@ export interface UserInterface {
     timestamp?:string,
     follow?:any
     collection?:any
-    
+    jwt?:string
 }
