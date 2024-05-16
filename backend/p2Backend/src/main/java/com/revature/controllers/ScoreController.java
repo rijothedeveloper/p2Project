@@ -37,7 +37,7 @@ public class ScoreController {
 
         try {
             Review review = scoreService.newVote(reviewId, userId, vote);
-            return ResponseEntity.status(201).body("Successfully voted on review.");
+            return ResponseEntity.status(201).body(review);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
@@ -53,7 +53,7 @@ public class ScoreController {
 
         try {
             Review review = scoreService.updateVote(reviewId, userId, vote);
-            return ResponseEntity.status(202).body("Successfully voted on review.");
+            return ResponseEntity.status(202).body(review);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
@@ -69,7 +69,7 @@ public class ScoreController {
 
         try {
             Review review = scoreService.deleteVote(reviewId, userId);
-            return ResponseEntity.status(204).body("Successfully deleted vote on review.");
+            return ResponseEntity.status(204).body(review);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
