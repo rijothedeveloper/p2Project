@@ -142,6 +142,7 @@ public class UserController {
 
 
         User user = convertUserFromCreateUserDTO(input);
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
 
         if (userService.isUsernameDuplicate(user)) {
             return ResponseEntity
