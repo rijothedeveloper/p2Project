@@ -59,6 +59,22 @@ public class ScoreController {
         }
     }
 
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Object> deleteVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            return ResponseEntity.status(401).body("You must be logged in to vote on a review");
+        }
+
+        try {
+            Review review = scoreService.deleteVote(reviewId, userId);
+            return ResponseEntity.status(204).body("Successfully deleted vote on review.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/{reviewId}")
     public ResponseEntity<Object> getUserVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
