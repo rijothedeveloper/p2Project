@@ -13,17 +13,30 @@ const baseURL = "http://localhost:8080";
  */
 const apiURL = (endpoint: string) => {
     return baseURL + endpoint;
-}
+};
+
+/**
+ * Helper function to create authorization header with JWT token.
+ * @param token - JWT token
+ * @returns authorization header object
+ */
+const buildAuthHeader = (token: string) => {
+    return Object.assign({}, {
+        "Authorization": `Bearer ${token}`
+    });
+};
 
 // CollectionController
 const myCollectionEndpoint = "/collections/my_collection";
 
 /**
  * Get the current logged in users collection of items
+ * @param token - JWT token
  */
-export const getCollection = async () => {
+export const getCollection = async (token: string) => {
     const url = apiURL(myCollectionEndpoint);
-    const response = await axios.get(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -45,11 +58,13 @@ const updateItemEndpoint = itemControllerEndpoint;
 
 /**
  * Add an item to the collection
+ * @param token - JWT token
  * @param item - the item to add to the collection
  */
-export const addItem = async (item: ItemInterface) => {
+export const addItem = async (token: string, item: ItemInterface) => {
     const url = apiURL(addItemEndpoint);
-    const response = await axios.post(url, item)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.post(url, item, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -60,10 +75,12 @@ export const addItem = async (item: ItemInterface) => {
 
 /**
  * Get all items in the collection
+ * @param token - JWT token
  */
-export const getAllItems = async () => {
+export const getAllItems = async (token: string) => {
     const url = apiURL(getAllItemsEndpoint);
-    const response = await axios.get(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -74,11 +91,13 @@ export const getAllItems = async () => {
 
 /**
  * Get item by its id
+ * @param token - JWT token
  * @param itemId - id of the item to fetch
  */
-export const getItemById = async (itemId: number) => {
+export const getItemById = async (token: string, itemId: number) => {
     const url = apiURL(`${getItemByIdEndpoint}/${itemId}`);
-    const response = await axios.get(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
     .then((respones: AxiosResponse) => {
         return respones.data;
     })
@@ -89,11 +108,13 @@ export const getItemById = async (itemId: number) => {
 
 /**
  * Get item by its name
+ * @param token - JWT token
  * @param name - name of the item to fetch
  */
-export const getItemByName = async (name: string) => {
+export const getItemByName = async (token: string, name: string) => {
     const url = apiURL(getItemByNameEndpoint + `/${name}`);
-    const response = await axios.get(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -104,11 +125,13 @@ export const getItemByName = async (name: string) => {
 
 /**
  * Delete an item by its id
+ * @param token - JWT token
  * @param itemId - id of the item to delete
  */
-export const deleteItem = async (itemId: number) => {
+export const deleteItem = async (token: string, itemId: number) => {
     const url = apiURL(`${deleteItemEndpoint}/${itemId}`);
-    const response = await axios.delete(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.delete(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -119,12 +142,14 @@ export const deleteItem = async (itemId: number) => {
 
 /**
  * Update an item by its id
+ * @param token - JWT token
  * @param itemId - id of the item to update
  * @param item - data to update the item with
  */
-export const updateItem = async (itemId: number, item: ItemInterface) => {
+export const updateItem = async (token: string, itemId: number, item: ItemInterface) => {
     const url = apiURL(`${updateItemEndpoint}/${itemId}`);
-    const response = await axios.patch(url, item)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.patch(url, item, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -144,11 +169,13 @@ const findUserByUsernameEndpoint = "/users";
 
 /**
  * Find a user by username
+ * @param token - JWT token
  * @param username - username of the user to fetch
  */
-export const findUserByUsername = async (username: string) => {
+export const findUserByUsername = async (token: string, username: string) => {
     const url = apiURL(`${findUserByUsernameEndpoint}/${username}`);
-    const response = await axios.get(url)
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
