@@ -6,15 +6,17 @@ public class ItemDTO {
     private int producerId;
     private String description;
     private String category;
+    private String image;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String name, int producerId, String description, String category) {
+    public ItemDTO(String name, int producerId, String description, String category, String image) {
         this.name = name;
         this.producerId = producerId;
         this.description = description;
         this.category = category;
+        this.image = image;
     }
 
     public String getName() {

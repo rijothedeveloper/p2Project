@@ -117,9 +117,6 @@ public class Review {
         this.timestamp = timestamp;
     }
 
-    public List<Score> getScores() {
-        return scores;
-    }
 
     public int getScore() {
         return score;
@@ -128,34 +125,6 @@ public class Review {
     public void setScore(int score) {
         this.score = score;
 
-    }
-
-    public void setScores(List<Score> scores) {
-        this.scores = scores;
-    }
-
-    public List<Reply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
-    }
-
-    public List<Score> getScores() {
-        return scores;
-    }
-
-    public void setScores(List<Score> scores) {
-        this.scores = scores;
-    }
-
-    public List<Reply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
     }
 
     @Override
