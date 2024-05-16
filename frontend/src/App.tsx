@@ -8,7 +8,6 @@ import { UserContext } from './Contexts/UserContext';
 import { useState } from 'react';
 import { UserInterface } from './Interfaces/UserInterface';
 import { Layout } from './Components/Layout/Layout';
-import { Dashboard } from './Components/Dashboard/Dashboard';
 
 function App() {
 
@@ -21,10 +20,10 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route element={<Layout />}>
+                        <Route path="/" element={<Layout />}>
                             {/* Include all routes with a navbar below */}
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/user/:userId" element={<UserDetails />} />
+                            {/*<Route path="dashboard" element={} />*/}
+                            <Route path="user/:userId" element={<UserDetails />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

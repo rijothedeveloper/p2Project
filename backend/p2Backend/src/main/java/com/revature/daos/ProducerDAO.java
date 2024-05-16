@@ -1,12 +1,12 @@
 package com.revature.daos;
 
-import com.revature.models.Item;
+import com.revature.models.Producer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface ItemDAO extends JpaRepository<Item,Integer> {
-    public Optional<Item> findByName(String name);
+public interface ProducerDAO extends JpaRepository<Producer,Integer> {
+
+    public Optional<Producer> findById(int id);
 }
