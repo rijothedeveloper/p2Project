@@ -7,6 +7,7 @@ import com.revature.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -22,9 +23,9 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public Optional<User> findUserByUsername(String username){
+    public List<User> findUserByUsername(String username){
 
-        return userDAO.findByUsername(username);
+        return userDAO.findByUsernameContaining(username);
     }
 
     public void deleteAccount(int userId){

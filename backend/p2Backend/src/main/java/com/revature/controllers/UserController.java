@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,9 +30,9 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<?> findUserByUsername(@PathVariable String username) {
-        Optional<User> user = userService.findUserByUsername(username);
+        List<User> user = userService.findUserByUsername(username);
 
-        if (user.isPresent()) {
+        if (!user.isEmpty()) {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username does not exist");
@@ -42,10 +43,6 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteAccount(HttpSession session, @PathVariable int userId){
 
-//        Integer userId = (Integer) session.getAttribute("userId");
-//        if(userId == null){
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You must be logged in to delete an account");
-//        }
         userService.deleteAccount(userId);
         return ResponseEntity.ok("Account Deleted Successfully");
     }
