@@ -4,7 +4,10 @@ on:
     branches:
       - main
       - dev
-  pull_request:
+  merge:
+    branches:
+      - main
+      - dev
 jobs:
   # Build Job
   build:
