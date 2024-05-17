@@ -23,11 +23,11 @@ public class ReplyService {
         this.reviewDAO = reviewDAO;
     }
 
-    public Reply addReply(int reviewId, int userId, ReplyDTO reply) {
+    public Reply addReply(int userId, ReplyDTO reply) {
         Reply newReply = new Reply();
         newReply.setBody(reply.getBody());
         newReply.setUser(userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId)));
-        newReply.setReview(reviewDAO.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("No review found for ID: " + reviewId)));
+        newReply.setReview(reviewDAO.findById(reply.getReviewId()).orElseThrow(() -> new IllegalArgumentException("No review found for ID: " + reply.getReviewId())));
         return replyDAO.save(newReply);
     }
 }

@@ -21,8 +21,8 @@ public class ReplyController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/{reviewId}")
-    public ResponseEntity<Object> addReply(@PathVariable int reviewId, @RequestBody ReplyDTO reply, @RequestHeader("Authorization") String token) {
+    @PostMapping
+    public ResponseEntity<Object> addReply(@RequestBody ReplyDTO reply, @RequestHeader("Authorization") String token) {
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
         if (userId == 0) {
@@ -31,7 +31,7 @@ public class ReplyController {
 
         Reply newReply;
         try {
-            newReply = replyService.addReply(reviewId, userId, reply);
+            newReply = replyService.addReply( userId, reply);
             return ResponseEntity.status(201).body(newReply);
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());

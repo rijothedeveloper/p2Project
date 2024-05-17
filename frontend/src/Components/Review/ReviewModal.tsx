@@ -1,12 +1,15 @@
 import { useState } from "react"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import StarRating from "./StarRating"
+import { ReplyInterface } from "../../Interfaces/ReplyInterface"
+import { get } from "http"
+import { addReply } from "../../FrontendAPI/api"
+import { NewReply} from "../Reply/NewReply"
 
 export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     const [thisReview, setThisReview] = useState<ReviewInterface>(review)
-
-
+    const [replies, setReplies] = useState<ReplyInterface[]>([])
 
     return (
         <div>
@@ -30,9 +33,10 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                         </div>
                         <div className="modal-footer">
                             <span>{thisReview.score}</span>
-                            <button type="button" className="btn btn-primary">Reply</button>
                             <button type="button" className="btn btn-secondary" >View Replies</button>
-                            <button type="button" className="btn btn-danger">Delete</button>
+                            {"TODO: user is owner or user is admin then show" && <button type="button" className="btn btn-danger">Delete</button>}
+                            {"TODO: user is owner then show" && <button type="button" className="btn btn-primary">Edit</button>}
+                            {"TODO: user is not ownder then show" && <NewReply {...thisReview}/>}
                         </div>
                     </div>
                 </div> 
