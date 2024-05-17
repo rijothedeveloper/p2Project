@@ -3,7 +3,6 @@ import { useState } from "react"
 import { UserInterface } from '../../Interfaces/UserInterface'
 import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container } from "react-bootstrap"
 
 export const Register: React.FC = () => {
 
@@ -52,6 +51,9 @@ export const Register: React.FC = () => {
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <a className="nav-link" href="/">Home</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/allusers">all users</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/">Login</a>

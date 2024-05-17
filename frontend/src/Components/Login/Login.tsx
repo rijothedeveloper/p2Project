@@ -2,13 +2,14 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import axios from "axios"
-import { Container } from "react-bootstrap";
+import { useAuth } from "../../globalData/AuthContextType"
 
 
 export const Login: React.FC = () => {
       // TODO: On successful login, set the current user
   
     const navigate = useNavigate()
+    const { setJwt } = useAuth()
 
     const[UserInterface, setUser] = useState<UserInterface>({
         username:"",
@@ -23,25 +24,19 @@ export const Login: React.FC = () => {
         }))
     }
 
-    // // other frontend pages need to use like this for using jwt
-    // const response = await axios.post("http://localhost:8080/____", UserInterface, {
-    //     headers: {
-    //         "Authorization": "Bearer " + UserInterface.jwt
-    //     }
-    // })
-    // .then()
-    // //... your code
+
 
 
 
     const login_request = async () => {
         const response = await axios.post("http://localhost:8080/users/login", UserInterface)
-        .then((respone)=>{
-            console.log(respone.data.jwt)
+        .then((response)=>{
+            setJwt(response.data.jwt);
+            console.log(response.data.jwt)
 
             // need to fix later to moving another page instead of alert
             alert("Welocome!")
-            // navigate("/")
+            navigate("/allusers")
         }).catch((error)=>{
             if (error.response) {
                 alert(error.response.data);
@@ -68,6 +63,9 @@ export const Login: React.FC = () => {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">Home</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/allusers">all users</a>
+             </li>
               <li className="nav-item">
                 <a className="nav-link" href="/">Login</a>
               </li>
