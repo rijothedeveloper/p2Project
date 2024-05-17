@@ -1,27 +1,27 @@
-import axios from "axios"
+import axios from "axios";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-export const DeleteMyAccount: React.FC = () => {
+export const DeleteReview: React.FC = (review:any) => {
 
-    //This component created by Martin Manger
 
-    //Firstly we will need to get the current users account details.  More specifically their ID.  
-    //Then we will verify that they actually want to delete their account, prompt the user for a confirmation.
-    //Then we initiate both the deletion of a user (html delete call) and forcefully end their session and redirect them to the main page.
-
-    //This button will exist in the navbar since we want all users to be able to delete their own account at any point.  Hopefully the backend will handle the deletion of all replies and reviews but if not then we can handle it here if an endpoint is set up for it.
+    //We are given the review information from the parent component and we will need the review ID for the html call.
+    //We also need to be passed a function to call once the review is removes since we need to refresh the parent frame.
+    //If called from the view all users frame then we need to go back to the all users frame but if from the item page then we need to go to the item page.  Not sure how best to implement.
 
     const navigate = useNavigate();
 
-    const deleteOwnAccount = async () => {
+    const deleteOwnReview = async () => {
         //This function will run the html call to delete an account passing in the current users information so the backend can handle the deletion.
 
         const response = axios.delete("HTMLADDRESSNEEDSFIXING", {withCredentials:true}) //We need to know what to pass where and if there is data in the request body that needs to be sent.
         .then((response) => {alert(response.data)})  //for now alert any message returned from the delete command
-        .then(() => {navigate("/")})  //then go back to the main splash page.  We also need to end their session and reset any variables associated with such.
+        .then(() => {navigate("/")})  //We need to know where to go from here and which list to refresh.  Do we go back to item or users list?
+        
+
+
+
         .catch((error) => {alert(error.response.data)})  //If there is an error then display the error in an alert.  Likely to change.  
     }
 
@@ -31,20 +31,19 @@ export const DeleteMyAccount: React.FC = () => {
     const handleShow = () => setShow(true);
     const handleCloseConfirm = () => {
         setShow(false)
-        deleteOwnAccount()
+        deleteOwnReview()
     }
 
 
-
-    return(
+    return (
         <div>
-            <button onClick={handleShow} className="btn btn-warning ms-1">Delete my account</button>
-
+            <button onClick={handleShow} className="btn btn-warning ms-1">Delete Review</button>
+            
             <Modal show={show}>
                 <Modal.Header>
-                    <Modal.Title>Delete your account?</Modal.Title>
+                    <Modal.Title>Delete your review?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Deleting your account will delete all your reviews and replies, as well as replies to your reviews. <br /><br />Click OK to delete account, Cancel to cancel.</Modal.Body>
+                <Modal.Body>Deleting your review will delete all its replies. <br /><br />Click OK to delete review, Cancel to cancel.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleCloseConfirm}>
                         OK
@@ -56,6 +55,4 @@ export const DeleteMyAccount: React.FC = () => {
             </Modal>
         </div>
     )
-
-
 }
