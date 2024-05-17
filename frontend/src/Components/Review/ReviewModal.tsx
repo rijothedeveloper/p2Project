@@ -5,6 +5,7 @@ import { ReplyInterface } from "../../Interfaces/ReplyInterface"
 import { get } from "http"
 import { addReply } from "../../FrontendAPI/api"
 import { NewReply} from "../Reply/NewReply"
+import { ReactToReview } from "./ReactToReview"
 
 export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
@@ -32,7 +33,7 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                             <p>{review.body}</p>
                         </div>
                         <div className="modal-footer">
-                            <span>{thisReview.score}</span>
+                            <span>{<ReactToReview/>}{thisReview.score}</span>
                             <button type="button" className="btn btn-secondary" >View Replies</button>
                             {"TODO: user is owner or user is admin then show" && <button type="button" className="btn btn-danger">Delete</button>}
                             {"TODO: user is owner then show" && <button type="button" className="btn btn-primary">Edit</button>}
