@@ -5,6 +5,7 @@ export const Reply: React.FC = (reply:any) => {
 
     return(
         <div>
+            <h3>Replies</h3>
             <p>{reply.body}</p>
         </div>
     )
