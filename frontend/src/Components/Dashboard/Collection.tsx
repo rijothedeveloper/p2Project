@@ -8,6 +8,7 @@ import { UserContextInterface } from "../../Interfaces/UserContextInterface"
 import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { getCollection } from "../../FrontendAPI/api"
+import { CurrentUserInterface } from "../../Interfaces/CurrentUserInterface"
 
 
 
@@ -42,12 +43,14 @@ for(let i = 0; i < 7; i++) {
 }
 
 // create mock user
-const currentUser = {
+const user = {
     id: 1,
     // role: "admin"
     role: "user",
     jwt: "token"
 }
+
+const { role, jwt } = user as CurrentUserInterface
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
 
@@ -64,12 +67,12 @@ const Collection: React.FC<{}> = () => {
     // state to store input entered into select items by name
     const [ nameFilter, setNameFilter ] = React.useState("")
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
  
     //  TODO UNCOMMENT BELOW
     // get current user from UserContext
-    // const currentUser = React.useContext(UserContext))
+    const { currentUser } = React.useContext(UserContext)
 
     // if a user is not logged in navigate to home page
     // if (!currentUser) {
@@ -77,7 +80,8 @@ const Collection: React.FC<{}> = () => {
     // }
 
     // get role of current user
-    // const userRole = currentUser?.role
+    // const { role, jwt } = currentUser as  CurrentUserInterface
+    console.log(`CURRENT USER: ${currentUser}`)
 
     const handleDeleteItem = (itemId: number) => {
         // create new collection with the deleted item removed
@@ -95,11 +99,11 @@ const Collection: React.FC<{}> = () => {
         // function to get collection of user
         const getUserCollection = async () => {
 
-            const collection: unknown = currentUser.role == "user"
+            const collection: unknown = role == "user"
                 // if the role is user only get the items of the current user
-                ? await getCollection(currentUser.jwt)
+                ? await getCollection(jwt)
                 // if the role is admin get all items
-                : await getAllItems(currentUser.jwt)
+                : await getAllItems(jwt)
 
             // set collection state
             setCollection(collection as ItemInterface[])
