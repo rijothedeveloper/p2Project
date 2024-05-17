@@ -1,8 +1,6 @@
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface"
-import axios from "axios"
-import { useAuth } from "../../globalData/AuthContextType"
 import { UserContext } from "../../Contexts/UserContext";
 import { login } from "../../FrontendAPI/api";
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
@@ -13,7 +11,6 @@ export const Login: React.FC = () => {
       // TODO: On successful login, set the current user
   
     const navigate = useNavigate()
-    const { setJwt } = useAuth()
 
     const { setCurrentUser } = useContext(UserContext)
 
@@ -34,29 +31,17 @@ export const Login: React.FC = () => {
       setPasswordIsVisible(!passwordIsVisible);
   }
 
-
-
-
-
     const login_request = async () => {
-        const response = await axios.post("http://localhost:8080/users/login", UserInterface)
-        .then((response)=>{
-            setJwt(response.data.jwt);
-            console.log(response.data.jwt)
+        const response = await login(UserInterface);
+        if (typeof response === "string") {
+          alert(response);
+        } else {
+          alert("Welcome!");
+          setCurrentUser(response);
+          // navigate("/dashboard")
+        }
 
-            // need to fix later to moving another page instead of alert
-            alert("Welocome!")
-            navigate("/allusers")
-        }).catch((error)=>{
-            if (error.response) {
-                alert(error.response.data);
-            } else {
-                alert('Failed to login');
-            }
-        })
     }
-
-  
 
     return (
 <div>
@@ -113,7 +98,7 @@ export const Login: React.FC = () => {
 
                 <div className="d-flex flex-row ms-3">
                   <button className="btn btn-primary" onClick={login_request}>Login</button>
-                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/register")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>Go to Register</button>
+                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/register")}>Go to Register</button>
                 </div>
               </div>
             </div>

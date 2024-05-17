@@ -1,6 +1,7 @@
 package com.revature.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,8 @@ public class Item {
     @Column
     private String image;
 
+    // added to prevent looping while reviewing item
+    @JsonIgnore
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
