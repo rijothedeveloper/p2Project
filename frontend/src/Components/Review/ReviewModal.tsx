@@ -25,7 +25,7 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
 
     useEffect(() => {
         const result = fetchReplies(currentUser?.jwt as string,review.id as number)
-        //.then((result) => {setReplies(result.data)})  //Need to convert result into an array of replies.
+        .then((result) => {setReplies(result as ReplyInterface[])})  //Need to convert result into an array of replies.
     }, [])
 
     return (

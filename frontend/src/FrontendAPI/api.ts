@@ -170,14 +170,18 @@ const fetchRepliesEndpoint = "/replies";
  * @param token - JWT token
  * @param ID - ID of the review to fetch replies for
  */
-export const getAllRepliesByReview = async (token: string, ID: number) => {
+export const getAllRepliesByReview = async (token: string, ID: number) : Promise<ReplyInterface[]|String> => {
     const url = apiURL(`${fetchRepliesEndpoint}/${ID}`);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
+    const response = await axios.get<ReplyInterface[]>(url, {headers: authHeader})
+    .then((response: AxiosResponse<ReplyInterface[]>) => {
         return response.data;
     })
-    .catch((error: AxiosError) => {alert(error)});
+    .catch((error: AxiosError) => {
+        // Handle error response
+        return error.message ? error.message: "No Replies";
+    });
+    return "No Replies";
 };
 const replyControllerEndpoint = "/replies";
 const addReplyEndpoint = replyControllerEndpoint;

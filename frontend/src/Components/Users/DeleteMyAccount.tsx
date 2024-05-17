@@ -11,19 +11,13 @@ import { UserInterface } from "../../Interfaces/UserInterface"
 
 export const DeleteMyAccount: React.FC = () => {
 
-    //This component created by Martin Manger
-
-    //Firstly we will need to get the current users account details.  More specifically their ID.  
-    //Then we will verify that they actually want to delete their account, prompt the user for a confirmation.
-    //Then we initiate both the deletion of a user (html delete call) and forcefully end their session and redirect them to the main page.
-
-    //This button will exist in the navbar since we want all users to be able to delete their own account at any point.  Hopefully the backend will handle the deletion of all replies and reviews but if not then we can handle it here if an endpoint is set up for it.
+    
 
     const navigate = useNavigate();
     const { currentUser } = useContext(UserContext)
     const { setCurrentUser } = useContext(UserContext)
 
-    const[UserInterface, setUser] = useState<UserInterface>({
+    const[emptyUser, setUser] = useState<UserInterface>({
         username:"",
         password:"",
         jwt:""
@@ -38,7 +32,7 @@ export const DeleteMyAccount: React.FC = () => {
     const handleCloseConfirm = () => {
         setShow(false)
         deleteUserByID(currentUser?.jwt as string,currentUser?.id as number)
-        .then(() => {setCurrentUser(UserInterface)}) 
+        .then(() => {setCurrentUser(emptyUser)}) 
         .then(() => {navigate("/")})
     }
 

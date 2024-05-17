@@ -24,6 +24,7 @@ export const DeleteReview: React.FC<any> = (review:any) => {
     const handleCloseConfirm = () => {
         setShow(false)
         deleteReview(currentUser?.jwt as string,review.id)
+        .then(() => {navigate("/")})
     }
 
 
