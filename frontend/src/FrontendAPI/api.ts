@@ -3,6 +3,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
 import { UserInterface } from "../Interfaces/UserInterface";
+import { ReplyInterface } from "../Interfaces/ReplyInterface";
 
 // Current base URL
 const baseURL = "http://localhost:8080";
@@ -160,6 +161,27 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 };
 
 // ReplyController
+const replyControllerEndpoint = "/replies";
+const addReplyEndpoint = replyControllerEndpoint;
+
+/**
+ * Add a reply to a review
+ * @param token - JWT token
+ * @param reply - the reply to add
+ * @returns the reply that was added
+ */
+export const addReply = async (token: string, reply: ReplyInterface) => {
+    const url = apiURL(`${addReplyEndpoint}/${reply.reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.post(url, {reply}, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
 
 // ReviewController
 
