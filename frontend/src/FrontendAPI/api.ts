@@ -2,6 +2,7 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
+import { useNavigate } from "react-router-dom";
 
 // Current base URL
 const baseURL = "http://localhost:8080";
@@ -182,4 +183,23 @@ export const findUserByUsername = async (token: string, username: string) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+};
+
+const deleteUserEndpoint = "/users";
+
+/**
+ * Delete user by ID
+ * @param token - JWT token
+ * @param ID - username of the user to fetch
+ */
+export const deleteUserByID = async (token: string, userid: number) => {
+    const url = apiURL(`${deleteUserEndpoint}/${userid}`);
+    const navigate = useNavigate();
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .then(() => {navigate("/")})
+    .catch((error: AxiosError) => {alert(error)});
 };
