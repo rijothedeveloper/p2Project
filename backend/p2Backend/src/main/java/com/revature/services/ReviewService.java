@@ -53,6 +53,10 @@ public class ReviewService {
                     "2. It must be a maximum of 500 characters long.\n" +
                     "3. It cannot contain vulgar terms.\n");
 
+        if(review.getRating()<0 || review.getRating() >5){
+            throw new IllegalArgumentException("Please rate between 0 to 5!");
+        }
+
         r.setRating(review.getRating());
 
         return reviewDAO.save(r);

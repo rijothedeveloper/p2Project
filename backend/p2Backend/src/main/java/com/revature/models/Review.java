@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.stereotype.Component;
@@ -34,10 +35,14 @@ public class Review {
 
     @Column
     private int score;
-  
+
+    // added to prevent looping while reviewing item
+    @JsonIgnore
     @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
+    // added to prevent looping while reviewing item
+    @JsonIgnore
     @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies; 
   
