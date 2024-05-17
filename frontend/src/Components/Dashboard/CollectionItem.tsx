@@ -3,21 +3,20 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
-import { baseURL } from "../../FrontendAPI/api";
 import { deleteItem } from "../../FrontendAPI/api";
-// TODO uncomment import and use proper ItemInterface
-// import { ItemInterface } from "../../Interfaces/ItemInterface"
+import { baseURL } from "../../FrontendAPI/api";
+import { ItemInterface } from "../../Interfaces/ItemInterface"
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-interface ItemDTOInterface {
-    id: number,
-    name: string,
-    despcription?: string,
-    producerId?: number,
-    image: string,
-    rating: number
-}
+// interface ItemDTOInterface {
+//     id: number,
+//     name: string,
+//     despcription?: string,
+//     producerId?: number,
+//     image: string,
+//     rating: number
+// }
 
 // create mock user
 const currentUser = {
@@ -37,7 +36,7 @@ const currentUser = {
     If the user is an admin they can delete the item by clicking the "Delete" button
 */
 const CollectionItem: React.FC<{
-    item: ItemDTOInterface,
+    item: ItemInterface,
     handleDeleteItem: (itemId: number) => void
 }> = ({ item, handleDeleteItem }) => {
     

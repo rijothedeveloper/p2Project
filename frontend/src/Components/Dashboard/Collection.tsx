@@ -6,23 +6,23 @@ import { useNavigate } from "react-router-dom"
 import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
 import { getAllItems } from "../../FrontendAPI/api"
-// TODO uncomment import and use proper ItemInterface
-// import { ItemInterface } from "../../Interfaces/ItemInterface"
+import { ItemInterface } from "../../Interfaces/ItemInterface"
+import { getCollection } from "../../FrontendAPI/api"
 
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-interface ItemDTOInterface {
-    id: number,
-    name: string,
-    despcription?: string,
-    producerId?: number,
-    image: string,
-    rating: number
-}
+// interface ItemDTOInterface {
+//     id: number,
+//     name: string,
+//     despcription?: string,
+//     producerId?: number,
+//     image: string,
+//     rating: number
+// }
 
 // create list of mock items
-const item: ItemDTOInterface = {
+const item: ItemInterface = {
     id: 9,
     name: "Book",
     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
@@ -31,7 +31,7 @@ const item: ItemDTOInterface = {
 
 const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
 
-const mockCollection: ItemDTOInterface[] = [];
+const mockCollection: ItemInterface[] = [];
 for(let i = 0; i < 7; i++) {
     mockCollection.push({
         id: item.id + i, 
@@ -60,7 +60,7 @@ const currentUser = {
 const Collection: React.FC<{}> = () => {
 
     // state to store collection
-    const [ collection, setCollection ] = React.useState([] as ItemDTOInterface[])
+    const [ collection, setCollection ] = React.useState([] as ItemInterface[])
     // state to store input entered into select items by name
     const [ nameFilter, setNameFilter ] = React.useState("")
 
@@ -93,23 +93,22 @@ const Collection: React.FC<{}> = () => {
     React.useEffect((): void => {
 
         // function to get collection of user
-        const getCollection = async () => {
+        const getUserCollection = async () => {
 
             const collection: unknown = currentUser.role == "user"
-                // TODO change function to getAllItemsByUser
                 // if the role is user only get the items of the current user
-                ? await getAllItems(currentUser.token)
+                ? await getCollection(currentUser.token)
                 // if the role is admin get all items
                 : await getAllItems(currentUser.token)
 
             // set collection state
-            setCollection(collection as ItemDTOInterface[])
+            setCollection(collection as ItemInterface[])
         }
 
         
 //         // TODO uncomment invoking getCollection()
 //         // invoke getCollection function
-//         // getCollection()
+//         // getUserCollection()
 
         // TODO REMOVE line below
         setCollection(mockCollection)
