@@ -25,14 +25,6 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public boolean authenticate(IncomingUserDTO userDTO) {
-        Optional<User> user = userDAO.findByUsername(userDTO.getUsername());
-        if (user.isPresent()) {
-            return userDTO.getPassword().equals(user.get().getPassword());
-        }
-        return false;
-    }
-
     public User addUser(User user) {
         try {
             return userDAO.save(user);
@@ -41,6 +33,23 @@ public class UserService {
         }
     }
 
+    public User login(User inputUser) {
+
+        String username = inputUser.getUsername();
+        String password = inputUser.getPassword();
+
+        User user = userDAO.findByUsername(username);
+
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        return user;
+    }
+
+    public User getUser(String username){
+        return userDAO.findByUsername(username);
+    }
   
     public boolean isUsernameDuplicate(User user) {
         return userDAO.existsByUsername(user.getUsername());
@@ -48,7 +57,7 @@ public class UserService {
 
     public Optional<OutgoingUserDTO> findUserByUsername(String username){
 
-        Optional<User> user = userDAO.findByUsername(username);
+        Optional<User> user = Optional.ofNullable(userDAO.findByUsername(username));
 
         if(user.isPresent()){
             User u = user.get();
@@ -66,4 +75,5 @@ public class UserService {
             return Optional.empty();
         }
     }
+
 }

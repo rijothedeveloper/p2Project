@@ -9,6 +9,7 @@ public class OutgoingUserDTO {
     private String role;
     private String email;
     private String timestamp;
+    private String jwt;
 
     public OutgoingUserDTO() {
     }
@@ -21,6 +22,17 @@ public class OutgoingUserDTO {
         this.role = role;
         this.email = email;
         this.timestamp = timestamp;
+    }
+
+    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role, String email, String timestamp, String jwt) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.role = role;
+        this.email = email;
+        this.timestamp = timestamp;
+        this.jwt = jwt;
     }
 
     public int getUserId() {
@@ -65,6 +77,14 @@ public class OutgoingUserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
     }
 
     public void setEmail(String email) {

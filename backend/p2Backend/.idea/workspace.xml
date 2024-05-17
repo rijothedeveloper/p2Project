@@ -1,10 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6b54050c333e79d4034a3fc45a354e9f43ed29fb
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="10df4700-680c-44ac-9c8c-500c7f3d45a1" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ProducerDAO.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Collections/Collection.tsx" afterDir="false" />
@@ -55,6 +59,11 @@
 
     <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="Fixed bugs in the skeleton pt 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+
+    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="Fixed bugs in the skeleton pt 2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 6b54050c333e79d4034a3fc45a354e9f43ed29fb
       <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/UserDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/User.java" afterDir="false" />
@@ -183,5 +192,8 @@
     <MESSAGE value="Fixed bugs in the skeleton pt 2" />
     <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs in the skeleton pt 2" />
   </component>
+<<<<<<< HEAD
 >>>>>>> bb41ddcd0007d955a6ea85cf409ed96ccceb7847
+=======
+>>>>>>> 6b54050c333e79d4034a3fc45a354e9f43ed29fb
 </project>

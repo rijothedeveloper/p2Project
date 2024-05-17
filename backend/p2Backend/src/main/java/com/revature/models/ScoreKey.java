@@ -1,12 +1,9 @@
 package com.revature.models;
-
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 
 @Embeddable
 public class ScoreKey implements Serializable {
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;

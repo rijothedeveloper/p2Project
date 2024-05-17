@@ -34,16 +34,16 @@ public class Review {
 
     @Column
     private int score;
-
     @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies; 
+  
     @Column(nullable = false)
     @CurrentTimestamp
     private String timestamp;
-
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Reply> replies;
+  
     public Review() {
     }
 
@@ -107,7 +107,6 @@ public class Review {
     public void setRating(double rating) {
         this.rating = rating;
     }
-
     public String getTimestamp() {
         return timestamp;
     }
@@ -116,9 +115,6 @@ public class Review {
         this.timestamp = timestamp;
     }
 
-    public List<Score> getScores() {
-        return scores;
-    }
 
     public int getScore() {
         return score;
@@ -139,6 +135,11 @@ public class Review {
     public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
 
     @Override
     public String toString() {

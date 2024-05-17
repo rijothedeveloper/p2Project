@@ -33,29 +33,18 @@ public class ReviewService {
         this.scoreDAO = scoreDAO;
     }
 
-    public ReviewDTO saveReview(ReviewDTO review, String username, int itemId) {
-        Optional<User> user = userDAO.findByUsername(username);
-        Optional<Item> item = itemDAO.findById(itemId);
-        if(item.isEmpty()){
-            throw new RuntimeException("No item by this id.");
-        }
-        Optional<Review> itemReviewForUser = reviewDAO.findByUserUsernameAndItemId(user.get().getUsername(), itemId);
-        if(itemReviewForUser.isPresent()){
-            throw new RuntimeException("User has already rated this item.");
-        }
-        if(user.isPresent() && item.isPresent()) {
-            Review newReview = new Review();
-            newReview.setTitle(review.getTitle());
-            newReview.setBody(review.getBody());
-            newReview.setUser(user.get());
-            newReview.setItem(item.get());
-            newReview.setRating(review.getRating());
-            reviewDAO.save(newReview);
-            ReviewDTO newReviewDTO = new ReviewDTO(newReview.getTitle(), newReview.getBody(), newReview.getItem().getId(), newReview.getRating());
-            return newReviewDTO;
-        }else {
-            throw new RuntimeException("User or item not found");
-        }
+    public ReviewDTO saveReview(ReviewDTO review, int itemId, int userId) {
+        User user = userDAO.getById(userId);
+        Item item = itemDAO.findById(itemId).get();
+        Review newReview = new Review();
+        newReview.setItem(item);
+        newReview.setUser(user);
+        newReview.setTitle(review.getTitle());
+        newReview.setBody(review.getBody());
+        newReview.setRating(review.getRating());
 
+        reviewDAO.save(newReview);
+
+        return new ReviewDTO(newReview.getTitle(), newReview.getBody(), newReview.getItem().getId(), newReview.getRating());
     }
 }
