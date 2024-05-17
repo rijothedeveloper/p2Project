@@ -160,8 +160,42 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 };
 
 // ReplyController
+const fetchRepliesEndpoint = "/replies";
+
+/**
+ * Get all replies for a review
+ * @param token - JWT token
+ * @param ID - ID of the review to fetch replies for
+ */
+export const getAllRepliesByReview = async (token: string, ID: number) => {
+    const url = apiURL(`${fetchRepliesEndpoint}/${ID}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {alert(error)});
+};
+
 
 // ReviewController
+const deleteReviewEndpoint = "/reviews";
+
+/**
+ * Delete review by ID
+ * @param token - JWT token
+ * @param reviewid - ID of the review to delete
+ */
+export const deleteReviewByID = async (token: string, reviewid: number) => {
+    const url = apiURL(`${deleteUserEndpoint}/${reviewid}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.delete(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {alert(error)});
+};
+
 
 // ScoreController
 
@@ -190,16 +224,14 @@ const deleteUserEndpoint = "/users";
 /**
  * Delete user by ID
  * @param token - JWT token
- * @param ID - username of the user to fetch
+ * @param userid - ID of the user to delete
  */
 export const deleteUserByID = async (token: string, userid: number) => {
     const url = apiURL(`${deleteUserEndpoint}/${userid}`);
-    const navigate = useNavigate();
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get(url, {headers: authHeader})
+    const response = await axios.delete(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
-    .then(() => {navigate("/")})
     .catch((error: AxiosError) => {alert(error)});
 };
