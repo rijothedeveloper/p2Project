@@ -72,7 +72,7 @@ public class UserController {
             //if the user is valid, generate our JWT!
             String jwt = jwtUtil.generateAccessToken(user);
 
-//            System.out.println("ACCESS TOKEN---------------------- " + jwt);
+            System.out.println("ACCESS TOKEN---------------------- " + jwt);
 
 
             //create our OutgoingUserDTO to send back
@@ -159,7 +159,9 @@ public class UserController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED) //201
+                //.body(user);
                 .body("User added successfully");
+
     }
 
     public boolean isValidEmail(String email) {

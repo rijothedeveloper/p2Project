@@ -24,9 +24,13 @@ public class UserService {
     public User addUser(User user) {
         try {
             return userDAO.save(user);
-        } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("Username already exists");
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
+
+//    } catch (DataIntegrityViolationException e) {
+//        throw new IllegalArgumentException("Username already exists");
+//    }
     }
 
     public User login(User inputUser) {

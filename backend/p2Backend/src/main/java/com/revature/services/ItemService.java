@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.daos.ProducerDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,23 @@ public class ItemService {
         Item item = new Item(itemdto.getName(), producer, itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
         itemDAO.save(item);
         return item;
+    }
+
+    /**
+     * Retrieves a list of items belonging to the specified category.
+     *
+     * @param category The category to search for.
+     * @return A list of item belonging to the specified category.
+     * @throws IllegalArgumentException if no items are found in the specified category.
+     */
+    public List<Item> findItemByCategory(String category) {
+        // Retrieve items from the database based on the specified category
+        List<Item> items = itemDAO.findByCategory(category);
+
+        if (items.isEmpty()) {
+            throw new IllegalArgumentException("No item found in " + category + " category!");
+        }
+        return items;
     }
 
     public Item getItemById(int itemId) {
