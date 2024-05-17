@@ -7,6 +7,7 @@ import { UserContext } from './Contexts/UserContext';
 import { useState } from 'react';
 import { UserInterface } from './Interfaces/UserInterface';
 import { Layout } from './Components/Layout/Layout';
+import { AllUsers } from './Components/Users/AllUsers';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,7 +23,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route element={<Layout />}>
+                        <Route path="/allusers" element={<AllUsers />} />
+                        <Route path="/" element={<Layout />}>
                             {/* Include all routes with a navbar below */}
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/user/:userId" element={<UserDetails />} />

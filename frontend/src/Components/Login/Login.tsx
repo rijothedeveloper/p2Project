@@ -1,6 +1,8 @@
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface"
+import axios from "axios"
+import { useAuth } from "../../globalData/AuthContextType"
 import { UserContext } from "../../Contexts/UserContext";
 import { login } from "../../FrontendAPI/api";
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
@@ -11,6 +13,7 @@ export const Login: React.FC = () => {
       // TODO: On successful login, set the current user
   
     const navigate = useNavigate()
+    const { setJwt } = useAuth()
 
     const { setCurrentUser } = useContext(UserContext)
 
@@ -31,26 +34,26 @@ export const Login: React.FC = () => {
       setPasswordIsVisible(!passwordIsVisible);
   }
 
-    // // other frontend pages need to use like this for using jwt
-    // const response = await axios.post("http://localhost:8080/____", UserInterface, {
-    //     headers: {
-    //         "Authorization": "Bearer " + UserInterface.jwt
-    //     }
-    // })
-    // .then()
-    // //... your code
+
 
 
 
     const login_request = async () => {
-        const response = await login(UserInterface);
-        if (typeof response === "string") {
-          alert(response);
-        } else {
-          alert("Welcome!");
-          setCurrentUser(response);
-          // navigate("/dashboard")
-        }
+        const response = await axios.post("http://localhost:8080/users/login", UserInterface)
+        .then((response)=>{
+            setJwt(response.data.jwt);
+            console.log(response.data.jwt)
+
+            // need to fix later to moving another page instead of alert
+            alert("Welocome!")
+            navigate("/allusers")
+        }).catch((error)=>{
+            if (error.response) {
+                alert(error.response.data);
+            } else {
+                alert('Failed to login');
+            }
+        })
     }
 
   
@@ -69,6 +72,9 @@ export const Login: React.FC = () => {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">Home</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/allusers">all users</a>
+             </li>
               <li className="nav-item">
                 <a className="nav-link" href="/">Login</a>
               </li>
