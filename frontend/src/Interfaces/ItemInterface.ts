@@ -5,5 +5,4 @@ export interface ItemInterface {
     producerId?: number,
     image: string,
     rating: number
-    
 }

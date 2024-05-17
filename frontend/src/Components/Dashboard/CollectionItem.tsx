@@ -22,7 +22,7 @@ import { ItemInterface } from "../../Interfaces/ItemInterface"
 const currentUser = {
     role: "admin",
     // role: "user",
-    token: "token"
+    jwt: "token"
 }
 
 // const baseUrl = "localhost:3000"
@@ -60,7 +60,7 @@ const CollectionItem: React.FC<{
     // delet item from collection if delete button is clicked
     const handleDeleteItemButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         // delete item from database
-        await deleteItem(currentUser.token, item.id)
+        await deleteItem(currentUser.jwt, item.id)
         // call parent items function to update collection state
         handleDeleteItem(item.id)
     }

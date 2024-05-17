@@ -46,7 +46,7 @@ const currentUser = {
     id: 1,
     // role: "admin"
     role: "user",
-    token: "token"
+    jwt: "token"
 }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
@@ -97,9 +97,9 @@ const Collection: React.FC<{}> = () => {
 
             const collection: unknown = currentUser.role == "user"
                 // if the role is user only get the items of the current user
-                ? await getCollection(currentUser.token)
+                ? await getCollection(currentUser.jwt)
                 // if the role is admin get all items
-                : await getAllItems(currentUser.token)
+                : await getAllItems(currentUser.jwt)
 
             // set collection state
             setCollection(collection as ItemInterface[])
