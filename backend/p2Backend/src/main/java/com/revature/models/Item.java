@@ -4,6 +4,8 @@ package com.revature.models;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Entity
 @Table(name="items")
@@ -32,7 +34,21 @@ public class Item {
     @Column
     private String image;
 
+    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
     public Item() {
+    }
+
+
+    public Item(String name, Producer producer, String description, String category, String image,  List<Review> reviews) {
+        this.name = name;
+        this.producer = producer;
+        this.rating = 0;
+        this.description = description;
+        this.category = category;
+        this.image = image;
+        this.reviews = reviews;
     }
 
     public Item(String name, Producer producer, String description, String category, String image) {
@@ -100,6 +116,10 @@ public class Item {
         this.producer = producer;
     }
 
+    public List<Review> getReviews() { return reviews; }
+
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -110,6 +130,7 @@ public class Item {
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
                 ", image='" + image + '\'' +
+                ", reviews='" + reviews + '\'' +
                 '}';
     }
 }

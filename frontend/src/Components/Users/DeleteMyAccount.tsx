@@ -38,7 +38,7 @@ export const DeleteMyAccount: React.FC = () => {
 
     return(
         <div>
-            <button onClick={handleShow}>Delete my account</button>
+            <button onClick={handleShow} className="btn btn-warning ms-1">Delete my account</button>
 
             <Modal show={show}>
                 <Modal.Header>

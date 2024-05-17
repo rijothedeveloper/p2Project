@@ -22,6 +22,10 @@ public class Score {
         this.vote = vote;
     }
 
+    public Score(int vote) {
+        this.vote=vote;
+    }
+
     public ScoreKey getId() {
         return id;
     }
