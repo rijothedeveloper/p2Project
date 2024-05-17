@@ -1,7 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { deleteReviewByID } from "../../FrontendAPI/api";
+import { UserContext } from "../../Contexts/UserContext";
 
 export const DeleteReview: React.FC = (review:any) => {
 
@@ -11,19 +13,9 @@ export const DeleteReview: React.FC = (review:any) => {
     //If called from the view all users frame then we need to go back to the all users frame but if from the item page then we need to go to the item page.  Not sure how best to implement.
 
     const navigate = useNavigate();
+    const { currentUser } = useContext(UserContext)
 
-    const deleteOwnReview = async () => {
-        //This function will run the html call to delete an account passing in the current users information so the backend can handle the deletion.
-
-        const response = axios.delete("HTMLADDRESSNEEDSFIXING", {withCredentials:true}) //We need to know what to pass where and if there is data in the request body that needs to be sent.
-        .then((response) => {alert(response.data)})  //for now alert any message returned from the delete command
-        .then(() => {navigate("/")})  //We need to know where to go from here and which list to refresh.  Do we go back to item or users list?
-        
-
-
-
-        .catch((error) => {alert(error.response.data)})  //If there is an error then display the error in an alert.  Likely to change.  
-    }
+    const deleteReview = deleteReviewByID;
 
 
     const [show, setShow] = useState(false);
@@ -31,7 +23,7 @@ export const DeleteReview: React.FC = (review:any) => {
     const handleShow = () => setShow(true);
     const handleCloseConfirm = () => {
         setShow(false)
-        deleteOwnReview()
+        deleteReview(currentUser?.jwt as string,review.id)
     }
 
 
