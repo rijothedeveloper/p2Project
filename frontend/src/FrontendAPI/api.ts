@@ -210,7 +210,7 @@ const deleteReviewEndpoint = "/reviews";
  * @param reviewid - ID of the review to delete
  */
 export const deleteReviewByID = async (token: string, reviewid: number) => {
-    const url = apiURL(`${deleteUserEndpoint}/${reviewid}`);
+    const url = apiURL(`${deleteReviewEndpoint}/${reviewid}`);
     const authHeader = buildAuthHeader(token);
     const response = await axios.delete(url, {headers: authHeader})
     .then((response: AxiosResponse) => {
@@ -229,6 +229,7 @@ const findUserByUsernameEndpoint = "/users";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
+    console.log(user)
     const response = await axios.post<UserInterface>(url, user)
     .then((response: AxiosResponse<UserInterface>) => {
         return response.data;

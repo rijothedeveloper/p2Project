@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
+import { UserInterface } from "../../Interfaces/UserInterface"
 
 
 
@@ -20,8 +21,13 @@ export const DeleteMyAccount: React.FC = () => {
 
     const navigate = useNavigate();
     const { currentUser } = useContext(UserContext)
+    const { setCurrentUser } = useContext(UserContext)
 
-    
+    const[UserInterface, setUser] = useState<UserInterface>({
+        username:"",
+        password:"",
+        jwt:""
+    })
 
 
 
@@ -32,7 +38,7 @@ export const DeleteMyAccount: React.FC = () => {
     const handleCloseConfirm = () => {
         setShow(false)
         deleteUserByID(currentUser?.jwt as string,currentUser?.id as number)
-        .then() //Delete user session, call whatever logout does
+        .then(() => {setCurrentUser(UserInterface)}) 
         .then(() => {navigate("/")})
     }
 

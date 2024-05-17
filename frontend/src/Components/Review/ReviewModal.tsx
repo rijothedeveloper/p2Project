@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react"
 import { Reply } from "../Replies/Reply"
 import { getAllRepliesByReview } from "../../FrontendAPI/api"
 import { UserContext } from "../../Contexts/UserContext"
-import { useState } from "react"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import StarRating from "./StarRating"
 import { ReplyInterface } from "../../Interfaces/ReplyInterface"
@@ -11,6 +10,7 @@ import { get } from "http"
 import { addReply } from "../../FrontendAPI/api"
 import { NewReply} from "../Reply/NewReply"
 import { ReactToReview } from "./ReactToReview"
+import { DeleteReview } from "./DeleteReview"
 
 export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
@@ -24,7 +24,8 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
     const { currentUser } = useContext(UserContext)
 
     useEffect(() => {
-        fetchReplies(currentUser?.jwt as string,4)//Review ID needed
+        const result = fetchReplies(currentUser?.jwt as string,review.id as number)
+        //.then((result) => {setReplies(result.data)})  //Need to convert result into an array of replies.
     }, [])
 
     return (
@@ -39,14 +40,13 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                         </div>
                         <div className="modal-body">
                             <p>{review.body}</p>
-                          {/**This is where the review information would go and the delete component if you own the review. */}
                           <h3>Replies</h3>
                           {replyCollection.map((reply:any) => {return(<Reply {...reply} key={reply.replyID}/>)})}
                         </div>
                         <div className="modal-footer">
                             <span>{<ReactToReview/>}{thisReview.score}</span>
                             <button type="button" className="btn btn-secondary" >View Replies</button>
-                            {"TODO: user is owner or user is admin then show" && <button type="button" className="btn btn-danger">Delete</button>}
+                            {review.userId == currentUser?.id as number  || currentUser?.role == "ADMIN"? <DeleteReview {...review}/>:""}
                             {"TODO: user is owner then show" && <button type="button" className="btn btn-primary">Edit</button>}
                             {"TODO: user is not ownder then show" && <NewReply {...thisReview}/>}
                         </div>
