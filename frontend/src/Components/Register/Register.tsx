@@ -7,6 +7,7 @@ import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap"
 import { register } from "../../FrontendAPI/api";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 
+
 export const Register: React.FC = () => {
 
     const navigate = useNavigate()
@@ -53,6 +54,9 @@ export const Register: React.FC = () => {
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
                   <a className="nav-link" href="/">Home</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/allusers">all users</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="/">Login</a>
