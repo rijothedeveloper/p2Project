@@ -6,7 +6,7 @@ import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 
 // Current base URL
-const baseURL = "http://localhost:8080";
+export const baseURL = "http://localhost:8080";
 
 /**
  * Helper function to build a URL

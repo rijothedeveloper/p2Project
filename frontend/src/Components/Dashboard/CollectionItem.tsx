@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
+import { baseURL } from "../../FrontendAPI/api";
+import { deleteItem } from "../../FrontendAPI/api";
 // TODO uncomment import and use proper ItemInterface
 // import { ItemInterface } from "../../Interfaces/ItemInterface"
 
@@ -19,11 +21,12 @@ interface ItemDTOInterface {
 
 // create mock user
 const currentUser = {
-    // role: "admin"
-    role: "user"
+    role: "admin",
+    // role: "user",
+    token: "token"
 }
 
-const baseUrl = "localhost:3000"
+// const baseUrl = "localhost:3000"
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************
 
 
@@ -47,21 +50,22 @@ const CollectionItem: React.FC<{
     // get currentUser used to deteremine wether to display delete item button or not
     // const currentUser = React.useContext(UserContext)
 
+
+    // navigate to itemDetails if view details button is clicked
     const handleClickViewDetailsButton = (event: React.MouseEvent<HTMLButtonElement>) => {
         // navigate to itemDetails
-        // TODO add path to navigate to
-        // TODO get baseUrl from context
-        navigate(`/${baseUrl}/items/${id}`)
+        navigate(`/${baseURL}/items/${id}`)
     }
 
 
-    const handleDeleteItemButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        // call endpoint to delete item
-        // TODO finalize url
-        const url = `${baseUrl}/items/${item.id}`
+    // delet item from collection if delete button is clicked
+    const handleDeleteItemButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        // delete item from database
+        await deleteItem(currentUser.token, item.id)
         // call parent items function to update collection state
         handleDeleteItem(item.id)
     }
+
 
     // function to determine color of rating
     const ratingColor = () => {
@@ -70,6 +74,7 @@ const CollectionItem: React.FC<{
       if(rating >= 2) return "text-warning"
       return "text-danger"
     }
+
 
     return (
         <Card style={{ width: '14rem' }} className="m-1">

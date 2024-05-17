@@ -5,6 +5,7 @@ import { UserContext } from "../../Contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
+import { getAllItems } from "../../FrontendAPI/api"
 // TODO uncomment import and use proper ItemInterface
 // import { ItemInterface } from "../../Interfaces/ItemInterface"
 
@@ -44,7 +45,8 @@ for(let i = 0; i < 7; i++) {
 const currentUser = {
     id: 1,
     // role: "admin"
-    role: "user"
+    role: "user",
+    token: "token"
 }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
@@ -90,38 +92,26 @@ const Collection: React.FC<{}> = () => {
     // get collection on component rendering
     React.useEffect((): void => {
 
-//         // function to get collection of user
-//         const getCollection = async () => {
+        // function to get collection of user
+        const getCollection = async () => {
 
-//             // TODO set url to proper endpoints
-//             // set url based on user role
-//             const url = current.role == "user"
-//                 if the role is user only get the items of the current user
-//                 ? `${baseUrl}/items/${currentUser.id}`
-//                 if the role is admin get all items
-//                 : `${baseUrl}/items`
-    
-//             try {
-//                 fetch collection from server
-//                 const { data, status } = await axios(url)
-//                 if fetch was successfull setCollection to data received
-//                 if ( status === 200 ) {
-//                     setCollection(data)
-//                 }
-//                 TODO add other catch?
-//             } catch (e) {
-//                 TODO check how to handle error
-//                 console.log("Error fetching collection.")
-//             }
-//         }
+            const collection: unknown = currentUser.role == "user"
+                // TODO change function to getAllItemsByUser
+                // if the role is user only get the items of the current user
+                ? await getAllItems(currentUser.token)
+                // if the role is admin get all items
+                : await getAllItems(currentUser.token)
+
+            // set collection state
+            setCollection(collection as ItemDTOInterface[])
+        }
 
         
 //         // TODO uncomment invoking getCollection()
-//         // set collection state
 //         // invoke getCollection function
 //         // getCollection()
 
-        // TODO remove line below
+        // TODO REMOVE line below
         setCollection(mockCollection)
 
     }, [])
