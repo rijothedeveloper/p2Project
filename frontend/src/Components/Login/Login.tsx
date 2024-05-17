@@ -31,17 +31,6 @@ export const Login: React.FC = () => {
       setPasswordIsVisible(!passwordIsVisible);
   }
 
-    // // other frontend pages need to use like this for using jwt
-    // const response = await axios.post("http://localhost:8080/____", UserInterface, {
-    //     headers: {
-    //         "Authorization": "Bearer " + UserInterface.jwt
-    //     }
-    // })
-    // .then()
-    // //... your code
-
-
-
     const login_request = async () => {
         const response = await login(UserInterface);
         if (typeof response === "string") {
@@ -52,8 +41,6 @@ export const Login: React.FC = () => {
           // navigate("/dashboard")
         }
     }
-
-  
 
     return (
 <div>
