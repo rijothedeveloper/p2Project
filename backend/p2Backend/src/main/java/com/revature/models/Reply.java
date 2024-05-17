@@ -80,6 +80,10 @@ public class Reply {
         this.timestamp = timestamp;
     }
 
+    public void setReview(Review review) {
+        this.review = review;
+    }
+
     @Override
     public String toString() {
         return "Reply{" +
