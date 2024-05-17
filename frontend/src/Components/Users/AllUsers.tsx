@@ -18,10 +18,10 @@ export const AllUsers: React.FC = () => {
         try {
             const response = await axios.get("http://localhost:8080/users/all", {
                 headers: {
-                    "Authorization": `Bearer ${jwt}` // 'Bearer '를 추가하여 JWT 토큰 형식을 올바르게 설정합니다.
+                    "Authorization": `Bearer ${jwt}` 
                 }
             });
-            console.log("API Response Data:", response.data); // API 응답 데이터 로그
+            console.log("API Response Data:", response.data); 
             setUsers(response.data);
         } catch (error) {
             console.error("Error fetching users", error);
