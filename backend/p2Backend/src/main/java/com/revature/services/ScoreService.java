@@ -92,4 +92,23 @@ public class ScoreService {
             throw new NullPointerException("No vote");
         return score.get().getVote();
     }
+
+    public Review deleteVote(int reviewId, int userId) {
+
+            Optional<User> user = userDAO.findById(userId);
+            Optional<Review> review = reviewDAO.findById(reviewId);
+
+            if (user.isEmpty() || review.isEmpty())
+                throw new NullPointerException("Unable to delete vote for user " + userId + " and review " + reviewId);
+
+            ScoreKey key = new ScoreKey(user.get(), review.get());
+
+            Optional<Score> score = scoreDAO.findById(key);
+            if (score.isEmpty())
+                throw new NullPointerException("No vote to delete");
+
+            review.get().setScore( review.get().getScore() - score.get().getVote());
+            scoreDAO.delete(score.get());
+            return reviewDAO.save(review.get());
+    }
 }

@@ -2,7 +2,7 @@ package com.revature.models.dtos;
 
 public class OutgoingUserDTO {
 
-    private int userId;
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
@@ -14,8 +14,8 @@ public class OutgoingUserDTO {
     public OutgoingUserDTO() {
     }
 
-    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role, String email, String timestamp) {
-        this.userId = userId;
+    public OutgoingUserDTO(int id, String firstName, String lastName, String username, String role, String email, String timestamp) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -24,8 +24,8 @@ public class OutgoingUserDTO {
         this.timestamp = timestamp;
     }
 
-    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role, String email, String timestamp, String jwt) {
-        this.userId = userId;
+    public OutgoingUserDTO(int id, String firstName, String lastName, String username, String role, String email, String timestamp, String jwt) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -35,12 +35,12 @@ public class OutgoingUserDTO {
         this.jwt = jwt;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -102,7 +102,7 @@ public class OutgoingUserDTO {
     @Override
     public String toString() {
         return "OutgoingUserDTO{" +
-                "userId=" + userId +
+                "userId=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +

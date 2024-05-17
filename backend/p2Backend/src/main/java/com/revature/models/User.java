@@ -36,7 +36,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
-    @CurrentTimestamp
+
     @Column(nullable = false)
     private String timestamp;
 
