@@ -2,6 +2,7 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
+import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 
 // Current base URL
@@ -187,7 +188,21 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
 // ScoreController
 
 // UserController
+const loginEndpoint = "/users/login";
 const findUserByUsernameEndpoint = "/users";
+
+export const login = async (user: UserInterface): Promise<UserInterface|string> => {
+    const url = apiURL(loginEndpoint);
+    const response = await axios.post<UserInterface>(url, user)
+    .then((response: AxiosResponse<UserInterface>) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+        return error.message ? error.message: "Failed to login";
+    });
+    return "Failed to login!";
+};
 
 /**
  * Find a user by username
