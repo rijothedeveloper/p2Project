@@ -7,26 +7,34 @@ import { UserContext } from "../../Contexts/UserContext";
 // import { ItemInterface } from "../../Interfaces/ItemInterface"
 
 
-// TODO REMOVE AREA BELOW
-/***************************  DEFINE ItemInterface BELOW  ****************************/
-interface ItemInterface {
+/***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
+interface ItemDTOInterface {
     id: number,
-    image: string,
     name: string,
+    despcription?: string,
+    producerId?: number,
+    image: string,
     rating: number
 }
-/***************************  DEFINE ItemInterface  ABOVE ****************************/
 
+// create mock user
+const currentUser = {
+    // role: "admin"
+    role: "user"
+}
+
+const baseUrl = "localhost:3000"
+/***** TODO REMOVE MOCK DATA AREA ABOVE ****************************
 
 
 
 /*
     This component will display an item in a collection
     By clicking the "View Details" button the user can display the item details component
-    TODO : add functionality like DELETE FROM COLLECTION ?
+    If the user is an admin they can delete the item by clicking the "Delete" button
 */
 const CollectionItem: React.FC<{
-    item: ItemInterface,
+    item: ItemDTOInterface,
     handleDeleteItem: (itemId: number) => void
 }> = ({ item, handleDeleteItem }) => {
     
@@ -39,27 +47,10 @@ const CollectionItem: React.FC<{
     // get currentUser used to deteremine wether to display delete item button or not
     // const currentUser = React.useContext(UserContext)
 
-
-    // TODO delete mock user
-    /********************** CREATE MOCK USER ************************ */
-    const currentUser = {
-        role: "admin"
-        // role: "user"
-    }
-
-
-
-    // TODO get baseUrl frmo userContext
-    const baseUrl = "localhost:3000"
-
-
-
-
-
-
     const handleClickViewDetailsButton = (event: React.MouseEvent<HTMLButtonElement>) => {
         // navigate to itemDetails
         // TODO add path to navigate to
+        // TODO get baseUrl from context
         navigate(`/${baseUrl}/items/${id}`)
     }
 

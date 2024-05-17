@@ -5,8 +5,8 @@ import { UserContext } from "../../Contexts/UserContext";
 
 export const ReactToReview: React.FC = () => {
 
-    const { currentUser } = useContext(UserContext);
-
+    // const { currentUser } = useContext(UserContext);
+// 
     // TODO: get current logged in user vote signal for current review
 
     const [userVoteSignal, setUserVoteSignal] = useState<number>(0);
