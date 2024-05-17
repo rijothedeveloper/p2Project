@@ -62,7 +62,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setSubject(String.format("%s", u.getId()))
                 .claim("username", u.getUsername())
-                //.claim("role", u.getRole()) <---Hypothetical role claim
+                .claim("role", u.getRole())
                 .setIssuer("Project2")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
@@ -83,6 +83,11 @@ public class JwtTokenUtil {
     public String extractUsername(String token) {
         Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
         return claimsJws.getBody().get("username", String.class);
+    }
+
+    public String extractRole(String token) {
+        Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+        return claimsJws.getBody().get("role", String.class);
     }
 
 }

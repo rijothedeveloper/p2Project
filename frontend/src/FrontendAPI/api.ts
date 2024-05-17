@@ -3,6 +3,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
 import { useNavigate } from "react-router-dom";
+import { UserInterface } from "../Interfaces/UserInterface";
+import { ReplyInterface } from "../Interfaces/ReplyInterface";
+
 
 // Current base URL
 const baseURL = "http://localhost:8080";
@@ -176,7 +179,27 @@ export const getAllRepliesByReview = async (token: string, ID: number) => {
     })
     .catch((error: AxiosError) => {alert(error)});
 };
+const replyControllerEndpoint = "/replies";
+const addReplyEndpoint = replyControllerEndpoint;
 
+/**
+ * Add a reply to a review
+ * @param token - JWT token
+ * @param reply - the reply to add
+ * @returns the reply that was added
+ */
+export const addReply = async (token: string, reply: ReplyInterface) => {
+    const url = apiURL(`${addReplyEndpoint}/${reply.reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.post(url, {reply}, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+
+};
 
 // ReviewController
 const deleteReviewEndpoint = "/reviews";
@@ -200,7 +223,34 @@ export const deleteReviewByID = async (token: string, reviewid: number) => {
 // ScoreController
 
 // UserController
+const loginEndpoint = "/users/login";
+const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users";
+
+export const login = async (user: UserInterface): Promise<UserInterface|string> => {
+    const url = apiURL(loginEndpoint);
+    const response = await axios.post<UserInterface>(url, user)
+    .then((response: AxiosResponse<UserInterface>) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+        return error.message ? error.message: "Failed to login";
+    });
+    return "Failed to login!";
+};
+
+export const register = async (user: UserInterface): Promise<string|boolean> => {
+    const url = apiURL(registerEndpoint);
+    const response = await axios.post<undefined>(url, user)
+    .then((response: AxiosResponse<undefined>) => {
+        return true;
+    })
+    .catch((error: AxiosError) => {
+        return error.message ? error.message: "Failed to register!";
+    });
+    return "Failed to register!";
+}
 
 /**
  * Find a user by username
