@@ -18,7 +18,8 @@ export const ReviewModal: React.FC = () => {
 
     return (
         <div>
-            
+            {/**This is where the review information would go and the delete component if you own the review. */}
+            <h3>Replies</h3>
              {replyCollection.map((reply:any) => {return(<Reply {...reply} key={reply.replyID}/>)})}
         </div>
     )
