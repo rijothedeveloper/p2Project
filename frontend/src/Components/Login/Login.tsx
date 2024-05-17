@@ -40,6 +40,7 @@ export const Login: React.FC = () => {
           setCurrentUser(response);
           // navigate("/dashboard")
         }
+
     }
 
     return (
@@ -56,6 +57,9 @@ export const Login: React.FC = () => {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">Home</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/allusers">all users</a>
+             </li>
               <li className="nav-item">
                 <a className="nav-link" href="/">Login</a>
               </li>
@@ -94,7 +98,7 @@ export const Login: React.FC = () => {
 
                 <div className="d-flex flex-row ms-3">
                   <button className="btn btn-primary" onClick={login_request}>Login</button>
-                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/register")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>Go to Register</button>
+                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/register")}>Go to Register</button>
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
 import { UserInterface } from "../Interfaces/UserInterface";
+import { ReplyInterface } from "../Interfaces/ReplyInterface";
 
 // Current base URL
 const baseURL = "http://localhost:8080";
@@ -160,6 +161,27 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 };
 
 // ReplyController
+const replyControllerEndpoint = "/replies";
+const addReplyEndpoint = replyControllerEndpoint;
+
+/**
+ * Add a reply to a review
+ * @param token - JWT token
+ * @param reply - the reply to add
+ * @returns the reply that was added
+ */
+export const addReply = async (token: string, reply: ReplyInterface) => {
+    const url = apiURL(`${addReplyEndpoint}/${reply.reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.post(url, {reply}, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {
+        // Handle error response
+    });
+};
+
 
 // ReviewController
 
@@ -167,6 +189,7 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 
 // UserController
 const loginEndpoint = "/users/login";
+const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
@@ -181,6 +204,18 @@ export const login = async (user: UserInterface): Promise<UserInterface|string> 
     });
     return "Failed to login!";
 };
+
+export const register = async (user: UserInterface): Promise<string|boolean> => {
+    const url = apiURL(registerEndpoint);
+    const response = await axios.post<undefined>(url, user)
+    .then((response: AxiosResponse<undefined>) => {
+        return true;
+    })
+    .catch((error: AxiosError) => {
+        return error.message ? error.message: "Failed to register!";
+    });
+    return "Failed to register!";
+}
 
 /**
  * Find a user by username
