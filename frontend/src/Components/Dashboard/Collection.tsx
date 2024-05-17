@@ -13,14 +13,13 @@ import { CurrentUserInterface } from "../../Interfaces/CurrentUserInterface"
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-// interface ItemDTOInterface {
-//     id: number,
-//     name: string,
-//     despcription?: string,
-//     producerId?: number,
-//     image: string,
-//     rating: number
-// }
+
+/* FOR GIT
+
+git restore backend/p2Backend/.idea/misc.xml
+git restore  backend/p2Backend/.idea/workspace.xml
+*/
+
 
 // create list of mock items
 const item: ItemInterface = {
