@@ -52,6 +52,7 @@ const CollectionItem: React.FC<{
 
     // navigate to itemDetails if view details button is clicked
     const handleClickViewDetailsButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+        // TODO uncomment and test view items
         // navigate to itemDetails
         // navigate(`/${baseURL}/items/${id}`)
     }
