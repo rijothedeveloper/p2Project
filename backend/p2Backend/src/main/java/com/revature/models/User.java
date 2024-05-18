@@ -1,19 +1,23 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 @Entity
-@Table(name="users")
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
+//    private int id;
 
     @Column(nullable = false)
     private String username;
@@ -33,7 +37,7 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @CurrentTimestamp
+
     @Column(nullable = false)
     private String timestamp;
 
@@ -42,6 +46,16 @@ public class User {
 
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Score> scores;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies;
 
     public User() {
     }
@@ -59,6 +73,21 @@ public class User {
         this.collection = collection;
     }
 
+    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection, List<Review> reviews, List<Score> scores, List<Reply> replies) {
+        Id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.role = role;
+        this.lastName = lastName;
+        this.email = email;
+        this.timestamp = timestamp;
+        this.follow = follow;
+        this.collection = collection;
+        this.reviews = reviews;
+        this.scores = scores;
+        this.replies = replies;
+    }
 
     public int getId() {
         return Id;
@@ -140,6 +169,30 @@ public class User {
         this.collection = collection;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -153,6 +206,36 @@ public class User {
                 ", timestamp='" + timestamp + '\'' +
                 ", follow=" + follow +
                 ", collection=" + collection +
+                ", reviews=" + reviews +
+                ", scores=" + scores +
+                ", replies=" + replies +
                 '}';
+    }
+
+    // Auth overrides
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public java.util.Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 }

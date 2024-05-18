@@ -4,7 +4,89 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="Merge remote-tracking branch 'origin/dev' into ViewAllReviewsByUserId&#10;&#10;# Conflicts:&#10;#&#9;backend/p2Backend/.idea/workspace.xml&#10;#&#9;backend/p2Backend/src/main/java/com/revature/controllers/ItemController.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/controllers/ScoreController.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/daos/ItemDAO.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/models/Item.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/models/Review.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/models/Score.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/models/ScoreKey.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/models/dtos/ItemDTO.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/services/ItemService.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/services/ReviewService.java&#10;#&#9;backend/p2Backend/src/main/java/com/revature/services/ScoreService.java&#10;#&#9;frontend/src/App.tsx" />
+    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../.github/workflows/frontendCI.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../.github/workflows/frontend_cicd.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ProducerDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/AddItemToCollectionDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/utils/JwtTokenFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/utils/JwtTokenUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/utils/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Collections/Collection.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionItem.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/Dashboard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/Review.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Items/AddItem.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Layout/Layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/NavbarComp/NavbarComp.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Replies/Reply.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Reply/NewReply.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Review/DeleteReview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Review/ReactToReview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Review/StarRating.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Components/Users/DeleteMyAccount.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Contexts/UserProvider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/FrontendAPI/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/Interfaces/ReplyInterface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../frontend/src/globalData/AuthContextType.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/CollectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/CollectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/FollowController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/FollowController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ReplyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ReplyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ReviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ScoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ScoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/CollectionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/CollectionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/ItemDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ItemDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/ReplyDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ReplyDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/ReviewDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/ReviewDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/daos/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/daos/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/CollectionKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/CollectionKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/FollowKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/FollowKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Producer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Producer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Reply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Reply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/Score.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/Score.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/ScoreKey.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/ScoreKey.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/ItemDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/ItemDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/OutgoingUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/OutgoingUserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/p2Backend/P2BackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/p2Backend/P2BackendApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/CollectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/CollectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/FollowService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/FollowService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ReplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ReplyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ScoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ScoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Items/ItemDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Items/ItemDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Login/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Register/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Register/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Review/ReviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Review/ReviewModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Users/AllUsers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Users/AllUsers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Contexts/UserContext.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Contexts/UserContext.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Interfaces/ItemInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Interfaces/ItemInterface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Interfaces/ReviewInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Interfaces/ReviewInterface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Interfaces/UserInterface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Interfaces/UserInterface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,13 +120,6 @@
     &quot;accountId&quot;: &quot;57053e79-735e-4e59-9154-68116802e146&quot;
   }
 }</component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -59,25 +134,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.P2BackendApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;ViewAllReviewsByUserId&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vikto/OneDrive/Desktop/Revature Code Base/HTML_CSS_JS/React/Projects/Project2/p2Project/backend/p2Backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.P2BackendApplication.executor": "Run",
+    "JUnit.P2BackendApplicationTests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging ViewAllReviewsByUserId",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/code/workspace/intellij_workspace/revatureProject_02_02",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.revature.models" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="P2BackendApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.revature.p2Backend.P2BackendApplication" />
+      <module name="p2Backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.revature.p2Backend.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.P2BackendApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -94,6 +196,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1715109964089</updated>
+      <workItem from="1715274020065" duration="2717000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed bugs in the skeleton">
       <option name="closed" value="true" />
@@ -111,8 +214,19 @@
       <option name="project" value="LOCAL" />
       <updated>1715186114876</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="merge conflicts handled dev &lt;- findUsername">
+      <option name="closed" value="true" />
+      <created>1715907069170</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715907069173</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -129,6 +243,7 @@
     <MESSAGE value="created review model" />
     <MESSAGE value="Fixed bugs in the skeleton" />
     <MESSAGE value="Fixed bugs in the skeleton pt 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs in the skeleton pt 2" />
+    <MESSAGE value="merge conflicts handled dev &lt;- findUsername" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

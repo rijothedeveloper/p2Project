@@ -1,0 +1,45 @@
+name: DevOps-GitHibActions
+on:
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  # Build Job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install Dependencies
+        run: cd frontend && npm install
+      - name: Build Project
+        run: cd frontend && CI=false npm run build
+        env:
+          CI: false
+      - name: Upload artifact to enable deployment
+        uses: actions/upload-artifact@v3
+        with:
+          name: production-files
+          path: ./frontend/build
+
+  # Deploy Job for github pages
+  deploy:
+    # Add a dependency to the build job
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+          path: ./frontend/build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACTIONS_CICD_SECRET }}
+          publish_dir: ./frontend/build

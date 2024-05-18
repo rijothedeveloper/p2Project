@@ -2,19 +2,20 @@ package com.revature.models.dtos;
 
 public class OutgoingUserDTO {
 
-    private int userId;
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
     private String role;
     private String email;
     private String timestamp;
+    private String jwt;
 
     public OutgoingUserDTO() {
     }
 
-    public OutgoingUserDTO(int userId, String firstName, String lastName, String username, String role, String email, String timestamp) {
-        this.userId = userId;
+    public OutgoingUserDTO(int id, String firstName, String lastName, String username, String role, String email, String timestamp) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -23,12 +24,23 @@ public class OutgoingUserDTO {
         this.timestamp = timestamp;
     }
 
-    public int getUserId() {
-        return userId;
+    public OutgoingUserDTO(int id, String firstName, String lastName, String username, String role, String email, String timestamp, String jwt) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.role = role;
+        this.email = email;
+        this.timestamp = timestamp;
+        this.jwt = jwt;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -67,6 +79,14 @@ public class OutgoingUserDTO {
         return email;
     }
 
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -82,7 +102,7 @@ public class OutgoingUserDTO {
     @Override
     public String toString() {
         return "OutgoingUserDTO{" +
-                "userId=" + userId +
+                "userId=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
