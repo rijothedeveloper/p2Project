@@ -21,6 +21,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Login />} />
+                        <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/allusers" element={<AllUsers />} />
                         <Route path="/" element={<Layout />}>
