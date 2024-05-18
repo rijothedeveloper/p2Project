@@ -21,6 +21,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Login />} />
+                        //for fithub pages deployment
                         <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/allusers" element={<AllUsers />} />
