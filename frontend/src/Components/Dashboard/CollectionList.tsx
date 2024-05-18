@@ -1,15 +1,13 @@
 import * as React from "react"
-import axios from "axios"
 import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
-import { useNavigate } from "react-router-dom"
 import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
 import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { getCollection } from "../../FrontendAPI/api"
-// import { CurrentUserInterface } from "../../Interfaces/CurrentUserInterface"
 import { UserInterface } from "../../Interfaces/UserInterface"
+import { Login } from "../Login/Login"
 
 
 
@@ -47,16 +45,6 @@ for(let i = 0; i < 7; i++) {
         producer_id: item.producer_id
     })
 }
-
-// // create mock user
-const user = {
-    id: 1,
-    // role: "admin"
-    role: "user",
-    jwt: "token"
-}
-
-const { role, jwt } = user as UserInterface
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
 
@@ -72,31 +60,26 @@ const Collection: React.FC<{}> = () => {
     const [ collection, setCollection ] = React.useState([] as ItemInterface[])
     // state to store input entered into select items by name
     const [ nameFilter, setNameFilter ] = React.useState("")
-
-    // const navigate = useNavigate();
-
- 
-    //  TODO UNCOMMENT BELOW
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
+    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
-    // if a user is not logged in navigate to home page
-    // if (!currentUser) {
-    //     navigate("/");
-    // }
 
-    // get role of current user
+    // get role and jwt of current user
+    // desctructuring causes error due to currentUser being null
     // const { role, jwt } = currentUser as  UserInterface
-    console.log(`CURRENT USER: ${currentUser}`)
+    const jwt = currentUser ? currentUser.jwt : null
+    const userRole = currentUser?.role == "USER" ? "user" : "admin"
+
 
     const handleDeleteItem = (itemId: number) => {
         // create new collection with the deleted item removed
         const updatedCollection = collection.filter(item => item.id != itemId)
         // update collection state
         setCollection(updatedCollection)
-
-        // TODO update Database
     }
+
+
 
 
     // get collection on component rendering
@@ -105,7 +88,10 @@ const Collection: React.FC<{}> = () => {
         // function to get collection of user
         const getUserCollection = async () => {
 
-            const collection: unknown = role == "user"
+            console.log(`ROLE: ${userRole}`)
+            console.log(`JWT: ${jwt}`)
+            // get collection based on role
+            const collection: unknown = userRole == "user"
                 // if the role is user only get the items of the current user
                 ? await getCollection(jwt as string)
                 // if the role is admin get all items
@@ -118,7 +104,7 @@ const Collection: React.FC<{}> = () => {
         
 //         // TODO uncomment invoking getCollection()
 //         // invoke getCollection function
-//         // getUserCollection()
+        // getUserCollection()
 
         // TODO REMOVE line below
         setCollection(mockCollection)
@@ -131,7 +117,8 @@ const Collection: React.FC<{}> = () => {
         setNameFilter(e.target.value)
     }
 
-    return (
+    return currentUser
+    ? (
         <>
              <Container className="mt-4 r-flex">
                 <Row className="">
@@ -147,7 +134,7 @@ const Collection: React.FC<{}> = () => {
                 </Row>
                  <Row className="justify-content-evenly" >
                      {/* display collection items */}
-                     {collection
+                     {collection && collection
                          // filter items based on nameFilter
                          .filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase())> -1)
                          .map(item => {
@@ -163,6 +150,7 @@ const Collection: React.FC<{}> = () => {
              </Container> 
         </>
     )
+    : <Login />
 }
 
 export default Collection

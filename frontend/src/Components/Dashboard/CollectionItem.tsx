@@ -6,27 +6,8 @@ import { UserContext } from "../../Contexts/UserContext";
 import { deleteItem } from "../../FrontendAPI/api";
 import { baseURL } from "../../FrontendAPI/api";
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-
-
-/***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-// interface ItemDTOInterface {
-//     id: number,
-//     name: string,
-//     despcription?: string,
-//     producerId?: number,
-//     image: string,
-//     rating: number
-// }
-
-// create mock user
-const currentUser = {
-    role: "admin",
-    // role: "user",
-    jwt: "token"
-}
-
-// const baseUrl = "localhost:3000"
-/***** TODO REMOVE MOCK DATA AREA ABOVE ****************************
+import { UserInterface } from "../../Interfaces/UserInterface";
+import { Login } from "../Login/Login";
 
 
 
@@ -47,7 +28,9 @@ const CollectionItem: React.FC<{
 
     // TODO: uncomment
     // get currentUser used to deteremine wether to display delete item button or not
-    // const currentUser = React.useContext(UserContext)
+    const { currentUser } = React.useContext(UserContext)
+    const { jwt } = currentUser as  UserInterface
+    const userRole = currentUser?.role == "USER" ? "user" : "admin"
 
 
     // navigate to itemDetails if view details button is clicked
@@ -61,7 +44,7 @@ const CollectionItem: React.FC<{
     // delet item from collection if delete button is clicked
     const handleDeleteItemButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         // delete item from database
-        await deleteItem(currentUser.jwt, item.id as number)
+        await deleteItem(jwt as string, item.id as number)
         // call parent items function to update collection state
         handleDeleteItem(item.id as number)
     }
@@ -76,7 +59,8 @@ const CollectionItem: React.FC<{
     }
 
 
-    return (
+    return currentUser 
+    ?  (
         <Card style={{ width: '14rem' }} className="m-1">
             <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
@@ -100,11 +84,12 @@ const CollectionItem: React.FC<{
                     variant="outline-danger"
                     size="sm"    
                     onClick = { handleDeleteItemButtonClick }
-                    hidden = { currentUser.role == "user" }
+                    hidden = { userRole == "user" }
                 >Delete</Button>
             </Card.Body>
         </Card>
     )
+    : <Login />
 }
 
 export default CollectionItem
