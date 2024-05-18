@@ -34,8 +34,9 @@ function App() {
                             {/* Include all routes with a navbar below */}
                             <Route path="dashboard" element={< Dashboard />} />
                             <Route path="user/:userId" element={<UserDetails />} />
+                            <Route path="/review/:userId" element={<AllRevByUser/>}/>
+
                         </Route>
-                        <Route path="/review/:userId" element={<AllRevByUser/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>

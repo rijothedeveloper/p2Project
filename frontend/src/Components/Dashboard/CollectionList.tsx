@@ -28,7 +28,7 @@ const item: ItemInterface = {
     rating: 2.5,
     category: "Books",
     description: "book",
-    producer_id: 1
+    producerId: 1
 }
 
 const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
@@ -42,7 +42,7 @@ for(let i = 0; i < 7; i++) {
         rating: item.rating as number + i*0.3,
         category: item.category,
         description: item.description,
-        producer_id: item.producer_id
+        producerId: item.producerId
     })
 }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
