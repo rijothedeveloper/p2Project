@@ -38,9 +38,12 @@ const ItemReview: React.FC<{
     const [updatedRating, setUpdatedRating] = React.useState(itemReview.rating)
     const [updatedBody, setUpdatedBody] = React.useState(itemReview.body)
 
-    // TODO: uncomment
-    // get currentUser used to deteremine wether to display delete item button or not
-    // const currentUser = React.useContext(UserContext)
+    // get current user from UserContext
+    const { currentUser } = React.useContext(UserContext)
+    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    // const { jwt } = currentUser as  UserInterface
+    const userRole = currentUser?.role == "USER" ? "user" : "admin"
+    // const userRole = "admin"
 
 
     const handleEditReviewButtonClick = () => {
@@ -123,14 +126,12 @@ const ItemReview: React.FC<{
                 <Card.Text>
                     {itemReview.body}
                 </Card.Text>
-            </Card.Body>
-            <Card.Footer>
                 <Button 
                     variant="primary"
+                    
                     onClick={handleEditReviewButtonClick}
                 >Edit Review</Button>
-                {/* <Button variant="danger">Delete Review</Button> */}
-            </Card.Footer>
+            </Card.Body>
         </Card>
 
         <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
@@ -140,15 +141,6 @@ const ItemReview: React.FC<{
             <Modal.Body>
                 <Card style={{ width: '14rem' }} className="m-1">
                 <Card.Header>
-                    {/* <div>
-                        {itemReview.title}
-                    </div>
-                    <div>
-                        {itemReview.item.name}
-                    </div>
-                    <div>
-                        Rating: {itemReview.rating}
-                    </div> */}
                 </Card.Header>
                 {/* <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/> */}
                 <Card.Body>
@@ -190,7 +182,9 @@ const ItemReview: React.FC<{
                         variant="primary"
                         onClick={handleSaveReveiwUpdate}
                     >Save Changes</Button>
-                    {/* <Button variant="danger">Delete Review</Button> */}
+                    {/* <Button 
+                        variant="danger"
+                    >Delete Review</Button> */}
                 </Card.Footer>
             </Card>
         </Modal.Body>
