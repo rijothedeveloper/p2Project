@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { Container, Form } from "react-bootstrap"
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
-// import Collection from "./Collection";
 // import ReviewList from "./ReviewList";
+import CollectionList from "./CollectionList";
 
 export const Dashboard: React.FC = () => {
 
@@ -65,9 +65,9 @@ export const Dashboard: React.FC = () => {
             <Container id="collection-review-container">
                 {/* Conditionally render my collection or my reviews based on currentView */}
                 { currentView === "myCollection"
-                // ? (<Collection />)
+                ? (<CollectionList />)
                 // : <ReviewList 
-                ? <h2>CollectionList</h2>
+                // ? <h2>CollectionList</h2>
                 : <h2>ReviewList</h2>
                 }
             </Container>
