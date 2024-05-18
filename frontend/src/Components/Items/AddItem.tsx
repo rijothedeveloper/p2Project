@@ -10,7 +10,7 @@ import { UserContext } from "../../Contexts/UserContext";
 export const AddItem: React.FC = () => {
 
     const navigate = useNavigate()
-
+    const { currentUser } = useContext(UserContext)
     const[item, setItem] = useState<ItemInterface>({
         // Set the default values of the input fields
         name:"",
@@ -28,10 +28,9 @@ export const AddItem: React.FC = () => {
         }))
     }
     
-    let jwt = JSON.parse(localStorage.getItem("currentUser") || '{}').jwt;
-
     const addItem = async () => {
         // Add item to the database
+        const jwt = currentUser?.jwt;
         const response = await axios.post("http://localhost:8080/items", item, {headers: {Authorization: `Bearer ${jwt}`}})
         .then((response) => {      
             alert("Item added successfully");
