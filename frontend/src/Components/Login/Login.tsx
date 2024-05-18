@@ -38,7 +38,7 @@ export const Login: React.FC = () => {
           alert("Welcome!");
           setCurrentUser(response);
         }
-        navigate("/itemsbycategory")
+        //navigate("/itemsbycategory")
 
     }
 
