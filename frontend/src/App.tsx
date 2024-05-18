@@ -14,8 +14,6 @@ import { UserProvider } from './Contexts/UserProvider';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
 
->>>>>>>>> Temporary merge branch 2
-
 function App() {
 
     const [currentUser, setCurrentUser] = useState<UserInterface|null>(null);
