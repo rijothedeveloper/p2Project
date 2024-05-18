@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReviewDAO extends JpaRepository<Review,Integer> {
 
@@ -15,4 +17,5 @@ public interface ReviewDAO extends JpaRepository<Review,Integer> {
 //    @Transactional
 //    @Query("delete from Review r where r.user.userId = :userId")
 //    void deleteByReviewsUserId(int userId);
+    public List<Review> findAllByUserId(int Id);
 }
