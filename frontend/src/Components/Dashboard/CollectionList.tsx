@@ -1,6 +1,6 @@
 import * as React from "react"
 import axios from "axios"
-// import CollectionItem from "./CollectionItem"
+import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
 import { useNavigate } from "react-router-dom"
 import { Container, Row, Form } from "react-bootstrap"
@@ -22,25 +22,31 @@ git restore  backend/p2Backend/.idea/workspace.xml
 */
 
 
-// // create list of mock items
-// const item: ItemInterface = {
-//     id: 9,
-//     name: "Book",
-//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
-//     rating: 2.5
-// }
+// create list of mock items
+const item: ItemInterface = {
+    id: 9,
+    name: "Book",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
+    rating: 2.5,
+    category: "Books",
+    description: "book",
+    producer_id: 1
+}
 
-// const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
+const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
 
-// const mockCollection: ItemInterface[] = [];
-// for(let i = 0; i < 7; i++) {
-//     mockCollection.push({
-//         id: item.id + i, 
-//         image: item.image,
-//         name: itemNames[i],
-//         rating: item.rating + i*0.3
-//     })
-// }
+const mockCollection: ItemInterface[] = [];
+for(let i = 0; i < 7; i++) {
+    mockCollection.push({
+        id: item.id as number + i, 
+        image: item.image,
+        name: itemNames[i],
+        rating: item.rating as number + i*0.3,
+        category: item.category,
+        description: item.description,
+        producer_id: item.producer_id
+    })
+}
 
 // // create mock user
 const user = {
@@ -115,7 +121,7 @@ const Collection: React.FC<{}> = () => {
 //         // getUserCollection()
 
         // TODO REMOVE line below
-        // setCollection(mockCollection)
+        setCollection(mockCollection)
 
     }, [])
 
@@ -146,12 +152,11 @@ const Collection: React.FC<{}> = () => {
                          .filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase())> -1)
                          .map(item => {
                          return (
-                            //  <CollectionItem 
-                            //      key = { item.id }
-                            //      item = { item } 
-                            //      handleDeleteItem= { handleDeleteItem }
-                            //  />
-                            <p>Item</p>
+                             <CollectionItem 
+                                 key = { item.id }
+                                 item = { item } 
+                                 handleDeleteItem= { handleDeleteItem }
+                             />
                         )
                      })}
                  </Row>
