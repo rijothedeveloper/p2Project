@@ -30,6 +30,7 @@ const buildAuthHeader = (token: string) => {
     });
 };
 
+
 // CollectionController
 const myCollectionEndpoint = "/collections/my_collection";
 
@@ -48,6 +49,7 @@ export const getCollection = async (token: string) => {
         // Handle error response
     });
 };
+
 
 // FollowController
 

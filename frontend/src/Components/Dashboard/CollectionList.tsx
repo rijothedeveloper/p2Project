@@ -28,7 +28,7 @@ const item: ItemInterface = {
     rating: 2.5,
     category: "Books",
     description: "book",
-    producer_id: 1
+    producerId: 1
 }
 
 const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
@@ -42,7 +42,7 @@ for(let i = 0; i < 7; i++) {
         rating: item.rating as number + i*0.3,
         category: item.category,
         description: item.description,
-        producer_id: item.producer_id
+        producerId: item.producerId
     })
 }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
@@ -62,7 +62,7 @@ const Collection: React.FC<{}> = () => {
     const [ nameFilter, setNameFilter ] = React.useState("")
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
-    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
 
     // get role and jwt of current user
@@ -89,7 +89,7 @@ const Collection: React.FC<{}> = () => {
         const getUserCollection = async () => {
 
             console.log(`ROLE: ${userRole}`)
-            console.log(`JWT: ${jwt}`)
+            console.log(`JWT BEFORE GETTING COLLECTION: ${jwt}`)
             // get collection based on role
             const collection: unknown = userRole == "user"
                 // if the role is user only get the items of the current user
@@ -97,14 +97,16 @@ const Collection: React.FC<{}> = () => {
                 // if the role is admin get all items
                 : await getAllItems(jwt as string )
 
-            // set collection state
-            setCollection(collection as ItemInterface[])
+            // // set collection state
+            // setCollection(collection as ItemInterface[])
+
+            console.log(`COLLECTION: ${JSON.stringify(collection)}`)
         }
 
         
 //         // TODO uncomment invoking getCollection()
 //         // invoke getCollection function
-        // getUserCollection()
+        getUserCollection()
 
         // TODO REMOVE line below
         setCollection(mockCollection)

@@ -36,6 +36,8 @@ export const Login: React.FC = () => {
           alert(response);
         } else {
           alert("Welcome!");
+          console.log(`LOGIN RESPONSE`)
+          console.log(JSON.stringify(response));
           setCurrentUser(response);
           // navigate("/dashboard")
         }
