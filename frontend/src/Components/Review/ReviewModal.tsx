@@ -17,8 +17,6 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
     const [thisReview, setThisReview] = useState<ReviewInterface>(review)
     const [replies, setReplies] = useState<ReplyInterface[]>([])
 
-    const [replyCollection, setReplyCollection] = useState([])
-
     //When the review loads then we need to fetch all replies for the current review.  Then we can properly map the replies to the reply component.
     const fetchReplies = getAllRepliesByReview
     const { currentUser } = useContext(UserContext)
@@ -41,7 +39,7 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                         <div className="modal-body">
                             <p>{review.body}</p>
                           <h3>Replies</h3>
-                          {replyCollection.map((reply:any) => {return(<Reply {...reply} key={reply.replyID}/>)})}
+                          {replies.map((reply:any) => {return(<Reply {...reply} key={reply.replyID}/>)})}
                         </div>
                         <div className="modal-footer">
                             <span>{<ReactToReview/>}{thisReview.score}</span>
