@@ -1,3 +1,5 @@
+import { ProducerInterface } from "./ProducerInterface";
+
 export interface ItemInterface {
     id?:number,
     category:string,
@@ -5,6 +7,8 @@ export interface ItemInterface {
     image?:string,
     name:string,
     rating?:number,
-    producer_id:number
     producer?: ProducerInterface;
+    //producer_id?:number
+    producerId?:number
+
 }
