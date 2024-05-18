@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.daos.ProducerDAO;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -32,13 +34,16 @@ public class ItemService {
             throw new IllegalArgumentException("Item Description cannot be empty");
         }
 
-        if(itemdto.getCategory().isBlank() || itemdto.getCategory() == null){
+        if(itemdto.getCategory().isBlank() || itemdto.getCategory() == null) {
             throw new IllegalArgumentException("Item Category cannot be empty");
         }
 
-        Producer producer = producerDAO.findById(itemdto.getProducerId()).orElseThrow(()-> new IllegalArgumentException("No producer exists with Id: " + itemdto.getProducerId()));
+        Optional<Producer> producer = producerDAO.findById(itemdto.getProducerId());
+        if (producer.isEmpty()) {
+            throw new IllegalArgumentException("No producer found for ID: " + itemdto.getProducerId());
+        }
 
-        Item item = new Item(itemdto.getName(), producer, itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
+        Item item = new Item(itemdto.getName(), producer.get(), itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
         itemDAO.save(item);
         return item;
     }
