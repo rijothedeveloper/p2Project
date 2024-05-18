@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.stereotype.Component;
@@ -32,25 +33,34 @@ public class Review {
     @Column
     private double rating;
 
+    @Column
+    private int score;
+
+    // added to prevent looping while reviewing item
+    @JsonIgnore
     @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
+    // added to prevent looping while reviewing item
+    @JsonIgnore
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Reply> replies; 
+  
     @Column(nullable = false)
     @CurrentTimestamp
     private String timestamp;
-
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Reply> replies;
+  
     public Review() {
     }
 
-    public Review(int id, String title, String body, User user, Item item, double rating, List<Score> scores, String timestamp, List<Reply> replies) {
+    public Review(int id, String title, String body, User user, Item item, double rating, int score, List<Score> scores, String timestamp, List<Reply> replies) {
         this.id = id;
         this.title = title;
         this.body = body;
         this.user = user;
         this.item = item;
         this.rating = rating;
+        this.score = score;
         this.scores = scores;
         this.timestamp = timestamp;
         this.replies = replies;
@@ -104,13 +114,6 @@ public class Review {
         this.rating = rating;
     }
 
-    public List<Score> getScore() {
-        return scores;
-    }
-
-    public void setScore(List<Score> scores) {
-        this.scores = scores;
-    }
 
     public String getTimestamp() {
         return timestamp;
@@ -120,8 +123,13 @@ public class Review {
         this.timestamp = timestamp;
     }
 
-    public List<Score> getScores() {
-        return scores;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setScores(List<Score> scores) {
@@ -135,6 +143,11 @@ public class Review {
     public void setReplies(List<Reply> replies) {
         this.replies = replies;
     }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
 
     @Override
     public String toString() {
