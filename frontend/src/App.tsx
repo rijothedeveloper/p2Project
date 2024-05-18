@@ -14,6 +14,7 @@ import { UserProvider } from './Contexts/UserProvider';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
 
+>>>>>>>>> Temporary merge branch 2
 
 function App() {
 
@@ -28,6 +29,8 @@ function App() {
                         //for fithub pages deployment
                         <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/user/:userId?" element={<UserDetails />} />
+                        <Route path="/review/:userId" element={<AllRevByUser/>}/>
                         <Route path="/allusers" element={<AllUsers />} />
                         <Route path = "/additem" element={<AddItem />} />
                         <Route path="/" element={<Layout />}>
