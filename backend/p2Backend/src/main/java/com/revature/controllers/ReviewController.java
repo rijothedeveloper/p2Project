@@ -55,20 +55,4 @@ public class ReviewController {
         }
     }
 
-
-
-
-
-
-    //This method will return a List of outbound review DTOs that all belong to a userId
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getAllRevByUserId(@PathVariable int userId) {
-        //TODO: Login security checks
-
-        try {
-            return ResponseEntity.ok(reviewService.getAllRevByUserId(userId));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 }
