@@ -1,20 +1,23 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { wait } from "@testing-library/user-event/dist/utils";
 import axios from "axios";
+import { useAuth } from "../../globalData/AuthContextType";
+import { UserContext } from "../../Contexts/UserContext";
 
 export const AddItem: React.FC = () => {
 
     const navigate = useNavigate()
+
     const[item, setItem] = useState<ItemInterface>({
         // Set the default values of the input fields
         name:"",
         category: "",
         description: "",
         image: "",
-        producer_id: 0
+        producerId: 0
     })
     
     // Store the values of the input fields
@@ -24,18 +27,22 @@ export const AddItem: React.FC = () => {
             [input.target.name]: input.target.value
         }))
     }
+    
+    let jwt = JSON.parse(localStorage.getItem("currentUser") || '{}').jwt;
 
     const addItem = async () => {
         // Add item to the database
-        const resposne = await axios.post("http://localhost:8080/items", item)
+        const response = await axios.post("http://localhost:8080/items", item, {headers: {Authorization: `Bearer ${jwt}`}})
         .then((response) => {      
-            console.log(response.data)
-            //navigate("/allitems")
+            alert("Item added successfully");
+            
+            //navigate("/allitems");
         })
         .catch((error) => {
-            alert("Failed to add the item")
-        })
-    }
+            console.log(error);
+            alert(error.response.data);
+        });
+    };
 
     return (
         <div className="additem">
@@ -83,7 +90,7 @@ export const AddItem: React.FC = () => {
                         <Form.Control type="text" id="floatingImage" name="image" onChange={storeValues} placeholder="Image"/>
                     </FloatingLabel>
                     <FloatingLabel label="Producer ID">
-                        <Form.Control type="number" id="floatingProducer_id" name="producer_id" onChange={storeValues} placeholder="Producer ID"/>
+                        <Form.Control type="number" id="floatingProducer_id" name="producerId" onChange={storeValues} placeholder="Producer ID"/>
                     </FloatingLabel>
                 </div>
 
