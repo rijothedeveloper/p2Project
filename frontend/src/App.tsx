@@ -11,6 +11,8 @@ import { Layout } from './Components/Layout/Layout';
 import { AllUsers } from './Components/Users/AllUsers';
 import { UserProvider } from './Contexts/UserProvider';
 import { Dashboard } from './Components/Dashboard/Dashboard';
+import { AddItem } from './Components/Items/AddItem';
+
 
 function App() {
 
@@ -26,6 +28,7 @@ function App() {
                         <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/allusers" element={<AllUsers />} />
+                        <Route path = "/additem" element={<AddItem />} />
                         <Route path="/" element={<Layout />}>
                             {/* Include all routes with a navbar below */}
                             <Route path="dashboard" element={< Dashboard />} />

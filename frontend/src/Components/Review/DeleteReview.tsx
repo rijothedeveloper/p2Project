@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteReviewByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
 
-export const DeleteReview: React.FC = (review:any) => {
+export const DeleteReview: React.FC<any> = (review:any) => {
 
 
     //We are given the review information from the parent component and we will need the review ID for the html call.
@@ -24,6 +24,7 @@ export const DeleteReview: React.FC = (review:any) => {
     const handleCloseConfirm = () => {
         setShow(false)
         deleteReview(currentUser?.jwt as string,review.id)
+        .then(() => {navigate("/")})
     }
 
 

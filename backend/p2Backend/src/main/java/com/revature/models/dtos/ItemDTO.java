@@ -66,6 +66,7 @@ public class ItemDTO {
                 ", producerId=" + producerId +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }
