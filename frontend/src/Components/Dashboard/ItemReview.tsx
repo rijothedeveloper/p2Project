@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { baseURL } from "../../FrontendAPI/api";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
+import { ItemInterface } from "../../Interfaces/ItemInterface";
+
+
+interface ItemReviewInterface extends ReviewInterface {
+    item: ItemInterface
+}
+
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
@@ -23,11 +30,10 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 /*
     This component will display a review
 */
-const Review: React.FC<{
-    review: ReviewInterface
-}> = ({ review }) => {
+const ItemReview: React.FC<{
+    itemReview: ItemReviewInterface
+}> = ({ itemReview }) => {
     
-    // const navigate = useNavigate();
 
 
     // TODO: uncomment
@@ -37,15 +43,26 @@ const Review: React.FC<{
 
     return (
         <Card style={{ width: '14rem' }} className="m-1">
-            <Card.Img variant="top" src="" className="mt-2"/>
+            <Card.Header>
+                <div>
+                    {itemReview.title}
+                </div>
+                <div>
+                    {itemReview.item.name}
+                </div>
+                <div>
+                    Rating: {itemReview.rating}
+                </div>
+            </Card.Header>
+            <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/>
             <Card.Body>
-                <Card.Title>{  }</Card.Title>
+                {/* <Card.Title>{itemReview.title}</Card.Title> */}
                 <Card.Text>
-
+                    {itemReview.body}
                 </Card.Text>
             </Card.Body>
         </Card>
     )
 }
 
-export default Review
+export default ItemReview
