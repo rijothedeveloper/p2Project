@@ -6,4 +6,5 @@ export interface ItemInterface {
     name:string,
     rating?:number,
     producer_id:number
+    producer?: ProducerInterface;
 }

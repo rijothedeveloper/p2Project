@@ -9,17 +9,22 @@ import { useState } from 'react';
 import { UserInterface } from './Interfaces/UserInterface';
 import { Layout } from './Components/Layout/Layout';
 import { AllUsers } from './Components/Users/AllUsers';
+import { UserProvider } from './Contexts/UserProvider';
+import { ItemsByCategory } from './Components/Items/ItemsByCategory';
 
 function App() {
 
     const [currentUser, setCurrentUser] = useState<UserInterface|null>(null);
 
     return (
+        <UserProvider>
         <div className="App">
-            <UserContext.Provider value={{currentUser, setCurrentUser}}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Login />} />
+                        <Route path="/itemsbycategory" element={<ItemsByCategory />} />
+                        //for github pages deployment
+                        <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/allusers" element={<AllUsers />} />
                         <Route path="/" element={<Layout />}>
@@ -29,8 +34,8 @@ function App() {
                         </Route>
                     </Routes>
                 </BrowserRouter>
-            </UserContext.Provider>
         </div>
+        </UserProvider>
     );
 }
 

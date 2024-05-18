@@ -16,9 +16,8 @@ export const Login: React.FC = () => {
 
     const[UserInterface, setUser] = useState<UserInterface>({
         username:"",
-        password:"",
-        jwt:""
-    })
+        password:""
+      })
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
     const storeValues = (input: any) => {
@@ -38,8 +37,8 @@ export const Login: React.FC = () => {
         } else {
           alert("Welcome!");
           setCurrentUser(response);
-          // navigate("/dashboard")
         }
+        navigate("/itemsbycategory")
 
     }
 
@@ -81,14 +80,14 @@ export const Login: React.FC = () => {
 
                 <div className="mb-3">
                   <FloatingLabel controlId="floatingUsername" label="Username">
-                    <Form.Control type="text" id="floatingUsername" name="username" onChange={storeValues} placeholder="JohnDoe"/>
+                    <Form.Control type="text" name="username" onChange={storeValues} placeholder="JohnDoe"/>
                   </FloatingLabel>
                 </div>
 
                 <div className="mb-3">
                   <InputGroup>
                     <FloatingLabel controlId="floatingPassword" label="Password">
-                      <Form.Control type={passwordIsVisible ? "text": "password"} id="floatingPassword" name="password" onChange={storeValues} placeholder="Password" />
+                      <Form.Control type={passwordIsVisible ? "text": "password"} name="password" onChange={storeValues} placeholder="Password" />
                     </FloatingLabel>
                     <Button onClick={togglePasswordVisibility} id="passwordVisibility">
                       {passwordIsVisible ? <BsEye className="fs-3"/> : <BsEyeSlash className="fs-3"/>}

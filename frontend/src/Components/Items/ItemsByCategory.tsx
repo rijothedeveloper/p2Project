@@ -1,45 +1,86 @@
 import axios from "axios"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import { ItemInterface } from "../../Interfaces/ItemInterface";
 
-export const ItemsByCategory: React.FC = ()=>{
-//A variable to store user input for finding a pokemon
-const [userInput, setUserInput] = useState("")
+export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
 
-const { userData } = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const [category, setCategory] = useState('');
+    const [items, setItems] = useState<ItemInterface[]>([]);
 
-//we need our useNavigate hook to programmatically switch endpoints (which switches components)
-const navigate = useNavigate()
 
-//a function that stores the user input (Which we need for our GET request)
-const gatherInput = (input:any) => {
-    setUserInput(input.target.value) //set the userInput to what's in the input box
-}
+    console.log(currentUser?.jwt)
+    
+    // Fetch items whenever the category changes
+    useEffect(() => {
+            const fetchItems = async () => {
+                try {
+                    const response = await axios.get("http://localhost:8080/items/"+ category, {
+                        headers: {
+                            'Authorization': "Bearer " + currentUser?.jwt // Use the token from context
+                        }
+                    });
+                  
+                    console.log(response)
+                    setItems(response.data);
+                } catch (error) {
+                    console.error('Error fetching items:', error);
+                }
+            };
+            
 
-//a function that sends a GET to PokeAPI based on the user's input
-const getItemByCategory= async () => {
+            fetchItems();
+    }, [category, currentUser]);
 
-    console.log(userInput)
 
-    //sending our request to pokeAPI using the userInput as the pokemon id to search for
-    const response = await axios.get("http://localhost:8080/" + userInput, 
-    {
-      withCredentials: true,
-      headers: {
-        'Authorization': 'Bearer: ' + userData.jwt
-      }
-    }
-  )
-}
-
+    // Handle category change
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(event.target.value);
+    };
+    
     return (
         <div>
-                 <h3>Search For a Pokemon!</h3>
-                <input type="number" placeholder="Enter Pokemon ID" onChange={gatherInput}/>
-
+            <select id="category" name="category" onChange={handleCategoryChange}>
+                {/* Dropdown for selecting Category */}
+                <option value="">Select a category</option>
+                <option value="health">HEALTH</option>
+                <option value="beauty">BEAUTY</option>
+                <option value="food">FOOD</option>
+                <option value="shoes">SHOES</option>
+                <option value="furniture">FURNITURE</option>
+            </select>
+            <div>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>image</th>
+                            <th>Item ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Rating</th>
+                            <th>Category</th>
+                            <th>Producer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.map((item, index) => (
+                            <tr key={index}>
+                                <td><img src={`/Category/shoes/${item.name}.png`} /> </td>
+                                <td>{item.id}</td>
+                                <td>{item.name}</td>
+                                <td>{item.description}</td>
+                                <td>{item.rating}</td>
+                                <td>{item.category}</td>
+                                <td>{item.producer?.name}</td>
+                               
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+            </div>
         </div>
-    )
-
+    );
 }
