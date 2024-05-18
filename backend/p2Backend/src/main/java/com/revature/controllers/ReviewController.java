@@ -27,18 +27,13 @@ public class ReviewController {
         this.reviewService = reviewService;
         this.tokenUtil = tokenUtil;
     }
+    //Post to add a review based on an item Id
+    //This takes Item Id as a path variable then gets the JWT and finds the user from the extractUserId function from JwtTokenUtil
     @PostMapping("/{itemId}")
     public ResponseEntity<?> reviewItem(@RequestBody ReviewDTO review, @PathVariable int itemId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7); //remove "Bearer " from the token
         System.out.println(jwt);
         int userId = tokenUtil.extractUserId(jwt); //send the jwt to the util to extract userId
-
-        if (review.getTitle() == null || review.getTitle().trim().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Title must not be empty.");
-        }
-        if (review.getBody() == null || review.getBody().trim().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Body must not be empty.");
-        }
         try{
             return ResponseEntity.ok(reviewService.saveReview(review, itemId, userId));
         }catch (Exception e){

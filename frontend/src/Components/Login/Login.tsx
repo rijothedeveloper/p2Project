@@ -1,20 +1,28 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import axios from "axios"
-import { Container } from "react-bootstrap";
+import { useAuth } from "../../globalData/AuthContextType"
+import { UserContext } from "../../Contexts/UserContext";
+import { login } from "../../FrontendAPI/api";
+import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
+import { BsEye, BsEyeSlash } from "react-icons/bs";
 
 
 export const Login: React.FC = () => {
       // TODO: On successful login, set the current user
   
     const navigate = useNavigate()
+    const { setJwt } = useAuth()
+
+    const { setCurrentUser } = useContext(UserContext)
 
     const[UserInterface, setUser] = useState<UserInterface>({
         username:"",
         password:"",
         jwt:""
     })
+    const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
     const storeValues = (input: any) => {
         setUser((UserInterface:UserInterface ) => ({
@@ -22,35 +30,31 @@ export const Login: React.FC = () => {
             [input.target.name]: input.target.value
         }))
     }
-
-    // // other frontend pages need to use like this for using jwt
-    // const response = await axios.post("http://localhost:8080/____", UserInterface, {
-    //     headers: {
-    //         "Authorization": "Bearer " + UserInterface.jwt
-    //     }
-    // })
-    // .then()
-    // //... your code
-
-
+    const togglePasswordVisibility: React.MouseEventHandler<HTMLButtonElement> = () => {
+      setPasswordIsVisible(!passwordIsVisible);
+  }
 
     const login_request = async () => {
         const response = await axios.post("http://localhost:8080/users/login", UserInterface)
-        .then((respone)=>{
-            console.log(respone.data.jwt)
+        .then((response)=>{
+          setCurrentUser(response.data)
+            setJwt(response.data.jwt);
+            console.log(response.data.jwt)
 
             // need to fix later to moving another page instead of alert
             alert("Welocome!")
+
             navigate("/reviewModalTest")
             // navigate("/")
+
+            navigate("/allusers")
         }).catch((error)=>{
             if (error.response) {
                 alert(error.response.data);
             } else {
                 alert('Failed to login');
             }
-        }) 
-        
+        })
     }
 
   
@@ -69,6 +73,9 @@ export const Login: React.FC = () => {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">Home</a>
               </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/allusers">all users</a>
+             </li>
               <li className="nav-item">
                 <a className="nav-link" href="/">Login</a>
               </li>
@@ -89,18 +96,25 @@ export const Login: React.FC = () => {
                 <h2 className="card-title text-center mb-4">Login to your Account</h2>
 
                 <div className="mb-3">
-                  <label htmlFor="username" className="form-label">Username:</label>
-                  <input type="text" id="username" name="username" value={UserInterface.username} onChange={storeValues} className="form-control" />
+                  <FloatingLabel controlId="floatingUsername" label="Username">
+                    <Form.Control type="text" id="floatingUsername" name="username" onChange={storeValues} placeholder="JohnDoe"/>
+                  </FloatingLabel>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password:</label>
-                  <input type="password" id="password" name="password" value={UserInterface.password} onChange={storeValues} className="form-control" />
+                  <InputGroup>
+                    <FloatingLabel controlId="floatingPassword" label="Password">
+                      <Form.Control type={passwordIsVisible ? "text": "password"} id="floatingPassword" name="password" onChange={storeValues} placeholder="Password" />
+                    </FloatingLabel>
+                    <Button onClick={togglePasswordVisibility} id="passwordVisibility">
+                      {passwordIsVisible ? <BsEye className="fs-3"/> : <BsEyeSlash className="fs-3"/>}
+                    </Button>
+                  </InputGroup>
                 </div>
 
-                <div className="d-grid gap-2">
+                <div className="d-flex flex-row ms-3">
                   <button className="btn btn-primary" onClick={login_request}>Login</button>
-                  <button className="btn btn-secondary mt-2" onClick={() => navigate("/register")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>Go to Register</button>
+                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/register")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>Go to Register</button>
                 </div>
               </div>
             </div>
