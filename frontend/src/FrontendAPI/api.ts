@@ -2,8 +2,10 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
+import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
+
 
 // Current base URL
 const baseURL = "http://localhost:8080";
@@ -161,6 +163,22 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 };
 
 // ReplyController
+const fetchRepliesEndpoint = "/replies";
+
+/**
+ * Get all replies for a review
+ * @param token - JWT token
+ * @param ID - ID of the review to fetch replies for
+ */
+export const getAllRepliesByReview = async (token: string, ID: number) => {
+    const url = apiURL(`${fetchRepliesEndpoint}/${ID}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {alert(error)});
+};
 const replyControllerEndpoint = "/replies";
 const addReplyEndpoint = replyControllerEndpoint;
 
@@ -180,10 +198,27 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+
 };
 
-
 // ReviewController
+const deleteReviewEndpoint = "/reviews";
+
+/**
+ * Delete review by ID
+ * @param token - JWT token
+ * @param reviewid - ID of the review to delete
+ */
+export const deleteReviewByID = async (token: string, reviewid: number) => {
+    const url = apiURL(`${deleteUserEndpoint}/${reviewid}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.delete(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {alert(error)});
+};
+
 
 // ScoreController
 
@@ -194,28 +229,24 @@ const findUserByUsernameEndpoint = "/users";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
-    const response = await axios.post<UserInterface>(url, user)
-    .then((response: AxiosResponse<UserInterface>) => {
+    try {
+        const response = await axios.post<UserInterface>(url, user);
         return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
+    } catch (error: any) {
         return error.message ? error.message: "Failed to login";
-    });
-    return "Failed to login!";
+    }
 };
 
 export const register = async (user: UserInterface): Promise<string|boolean> => {
     const url = apiURL(registerEndpoint);
-    const response = await axios.post<undefined>(url, user)
-    .then((response: AxiosResponse<undefined>) => {
+    try {
+        const response = await axios.post<undefined>(url, user);
+        console.log("Successfully registered user!");
         return true;
-    })
-    .catch((error: AxiosError) => {
+    } catch (error: any) {
         return error.message ? error.message: "Failed to register!";
-    });
-    return "Failed to register!";
-}
+    }
+};
 
 /**
  * Find a user by username
@@ -232,4 +263,21 @@ export const findUserByUsername = async (token: string, username: string) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+};
+
+const deleteUserEndpoint = "/users";
+
+/**
+ * Delete user by ID
+ * @param token - JWT token
+ * @param userid - ID of the user to delete
+ */
+export const deleteUserByID = async (token: string, userid: number) => {
+    const url = apiURL(`${deleteUserEndpoint}/${userid}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.delete(url, {headers: authHeader})
+    .then((response: AxiosResponse) => {
+        return response.data;
+    })
+    .catch((error: AxiosError) => {alert(error)});
 };

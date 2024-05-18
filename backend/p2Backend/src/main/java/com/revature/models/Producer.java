@@ -1,6 +1,7 @@
 package com.revature.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ public class Producer {
     @Column(nullable = false)
     private String description;
 
+    // added to prevent looping while reviewing item
+    @JsonIgnore
     @OneToMany(mappedBy = "producer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Item> items;
 

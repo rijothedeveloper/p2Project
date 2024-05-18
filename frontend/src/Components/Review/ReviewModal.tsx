@@ -1,4 +1,8 @@
-import { useState } from "react"
+import axios from "axios"
+import { useContext, useEffect, useState } from "react"
+import { Reply } from "../Replies/Reply"
+import { getAllRepliesByReview } from "../../FrontendAPI/api"
+import { UserContext } from "../../Contexts/UserContext"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import StarRating from "./StarRating"
 import { ReplyInterface } from "../../Interfaces/ReplyInterface"
@@ -12,14 +16,17 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
     const [thisReview, setThisReview] = useState<ReviewInterface>(review)
     const [replies, setReplies] = useState<ReplyInterface[]>([])
 
+    const [replyCollection, setReplyCollection] = useState([])
+
+    //When the review loads then we need to fetch all replies for the current review.  Then we can properly map the replies to the reply component.
+    const fetchReplies = getAllRepliesByReview
+    const { currentUser } = useContext(UserContext)
+
+    useEffect(() => {
+        fetchReplies(currentUser?.jwt as string,4)//Review ID needed
+    }, [])
+
     return (
-        <div>
-            {/**
-             * If you are the owner of this review we include the Delete Review component.  We need to pass it the review ID at least and possibly a function to refresh
-             * the view of wherever we were when the review was deleted.  Without that information the view displaying the review will still show and might confuse users.
-             * Alternatively we could close the review modal when the delete button is pressed (we will be opening up a new modal) and then simply refresh the content.
-             */}
-        
             <div className="modal fade" id="reviewModal" tabIndex={-1} aria-labelledby="reviewModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
@@ -31,6 +38,9 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                         </div>
                         <div className="modal-body">
                             <p>{review.body}</p>
+                          {/**This is where the review information would go and the delete component if you own the review. */}
+                          <h3>Replies</h3>
+                          {replyCollection.map((reply:any) => {return(<Reply {...reply} key={reply.replyID}/>)})}
                         </div>
                         <div className="modal-footer">
                             <span>{<ReactToReview/>}{thisReview.score}</span>
@@ -42,6 +52,5 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                     </div>
                 </div> 
             </div>
-        </div>
     )
 }

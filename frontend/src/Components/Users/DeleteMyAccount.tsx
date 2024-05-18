@@ -1,8 +1,12 @@
 import axios from "axios"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { deleteUserByID } from "../../FrontendAPI/api";
+import { UserContext } from "../../Contexts/UserContext";
+
+
 
 export const DeleteMyAccount: React.FC = () => {
 
@@ -15,15 +19,11 @@ export const DeleteMyAccount: React.FC = () => {
     //This button will exist in the navbar since we want all users to be able to delete their own account at any point.  Hopefully the backend will handle the deletion of all replies and reviews but if not then we can handle it here if an endpoint is set up for it.
 
     const navigate = useNavigate();
+    const { currentUser } = useContext(UserContext)
 
-    const deleteOwnAccount = async () => {
-        //This function will run the html call to delete an account passing in the current users information so the backend can handle the deletion.
+    
 
-        const response = axios.delete("HTMLADDRESSNEEDSFIXING", {withCredentials:true}) //We need to know what to pass where and if there is data in the request body that needs to be sent.
-        .then((response) => {alert(response.data)})  //for now alert any message returned from the delete command
-        .then(() => {navigate("/")})  //then go back to the main splash page.  We also need to end their session and reset any variables associated with such.
-        .catch((error) => {alert(error.response.data)})  //If there is an error then display the error in an alert.  Likely to change.  
-    }
+
 
 
     const [show, setShow] = useState(false);
@@ -31,7 +31,9 @@ export const DeleteMyAccount: React.FC = () => {
     const handleShow = () => setShow(true);
     const handleCloseConfirm = () => {
         setShow(false)
-        deleteOwnAccount()
+        deleteUserByID(currentUser?.jwt as string,currentUser?.id as number)
+        .then() //Delete user session, call whatever logout does
+        .then(() => {navigate("/")})
     }
 
 
