@@ -10,6 +10,7 @@ import { UserInterface } from './Interfaces/UserInterface';
 import { Layout } from './Components/Layout/Layout';
 import { AllUsers } from './Components/Users/AllUsers';
 import { UserProvider } from './Contexts/UserProvider';
+import { ItemsByCategory } from './Components/Items/ItemsByCategory';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
 
@@ -20,11 +21,12 @@ function App() {
 
     return (
         <UserProvider>
-            <div className="App">
+        <div className="App">
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Login />} />
-                        //for fithub pages deployment
+                        <Route path="/itemsbycategory" element={<ItemsByCategory />} />
+                        //for github pages deployment
                         <Route path="/p2project" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/allusers" element={<AllUsers />} />
@@ -36,7 +38,7 @@ function App() {
                         </Route>
                     </Routes>
                 </BrowserRouter>
-            </div>
+        </div>
         </UserProvider>
     );
 }
