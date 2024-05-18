@@ -233,29 +233,24 @@ const findUserByUsernameEndpoint = "/users";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
-    console.log(user)
-    const response = await axios.post<UserInterface>(url, user)
-    .then((response: AxiosResponse<UserInterface>) => {
+    try {
+        const response = await axios.post<UserInterface>(url, user);
         return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
+    } catch (error: any) {
         return error.message ? error.message: "Failed to login";
-    });
-    return "Failed to login!";
+    }
 };
 
 export const register = async (user: UserInterface): Promise<string|boolean> => {
     const url = apiURL(registerEndpoint);
-    const response = await axios.post<undefined>(url, user)
-    .then((response: AxiosResponse<undefined>) => {
+    try {
+        const response = await axios.post<undefined>(url, user);
+        console.log("Successfully registered user!");
         return true;
-    })
-    .catch((error: AxiosError) => {
+    } catch (error: any) {
         return error.message ? error.message: "Failed to register!";
-    });
-    return "Failed to register!";
-}
+    }
+};
 
 /**
  * Find a user by username
