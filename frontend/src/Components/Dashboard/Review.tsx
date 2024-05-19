@@ -1,9 +1,7 @@
 import * as React from "react"
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
-import { baseURL } from "../../FrontendAPI/api";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 
 
@@ -15,7 +13,6 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 //     jwt: "token"
 // }
 
-// const baseUrl = "localhost:3000"
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************
 
 
