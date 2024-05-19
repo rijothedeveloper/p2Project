@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../Contexts/UserContext";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 import { getItemsByCategory } from "../../FrontendAPI/api";
+import { capitalize } from "../../Utils/StringUtils";
 
 export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
 
@@ -30,7 +31,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
     // Get list of categories when items are updated
     useEffect(() => {
         const categories = items.map((item) => {
-            return item.category.toLowerCase();
+            return item.category;
         });
         setCategoryOptions(Array.from(new Set(categories)));
     }, [items])
@@ -47,7 +48,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
                 <option value="">Select a category</option>
                 {categoryOptions.map((category) => {
                     return (
-                        <option value={category}>{category}</option>
+                        <option value={category}>{capitalize(category)}</option>
                     )
                 })}
             </select>
