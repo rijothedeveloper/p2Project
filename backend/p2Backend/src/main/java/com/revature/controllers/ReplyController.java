@@ -37,4 +37,20 @@ public class ReplyController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
+
+    /**
+     * Handles the HTTP DELETE request to delete a reply.
+     *
+     * @param id The ID of the reply to be deleted.
+     * @return ResponseEntity containing a success message or an error message.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteReply(@PathVariable int id) {
+        try {
+            replyService.deleteReply(id);
+            return ResponseEntity.ok().body("Reply deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 }
