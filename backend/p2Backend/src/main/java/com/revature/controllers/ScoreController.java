@@ -42,8 +42,8 @@ public class ScoreController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
-
-    @PutMapping("/{reviewId}")
+    //@PutMapping("/{reviewId}")
+    @PutMapping("/update/{reviewId}")
     public ResponseEntity<Object> updateVote(@PathVariable int reviewId, @RequestBody int vote, @RequestHeader("Authorization") String token ){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
@@ -58,8 +58,8 @@ public class ScoreController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
-
-    @DeleteMapping("/{reviewId}")
+    //@DeleteMapping("/{reviewId}")
+    @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<Object> deleteVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
@@ -74,8 +74,8 @@ public class ScoreController {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
     }
-
-    @GetMapping("/{reviewId}")
+    //@GetMapping("/{reviewId}")
+    @GetMapping("/vote/{reviewId}")
     public ResponseEntity<Object> getUserVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);

@@ -12,7 +12,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
     const [items, setItems] = useState<ItemInterface[]>([]);
 
 
-    console.log(currentUser?.jwt)
+    //console.log(currentUser?.jwt)
     
     // Fetch items whenever the category changes
     useEffect(() => {
@@ -24,7 +24,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
                         }
                     });
                   
-                    console.log(response)
+                    //console.log(response)
                     setItems(response.data);
                 } catch (error) {
                     console.error('Error fetching items:', error);

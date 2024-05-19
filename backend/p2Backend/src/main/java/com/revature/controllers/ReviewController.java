@@ -21,7 +21,8 @@ public class ReviewController {
     }
 
     //This method will return a List of outbound review DTOs that all belong to a userId
-    @GetMapping("/{userId}")
+    //@GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<?> getAllRevByUserId(@PathVariable int userId) {
         //TODO: Login security checks
 
