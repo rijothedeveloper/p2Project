@@ -10,46 +10,48 @@ import StarRating from "./StarRating";
 interface ReviewModalProps {
     isOpen: boolean
     onClose: () => void
+    itemIdToPass: number
     children?: React.ReactNode
 }
 
-export const ReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, children}) => {
+export const ReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, children, itemIdToPass}) => {
     const [review, setReview] = useState<ReviewInterface>({
         title: "",
         body: "",
-        itemId: 1,
+        itemId: itemIdToPass,
         rating: 0
     })
     const {currentUser} = useContext(UserContext)
     
+    //if Modal button has not been pressed it will not show
     if(!isOpen) return null;
 
+    //Method for submitting review 
+    //TODO get itemId from button press or wherever it will be retrieved from
     const submitReview = async () => {
         
-        try{
-            console.log(review)
-            console.log(currentUser?.jwt)
-            await axios.post(`http://localhost:8080/reviews/${review.itemId}` , review, {
-                headers: {
-                    "Authorization":"Bearer " + currentUser?.jwt
-                },
+        console.log(review)
+        console.log(itemIdToPass)
+        await axios.post(`http://localhost:8080/reviews/${review.itemId}`, review, {
+            headers: {
+                "Authorization":"Bearer " + currentUser?.jwt
+            },
         })
-        }catch(error){
-            console.error("Failed to create review")
+        .catch((error) => {
+            alert(error.response.data)
         }
-    }
-
+    )}
+    //Stores values from text boxes
     const storeValues = (input: any) => {
         const {name,value} = input.target;
         setReview((prev) => ({...prev, [name]: value}))
     }
-
+    //updates the review rating based on how many stars are clicked
     const updateReviewRating = (rating: number) => {
         setReview((prev) => {
             const updated = {...prev, rating}
             return updated           
     })}
-
     return (
         <Modal show={isOpen} onHide={onClose}>
             <Modal.Header closeButton>

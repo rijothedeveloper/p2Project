@@ -12,10 +12,11 @@ export const FileToTestReviewModal: React.FC = () => {
     const closeModal = () => {
         setIsReviewModalOpen(false)
     }
+    const itemId = 2;
     return(
         <div>
-            <button onClick={openModal}>Open Modal</button>
-            <ReviewModal isOpen={isReviewModalOpen} onClose={closeModal}/>
+            <button onClick={openModal} >Open Modal</button>
+            <ReviewModal isOpen={isReviewModalOpen} onClose={closeModal} itemIdToPass={itemId}/>
         </div>
     )
 

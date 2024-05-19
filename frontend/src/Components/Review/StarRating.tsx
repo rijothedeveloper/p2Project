@@ -5,7 +5,7 @@ interface StarRatingProps {
   rating:number
   onRatingChange: (rating: number) => void;
 }
-
+//Star rating to add a rating to a review
 const StarRating:React.FC<StarRatingProps> = ({rating, onRatingChange}) => {
   const [hover, setHover] = useState(0);
 

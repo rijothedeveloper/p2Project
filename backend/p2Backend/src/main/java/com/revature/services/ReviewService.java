@@ -38,34 +38,23 @@ public class ReviewService {
     }
 
     public ReviewDTO saveReview(ReviewDTO review, int itemId, int userId) {
-        Review newReview = new Review();
-        //Attempts to set user
-        try {
-            User user = userDAO.getById(userId);
-            newReview.setUser(user);
-        }catch (EntityNotFoundException e){
-            System.err.println("User not found: " + e.getMessage());
-        }catch (DataAccessException e){
-            System.err.println("Database access error: " + e.getMessage());
-        }
-        //attempts to set item
-        try {
-            Optional<Item> item = itemDAO.findById(itemId);
-            if (item.isPresent()) {
-                newReview.setItem(item.get());
-            } else {
-                throw new EntityNotFoundException("Item not found with ID: " + itemId);
-            }
-        }catch (EntityNotFoundException e){
-            System.err.println("Item not found: " + e.getMessage());
-        } catch (DataAccessException e) {
-            System.err.println("Database access error: " + e.getMessage());
-            return null;
-        }
-        //Checks fields are valid
         if(itemId <= 0){
             throw new RuntimeException("User Id must be present");
         }
+        Review newReview = new Review();
+        //Attempts to set user
+        Optional<User> user = userDAO.findById(userId);
+        if(user.isEmpty()){
+            throw new EntityNotFoundException("User not found: " + userId);
+        }
+        newReview.setUser(user.get());
+        //attempts to set item
+        Optional<Item> item = itemDAO.findById(itemId);
+        if(item.isEmpty()){
+            throw new EntityNotFoundException("Item not found: " + itemId);
+        }
+        newReview.setItem(item.get());
+        //Checks fields are valid
         if (review.getTitle() == null || review.getTitle().trim().isEmpty()) {
             throw new RuntimeException("Title must not be empty.");
         }
