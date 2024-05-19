@@ -21,6 +21,7 @@ export const DeleteMyAccount: React.FC = () => {
             setShow(false);
             console.log(response.message);
             setCurrentUser(null);
+            localStorage.removeItem('currentUser');
             navigate("/");
         }
     };

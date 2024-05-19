@@ -19,12 +19,12 @@ function App() {
             <div className="App">
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Login />} />
                         //for github pages deployment
-                        <Route path="/p2project" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
+                        {/*<Route path="/p2project" element={<Login />} />*/}
                         <Route path="/" element={<Layout />}>
                             {/* Include all routes with a navbar below */}
+                            <Route path="/" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
                             <Route path="dashboard" element={< Dashboard />} />
                             <Route path="user/:userId" element={<UserDetails />} />
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
