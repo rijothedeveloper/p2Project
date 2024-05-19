@@ -10,6 +10,7 @@ import { ItemInterface } from "../../Interfaces/ItemInterface"
 // import { getAllReveiwsByUserId } from "../../FrontendAPI/api"
 import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { get } from "http"
 
 
 interface ItemReviewInterface extends ReviewInterface {
@@ -105,11 +106,56 @@ const ReviewList: React.FC<{}> = () => {
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
 
 
+    // function to build item reviews by getting the item by id from backend
+    // and adds it as a property to the review
+    // const buildItemReviews  = async (reviews: ReviewInterface[]) => {
+    //    // get item by id from backend
+    //    let itemObject: ItemInterface = {} as ItemInterface
+
+    //    const getItemById = async (itemId: number) => {
+    //           const url = apiURL(`/items/id/${itemId}`)
+    //           const authHeader = buildAuthHeader(jwt as string)
+    //           const response = await axios.get(url, {headers: authHeader})
+    //           .then((response: AxiosResponse) => {
+    //             console.log(`RESPONSE ITEM  FROM BACKEND: ${JSON.stringify(response.data)}`)
+    //             itemObject = {... response.data}
+    //             console.log(`ITEM AFTER: ${JSON.stringify(itemObject)}`)
+    //           })
+    //           .catch((error: AxiosError) => {
+    //             console.log(`AXIOS ERROR IN GET ITEM BY ID: ${error}`)
+    //           })    
+    //     }
+
+    //     let builtReviews: unknown = []
+    //     const addItemObject =  async () => {
+    //         builtReviews = await reviews
+    //             .map(async (review) => { 
+    //                 await getItemById(review.itemId as number)
+    //                 const reviewItem = {
+    //                     ...review,
+    //                     item: itemObject
+    //                 }
+    //                 // return {
+    //                 //     ...review,
+    //                 //     item: itemObject
+    //                 // }
+    //                 console.log(`IN MAP REVIEW ITEM: ${JSON.stringify(reviewItem)}`)
+    //                 return reviewItem
+    //         })
+    //         console.log(`BUILT REVIEWS before returning: ${JSON.stringify(builtReviews)}`)
+    //     }
+    //     // await addItemObject()
+    //     // setItemReviews(builtReviews as ItemReviewInterface[])
+    //     console.log(`BUILT REVIEWS from reviewBuilder: ${JSON.stringify(builtReviews)}`)
+    //     return builtReviews
+    // }
+
     // get reviews on component rendering
     React.useEffect((): void => {
 
+        let reivewsInput = [] as ReviewInterface[]
         // function to get collection of user
-        const getReviews = async () => {
+        let  getReviews = async () => {
 
             // TODO get endpoint for admin
             const endpoint = userRole == "user" ? "/reviews/user": "/reviews/user"
@@ -120,43 +166,25 @@ const ReviewList: React.FC<{}> = () => {
             .then((response: AxiosResponse) => {
                 console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
                 // collectionInput = response.data
-                setItemReviews(response.data as ItemInterface[])
+                // setItemReviews(response.data as ItemInterface[])
+                reivewsInput = response.data
             })
             .catch((error: AxiosError) => {
                 console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
             });
-
-
-
-            // const reviews: unknown = userRole == "user"
-            //     // TODO add API calls
-            //     // if the role is user only get the items of the current user
-            //     ? await getAllReveiwsByUserId(jwt as string, currentUser?.id as number)
-            //     // if the role is admin get all items
-            //     : await getAllReveiwsByUserId(jwt as string, currentUser?.id as number)
-
-            // set collection state
-            // setItemReviews(reviews as ItemReviewInterface[])
-            // console.log(`REVIEWS FROM BACKEND: ${JSON.stringify(reviews)}`)
+            
+            console.log(`REVIEWS INPUT: ${JSON.stringify(reivewsInput)}`)
+            // const builtReviews = await buildItemReviews(reivewsInput)
+            // console.log(`BUILT REVIEWS After passing reviews input: ${JSON.stringify(builtReviews)}`)
+            setItemReviews(reivewsInput as ItemInterface[]) 
 
         }
 
-        
-//         // TODO uncomment invoking getCollection()
-//         // invoke getCollection function
-//         // getUserCollection()
-
-        // TODO REMOVE line below
-        // setReviews()
-
-        // setItemReviews(mockReviews())
-
         getReviews()
-
 
     }, [])
 
-    // console.log(JSON.stringify(itemReviews))
+    console.log(JSON.stringify(itemReviews))
 
     return currentUser
     ?  (

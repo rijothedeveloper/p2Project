@@ -156,8 +156,9 @@ const Collection: React.FC<{}> = () => {
         //         setCollection([])
         //     }
 
+    }
 
-        // DID NOT WORK
+        // // DID NOT WORK
         // const getData = async () => {
         //     const response : unknown = await getAllItems(currentUser?.jwt as string);
         //     if (typeof response === "string") {
@@ -172,7 +173,6 @@ const Collection: React.FC<{}> = () => {
 
 
 
-        }
          
         getUserCollection()
         // getData();
