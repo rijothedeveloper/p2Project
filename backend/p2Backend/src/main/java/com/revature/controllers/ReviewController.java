@@ -56,4 +56,20 @@ public class ReviewController {
         }
     }
 
+    /**
+     * Handles the HTTP DELETE request to delete a review.
+     *
+     * @param id The ID of the review to be deleted.
+     * @return ResponseEntity containing a success message or an error message.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteReview(@PathVariable int id){
+        try{
+            reviewService.deleteReview(id);
+            return ResponseEntity.ok().body("Review deleted successfully");
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(401).body(e.getMessage());
+        }
+    }
+
 }

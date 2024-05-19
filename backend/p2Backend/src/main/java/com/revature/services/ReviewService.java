@@ -115,6 +115,22 @@ public class ReviewService {
         }
         return allRevDTO;
     }
+
+    /**
+     * Deletes a review with the specified ID.
+     * If the review does not exist, an IllegalArgumentException is thrown.
+     *
+     * @param id The ID of the review to be deleted.
+     * @throws IllegalArgumentException If the review ID is not found.
+     */
+    public void deleteReview(int id){
+        Optional<Review> oR = reviewDAO.findById(id);
+
+        if(oR.isEmpty()){
+            throw new IllegalArgumentException("Item with " + id +" is not found!");
+        }
+        reviewDAO.delete(oR.get());
+    }
 }
 
 
