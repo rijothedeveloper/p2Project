@@ -1,30 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { UserInterface } from "../../Interfaces/UserInterface";
-import { useAuth } from "../../globalData/AuthContextType";
+import { getAllUsers } from '../../FrontendAPI/api';
+import { UserContext } from '../../Contexts/UserContext';
 
 export const AllUsers: React.FC = () => {
     const navigate = useNavigate();
-    const { jwt } = useAuth();
+    const { currentUser } = useContext(UserContext);
     const [users, setUsers] = useState<UserInterface[]>([]);
 
     useEffect(() => {
-        getAllUsers();
+        getUsers();
     }, []);
 
-    const getAllUsers = async () => {
-        try {
-            const response = await axios.get("http://localhost:8080/users/all", {
-                headers: {
-                    "Authorization": `Bearer ${jwt}` 
-                }
-            });
-            console.log("API Response Data:", response.data); 
-            setUsers(response.data);
-        } catch (error) {
-            console.error("Error fetching users", error);
+    const getUsers = async () => {
+        const response = await getAllUsers(currentUser?.jwt as string);
+        if (typeof response === "string") {
+            console.error(response);
+            setUsers([]);
+        } else {
+            console.log(response);
+            setUsers(response);
         }
     };
 

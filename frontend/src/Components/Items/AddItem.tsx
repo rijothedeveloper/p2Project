@@ -1,11 +1,9 @@
 import { useContext, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
+import { FloatingLabel, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { wait } from "@testing-library/user-event/dist/utils";
-import axios from "axios";
-import { useAuth } from "../../globalData/AuthContextType";
 import { UserContext } from "../../Contexts/UserContext";
+import { addItem } from "../../FrontendAPI/api";
 
 export const AddItem: React.FC = () => {
 
@@ -28,19 +26,10 @@ export const AddItem: React.FC = () => {
         }))
     }
     
-    const addItem = async () => {
+    const createItem = async () => {
         // Add item to the database
-        const jwt = currentUser?.jwt;
-        const response = await axios.post("http://localhost:8080/items", item, {headers: {Authorization: `Bearer ${jwt}`}})
-        .then((response) => {      
-            alert("Item added successfully");
-            
-            //navigate("/allitems");
-        })
-        .catch((error) => {
-            console.log(error);
-            alert(error.response.data);
-        });
+        const response = await addItem(currentUser?.jwt as string, item);
+        alert(response);
     };
 
     return (
@@ -94,7 +83,7 @@ export const AddItem: React.FC = () => {
                 </div>
 
                 <div className="d-flex flex-row ms-3">
-                  <button className="btn btn-primary" onClick={addItem}>Add</button>
+                  <button className="btn btn-primary" onClick={createItem}>Add</button>
                   {/* Add a back button to navigate back to the home page or admin page*/}
                   <button className="btn btn-secondary ms-2" onClick={() => navigate("/")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>back</button>
                 </div>

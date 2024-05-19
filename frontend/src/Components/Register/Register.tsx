@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { UserInterface } from '../../Interfaces/UserInterface'
-import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap"
 import { register } from "../../FrontendAPI/api";

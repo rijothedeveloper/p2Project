@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useContext, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -7,36 +6,25 @@ import { deleteUserByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
 import { UserInterface } from "../../Interfaces/UserInterface"
 
-
-
 export const DeleteMyAccount: React.FC = () => {
 
-    
-
     const navigate = useNavigate();
-    const { currentUser } = useContext(UserContext)
-    const { setCurrentUser } = useContext(UserContext)
-
-    const[emptyUser, setUser] = useState<UserInterface>({
-        username:"",
-        password:"",
-        jwt:""
-    })
-
-
-
+    const { currentUser, setCurrentUser } = useContext(UserContext)
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleCloseConfirm = () => {
-        setShow(false)
-        deleteUserByID(currentUser?.jwt as string,currentUser?.id as number)
-        .then(() => {setCurrentUser(emptyUser)}) 
-        .then(() => {navigate("/")})
-    }
-
-
+    const handleCloseConfirm = async () => {
+        const response = await deleteUserByID(currentUser?.jwt as string,currentUser?.id as number);
+        if (!response.status) {
+            console.error(response.message);
+        } else {
+            setShow(false);
+            console.log(response.message);
+            setCurrentUser(null);
+            navigate("/");
+        }
+    };
 
     return(
         <div>

@@ -1,11 +1,11 @@
-import axios from "axios";
 import { useContext, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { deleteReviewByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
+import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 
-export const DeleteReview: React.FC<any> = (review:any) => {
+export const DeleteReview: React.FC<any> = (review:ReviewInterface) => {
 
 
     //We are given the review information from the parent component and we will need the review ID for the html call.
@@ -21,11 +21,16 @@ export const DeleteReview: React.FC<any> = (review:any) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleCloseConfirm = () => {
+    const handleCloseConfirm = async () => {
         setShow(false)
-        deleteReview(currentUser?.jwt as string,review.id)
-        .then(() => {navigate("/")})
-    }
+        const response = await deleteReview(currentUser?.jwt as string,review.id as number);
+        if (typeof response === "string") {
+            console.error(response);
+        } else {
+            handleClose();
+            navigate("/");
+        }
+    };
 
 
     return (
