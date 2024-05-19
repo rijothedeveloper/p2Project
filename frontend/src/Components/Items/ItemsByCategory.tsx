@@ -7,6 +7,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
 
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const [category, setCategory] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [items, setItems] = useState<ItemInterface[]>([]);
 
     console.log(currentUser?.jwt)
@@ -26,6 +27,13 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
         fetchItems();
     }, [category, currentUser]);
 
+    // Get list of categories when items are updated
+    useEffect(() => {
+        const categories = items.map((item) => {
+            return item.category.toLowerCase();
+        });
+        setCategoryOptions(Array.from(new Set(categories)));
+    }, [items])
 
     // Handle category change
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,14 +42,14 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
     
     return (
         <div>
-            <select id="category" name="category" onChange={handleCategoryChange}>
+            <select id="category" name="category" defaultValue="" onChange={handleCategoryChange}>
                 {/* Dropdown for selecting Category */}
                 <option value="">Select a category</option>
-                <option value="health">HEALTH</option>
-                <option value="beauty">BEAUTY</option>
-                <option value="food">FOOD</option>
-                <option value="shoes">SHOES</option>
-                <option value="furniture">FURNITURE</option>
+                {categoryOptions.map((category) => {
+                    return (
+                        <option value={category}>{category}</option>
+                    )
+                })}
             </select>
             <div>
                 <table className="table table-striped">
