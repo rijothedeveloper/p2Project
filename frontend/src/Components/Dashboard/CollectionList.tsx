@@ -3,22 +3,20 @@ import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
 import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
-import { getAllItems } from "../../FrontendAPI/api"
+// import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { getCollection } from "../../FrontendAPI/api"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
-
+import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { getAllItemsEndpoint } from "../../FrontendAPI/api"
+import { myCollectionEndpoint } from "../../FrontendAPI/api"
+import { getAllItems } from "../../FrontendAPI/api"
+import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses"
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-
-/* FOR GIT
-
-git restore backend/p2Backend/.idea/misc.xml
-git restore  backend/p2Backend/.idea/workspace.xml
-*/
-
 
 // create list of mock items
 const item: ItemInterface = {
@@ -80,8 +78,6 @@ const Collection: React.FC<{}> = () => {
     }
 
 
-
-
     // get collection on component rendering
     React.useEffect((): void => {
 
@@ -89,27 +85,42 @@ const Collection: React.FC<{}> = () => {
         const getUserCollection = async () => {
 
             console.log(`ROLE: ${userRole}`)
-            console.log(`JWT BEFORE GETTING COLLECTION: ${jwt}`)
-            // get collection based on role
-            const collection: unknown = userRole == "user"
-                // if the role is user only get the items of the current user
-                ? await getCollection(jwt as string)
-                // if the role is admin get all items
-                : await getAllItems(jwt as string )
 
-            // // set collection state
-            // setCollection(collection as ItemInterface[])
+            // set collection state
+            // WITH FETCHING HERE
+            const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
+            const url = apiURL(getAllItemsEndpoint);
+            const authHeader = buildAuthHeader(jwt as string);
+            const response = await axios.get(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
+                // collectionInput = response.data
+                setCollection(response.data as ItemInterface[])
+            })
+            .catch((error: AxiosError) => {
+                // Handle error response
+            });
 
-            console.log(`COLLECTION: ${JSON.stringify(collection)}`)
+
+            // // WITH USING API CALL FROM API.TS NOT WORKING RIGHT NOW
+            // if(userRole == "user"){
+            //     const response = await getCollection(jwt as string)
+            //     .then((response) => {
+            //         console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+            //         // setCollection(response as ItemInterface[])
+            //     })
+            // } else if(userRole == "admin") {
+            //     const response = await getAllItems(jwt as string)
+            //     .then((response) => {
+            //         console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+            //         // setCollection(response as ItemInterface[])
+            //     })
+            // } else {
+            //     setCollection([])
+            // }
         }
-
-        
-//         // TODO uncomment invoking getCollection()
-//         // invoke getCollection function
+         
         getUserCollection()
-
-        // TODO REMOVE line below
-        setCollection(mockCollection)
 
     }, [])
 
@@ -140,6 +151,7 @@ const Collection: React.FC<{}> = () => {
                          // filter items based on nameFilter
                          .filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase())> -1)
                          .map(item => {
+                            // console.log(`ITEM: ${JSON.stringify(item)}`)
                          return (
                              <CollectionItem 
                                  key = { item.id }

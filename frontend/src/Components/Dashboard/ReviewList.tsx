@@ -7,6 +7,7 @@ import Review from "./ItemReview"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
+// import { getAllReveiwsByUserId } from "../../FrontendAPI/api"
 
 
 interface ItemReviewInterface extends ReviewInterface {
@@ -18,6 +19,25 @@ interface ItemReviewInterface extends ReviewInterface {
 
 
 /************************** ADD MOCK DATA BELOW ***************/
+
+
+// REVIWER API
+// const getAllRevewsByUserIdEndpoint = "/reviews";
+
+// /**
+//  * Get All Reviews by User ID
+//  * @param token - JWT token
+//  * @param userId- ID of the user to fetch reviews for
+//  */
+// export const getAllReveiwsByUserId = async (token: string, userId: number) => {
+//     const url = apiURL(`${deleteReviewEndpoint}/${userId}`);
+//     const authHeader = buildAuthHeader(token);
+//     const response = await axios.get(url, {headers: authHeader})
+//     .then((response: AxiosResponse) => {
+//         return response.data;
+//     })
+//     .catch((error: AxiosError) => {alert(error)});
+// };
 
 
 // create list of mock items
@@ -78,7 +98,7 @@ const ReviewList: React.FC<{}> = () => {
  
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
-    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
     const { jwt } = currentUser as  UserInterface
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
 
@@ -89,15 +109,16 @@ const ReviewList: React.FC<{}> = () => {
         // function to get collection of user
         const getReviews = async () => {
 
-            const reviews: unknown = userRole == "user"
-                // TODO add API calls
-                // if the role is user only get the items of the current user
-                // ? await getCollection(jwt)
-                // if the role is admin get all items
-                // : await getAllItems(jwt)
+            // const reviews: unknown = userRole == "user"
+            //     // TODO add API calls
+            //     // if the role is user only get the items of the current user
+            //     ? await getAllReveiwsByUserId(jwt as string, currentUser?.id as number)
+            //     // if the role is admin get all items
+            //     : await getAllReveiwsByUserId(jwt as string, currentUser?.id as number)
 
             // set collection state
-            setItemReviews(reviews as ItemReviewInterface[])
+            // setItemReviews(reviews as ItemReviewInterface[])
+            // console.log(`REVIEWS FROM BACKEND: ${JSON.stringify(reviews)}`)
 
         }
 
@@ -114,7 +135,7 @@ const ReviewList: React.FC<{}> = () => {
 
     }, [])
 
-    console.log(JSON.stringify(itemReviews))
+    // console.log(JSON.stringify(itemReviews))
 
     return currentUser
     ?  (

@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="cd7bb0d1-4d77-4ddc-a1d5-3bc9361bdd74" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/FrontendAPI/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/FrontendAPI/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +61,7 @@
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "getCollection",
+    "git-widget-placeholder": "getReviews",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
