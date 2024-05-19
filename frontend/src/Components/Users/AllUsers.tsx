@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../../Interfaces/UserInterface";
 import { getAllUsers } from '../../FrontendAPI/api';
 import { UserContext } from '../../Contexts/UserContext';
+import { Table } from 'react-bootstrap';
 
 export const AllUsers: React.FC = () => {
     const navigate = useNavigate();
@@ -11,8 +12,10 @@ export const AllUsers: React.FC = () => {
     const [users, setUsers] = useState<UserInterface[]>([]);
 
     useEffect(() => {
-        getUsers();
-    }, []);
+        if (currentUser) {
+            getUsers();
+        }
+    }, [currentUser]);
 
     const getUsers = async () => {
         const response = await getAllUsers(currentUser?.jwt as string);
@@ -28,39 +31,35 @@ export const AllUsers: React.FC = () => {
     return (
         <div>
             <div className="container" style={{ backgroundColor: '#f8f9fa' }}>
-                <div className="row justify-content-center">
-                    <div className="col-md-12">
-                        <div className="card shadow-sm">
-                            <div className="card-body">
-                                <h2 className="card-title text-center mb-4">User List</h2>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>User ID</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                            <th>Role</th>
-                                            <th>Email</th>
-                                            <th>Timestamp</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {users.map((user) => (
-                                            <tr key={user.id}>
-                                                <td>{user.id}</td>
-                                                <td>{user.firstName}</td>
-                                                <td>{user.lastName}</td>
-                                                <td>{user.username}</td>
-                                                <td>{user.role}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.timestamp}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                <div className="card shadow-sm">
+                    <div className="card-body">
+                        <h2 className="card-title text-center mb-4">User List</h2>
+                        <Table striped hover responsive>
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody className='table-group-divider'>
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>{user.id}</td>
+                                        <td>{user.firstName}</td>
+                                        <td>{user.lastName}</td>
+                                        <td>{user.username}</td>
+                                        <td>{user.role}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.timestamp}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table>
                     </div>
                 </div>
             </div>
