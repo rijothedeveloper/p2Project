@@ -13,14 +13,17 @@ export const NavbarComp: React.FC = () => {
         const navbarItems = document.querySelectorAll(".nav-link");
         navbarItems.forEach((item) => {
             //item.classList.remove("active");
-            if (item.getAttribute("href") == path) {
+            if (item.getAttribute("href") === path) {
                 item.classList.add("active");
             }
         });
     };
 
     useEffect(() => {
-        upateNavbar();
+        const timer = setTimeout(() => {
+            upateNavbar();
+        }, 25);
+        return () => clearTimeout(timer);
     }, []);
 
     const logout = () => {
