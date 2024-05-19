@@ -23,6 +23,7 @@ public class CollectionKey implements Serializable{
         this.user = user;
     }
 
+
     public Item getItem() {
         return item;
     }
