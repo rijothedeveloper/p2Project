@@ -46,6 +46,6 @@ public class ReplyService {
         if (oR.isEmpty()) {
             throw new IllegalArgumentException("Reply with ID " + id + " not found!");
         }
-        replyDAO.deleteById(id);
+        replyDAO.delete(oR.get());
     }
 }

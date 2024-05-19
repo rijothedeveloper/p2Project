@@ -129,9 +129,7 @@ public class ReviewService {
         if(oR.isEmpty()){
             throw new IllegalArgumentException("Item with " + id +" is not found!");
         }
-        System.out.println("Review found!");
-        System.out.println(oR.get().getId());
-        reviewDAO.deleteById(id);
+        reviewDAO.delete(oR.get());
     }
 }
 

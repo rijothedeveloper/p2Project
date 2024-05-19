@@ -22,11 +22,11 @@ public class Review {
     @Column(nullable = false)
     private String body;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "itemId")
     private Item item;
 
@@ -43,7 +43,7 @@ public class Review {
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Reply> replies; 
   
     @Column(nullable = false)
