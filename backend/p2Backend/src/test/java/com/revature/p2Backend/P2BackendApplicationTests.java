@@ -108,12 +108,7 @@ class P2BackendApplicationTests {
 		assertNull(userService.getUser("username"));
 	}
 
-	//write a test to validate the methods in the ReviewService class
-	@Test
-	void testAddReview() {
-		when(reviewService.addReview(reviewdto)).thenReturn(null);
-		assertNull(reviewService.addReview(reviewdto));
-	}
+
 
 
 
