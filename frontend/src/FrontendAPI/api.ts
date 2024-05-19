@@ -59,7 +59,7 @@ const addItemEndpoint = itemControllerEndpoint;
 export const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";
-const deleteItemEndpoint = itemControllerEndpoint;
+export const deleteItemEndpoint = itemControllerEndpoint;
 const updateItemEndpoint = itemControllerEndpoint;
 
 /**

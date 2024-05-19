@@ -14,6 +14,7 @@ import { getAllItemsEndpoint } from "../../FrontendAPI/api"
 import { myCollectionEndpoint } from "../../FrontendAPI/api"
 import { getAllItems } from "../../FrontendAPI/api"
 import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses"
+import { deleteItemEndpoint } from "../../FrontendAPI/api"
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
@@ -51,7 +52,7 @@ for(let i = 0; i < 7; i++) {
     This componenet will display a list items aka collection
     If the role of user logged in is a user it will display the items of the user
     If the role of user logged in is an admin it will display all items
-*/
+*/  
 const Collection: React.FC<{}> = () => {
 
     // state to store collection
@@ -60,7 +61,7 @@ const Collection: React.FC<{}> = () => {
     const [ nameFilter, setNameFilter ] = React.useState("")
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
-    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
 
     // get role and jwt of current user
@@ -71,6 +72,25 @@ const Collection: React.FC<{}> = () => {
 
 
     const handleDeleteItem = (itemId: number) => {
+
+        // delete item form database
+        // api call to delete item
+        const deleteItem = async (jwt: string, itemId: number) => {
+            const url = apiURL(`${deleteItemEndpoint}/${itemId}`);
+            const authHeader = buildAuthHeader(jwt);
+            const response = await axios.delete(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                // Handle error response
+            });
+
+        }
+        // call delete item api call
+        deleteItem(jwt as string, item.id as number)
+
+        // update collection state
         // create new collection with the deleted item removed
         const updatedCollection = collection.filter(item => item.id != itemId)
         // update collection state
@@ -87,6 +107,7 @@ const Collection: React.FC<{}> = () => {
             console.log(`ROLE: ${userRole}`)
 
             // set collection state
+
             // WITH FETCHING HERE
             const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
             const url = apiURL(getAllItemsEndpoint);
@@ -98,26 +119,36 @@ const Collection: React.FC<{}> = () => {
                 setCollection(response.data as ItemInterface[])
             })
             .catch((error: AxiosError) => {
-                // Handle error response
+                console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
             });
 
 
-            // // WITH USING API CALL FROM API.TS NOT WORKING RIGHT NOW
-            // if(userRole == "user"){
-            //     const response = await getCollection(jwt as string)
-            //     .then((response) => {
-            //         console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
-            //         // setCollection(response as ItemInterface[])
-            //     })
-            // } else if(userRole == "admin") {
-            //     const response = await getAllItems(jwt as string)
-            //     .then((response) => {
-            //         console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
-            //         // setCollection(response as ItemInterface[])
-            //     })
-            // } else {
-            //     setCollection([])
-            // }
+            // WITH USING API CALL FROM API.TS NOT WORKING RIGHT NOW
+        //     if(userRole == "user"){
+        //         const response: unknown = await getCollection(jwt as string)
+        //         .then((response) => {
+        //             console.log(`TYPE OF RESPONsSE: ${typeof response}`)
+        //             console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+        //             // setCollection(response as ItemInterface[])
+        //         })
+        //         .catch((error) => {
+        //             console.log(`ERROR IN GET COLLECTION: ${error}`)
+        //         })
+        //     } else if(userRole == "admin") {
+        //         const response = await getAllItems(jwt as string)
+        //         .then(response => {
+        //             console.log(`TYPE OF RESPONSE: ${typeof response}`)
+        //             console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+        //             // setCollection(response as ItemInterface[])
+        //         })
+        //         .catch((error) => {
+        //             console.log(`ERROR IN GET COLLECTION: ${error}`)
+        //         })
+        //     } else {
+        //         setCollection([])
+        //     }
+
+
         }
          
         getUserCollection()
