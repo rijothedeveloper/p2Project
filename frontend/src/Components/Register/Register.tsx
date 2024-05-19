@@ -36,7 +36,7 @@ export const Register: React.FC = () => {
         if (typeof response === 'string') {
           alert(response);
         } else {
-          navigate("/login")
+          navigate("/");
         }
     }
 
