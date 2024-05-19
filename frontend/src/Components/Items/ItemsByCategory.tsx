@@ -4,42 +4,41 @@ import { UserInterface } from "../../Interfaces/UserInterface"
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
-
-export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
-
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-    const [category, setCategory] = useState('');
-    const [items, setItems] = useState<ItemInterface[]>([]);
+import { getAllItems, itemsByCategory } from "../../FrontendAPI/api";
 
 
-    //console.log(currentUser?.jwt)
-    
-    // Fetch items whenever the category changes
+ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
+
+     const { currentUser, setCurrentUser } = useContext(UserContext);
+     const [category, setCategory] = useState('');
+     const [items, setItems] = useState<ItemInterface[]>([]);
+
     useEffect(() => {
-            const fetchItems = async () => {
-                try {
-                    const response = await axios.get("http://localhost:8080/items/"+ category, {
-                        headers: {
-                            'Authorization': "Bearer " + currentUser?.jwt // Use the token from context
-                        }
-                    });
-                  
-                    //console.log(response)
-                    setItems(response.data);
-                } catch (error) {
-                    console.error('Error fetching items:', error);
+        const getItemsByCategory = async () => {
+            try {
+                if (currentUser?.jwt) {
+                    if (category == ""){
+                        const data = await getAllItems(currentUser?.jwt);
+                        setItems(data);
+                    }else{
+                        const data = await itemsByCategory(currentUser.jwt, category);
+                        setItems(data);           
+                    }   
                 }
-            };
-            
+            } catch (error) {
+                alert(error);
+            }
+        };
 
-            fetchItems();
+        getItemsByCategory();
     }, [category, currentUser]);
 
-
-    // Handle category change
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+ const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    if (category !== "Select a category"){
         setCategory(event.target.value);
-    };
+    }
+    
+ };
     
     return (
         <div>
