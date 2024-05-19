@@ -19,7 +19,7 @@ function App() {
             <div className="App">
                 <BrowserRouter>
                     <Routes>
-                        //for github pages deployment
+                        {/*for github pages deployment*/}
                         {/*<Route path="/p2project" element={<Login />} />*/}
                         <Route path="/" element={<Layout />}>
                             {/* Include all routes with a navbar below */}
