@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
-import { UserInterface } from "../../Interfaces/UserInterface"
 
 export const DeleteMyAccount: React.FC = () => {
 
