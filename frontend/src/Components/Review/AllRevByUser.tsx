@@ -1,21 +1,29 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Table } from "react-bootstrap";
+import { UserContext } from "../../Contexts/UserContext";
 
 
 export const AllRevByUser: React.FC = () => {
     const {userId} = useParams(); 
 
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+
+    console.log(currentUser?.jwt);
 
     const navigate = useNavigate();
     useEffect(() => {
         getAllUsersRevs();
     },[])
     const getAllUsersRevs = async () => {
-        const response = await axios.get(`http://localhost:8080/reviews/${userId}`, {withCredentials:true});
+        const response = await axios.get(`http://localhost:8080/reviews/user/${userId}`, {
+            headers: {
+                'Authorization': "Bearer " + currentUser?.jwt // Use the token from context
+            }
+        });
         setRevsByUser(response.data);
     }
 

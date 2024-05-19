@@ -23,7 +23,8 @@ public class FollowController {
     }
 
     //follow a user
-    @PostMapping("/{targetUserId}")
+    //@PostMapping("/{targetUserId}")
+    @PostMapping("/follow/{targetUserId}")
     public ResponseEntity<Object> followUser(@PathVariable int targetUserId, @RequestHeader("Authorization") String token) {
         //if user is not logged in, return 401
         String jwt = token.substring(7);
