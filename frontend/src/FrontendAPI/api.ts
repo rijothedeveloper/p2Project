@@ -24,7 +24,7 @@ export const apiURL = (endpoint: string) => {
  * @param token - JWT token
  * @returns authorization header object
  */
-export const buildAuthHeader = (token: string) => {
+const buildAuthHeader = (token: string|undefined) => {
     return Object.assign({}, {
         "Authorization": `Bearer ${token}`
     });
@@ -83,16 +83,26 @@ export const addItem = async (token: string, item: ItemInterface) => {
  * Get all items in the collection
  * @param token - JWT token
  */
-export const getAllItems = async (token: string) => {
+export const getAllItems = async (token: string | undefined): Promise<ItemInterface[]> => {
     const url = apiURL(getAllItemsEndpoint);
     const authHeader = buildAuthHeader(token);
     const response = await axios.get(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
-        return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+        
+    return response.data;
+};
+
+/**
+ * Get item by its category
+ * @param token - JWT token
+ * @param itemId - id of the item to fetch
+ */
+export const itemsByCategory = async (token: string | undefined, category: string): Promise<ItemInterface[]> => {
+    const url = apiURL(`${itemControllerEndpoint }/${category}`);
+    const authHeader = buildAuthHeader(token);
+    const response = await axios.get(url, {headers: authHeader})
+    
+    return response.data;
+
 };
 
 /**
@@ -288,3 +298,4 @@ export const deleteUserByID = async (token: string, userid: number) => {
     })
     .catch((error: AxiosError) => {alert(error)});
 };
+
