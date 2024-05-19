@@ -5,7 +5,7 @@ import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
 // import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-import { getCollection } from "../../FrontendAPI/api"
+import { baseURL, getCollection } from "../../FrontendAPI/api"
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
 import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
@@ -20,30 +20,30 @@ import { deleteItemEndpoint } from "../../FrontendAPI/api"
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
 
 // create list of mock items
-const item: ItemInterface = {
-    id: 9,
-    name: "Book",
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
-    rating: 2.5,
-    category: "Books",
-    description: "book",
-    producerId: 1
-}
+// const item: ItemInterface = {
+//     id: 9,
+//     name: "Book",
+//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
+//     rating: 2.5,
+//     category: "Books",
+//     description: "book",
+//     producerId: 1
+// }
 
-const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
+// const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
 
-const mockCollection: ItemInterface[] = [];
-for(let i = 0; i < 7; i++) {
-    mockCollection.push({
-        id: item.id as number + i, 
-        image: item.image,
-        name: itemNames[i],
-        rating: item.rating as number + i*0.3,
-        category: item.category,
-        description: item.description,
-        producerId: item.producerId
-    })
-}
+// const mockCollection: ItemInterface[] = [];
+// for(let i = 0; i < 7; i++) {
+//     mockCollection.push({
+//         id: item.id as number + i, 
+//         image: item.image,
+//         name: itemNames[i],
+//         rating: item.rating as number + i*0.3,
+//         category: item.category,
+//         description: item.description,
+//         producerId: item.producerId
+//     })
+// }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
 
@@ -73,22 +73,30 @@ const Collection: React.FC<{}> = () => {
 
     const handleDeleteItem = (itemId: number) => {
 
+        console.log(`ITEM ID TO DELETE: ${itemId}`)
+
         // delete item form database
         // api call to delete item
-        const deleteItem = async (jwt: string, itemId: number) => {
-            const url = apiURL(`${deleteItemEndpoint}/${itemId}`);
-            const authHeader = buildAuthHeader(jwt);
+        const deleteItem = async () => {
+            const baseurl = baseURL ? baseURL : "http://localhost:8080"
+            // console.log(`BASEURL: ${baseurl}`)
+            const endpoint = deleteItemEndpoint ? deleteItemEndpoint : "/items"
+            // console.log(`ENDPOINT: ${endpoint}`)
+            // console.log(`ITEM ID TO DELETE: ${itemId}`)
+            const url = `${baseurl}${deleteItemEndpoint}/${itemId}`;
+            // console.log(`URL TO DELETE ITEM: ${url}`)
+            const authHeader = buildAuthHeader(currentUser?.jwt as string);
             const response = await axios.delete(url, {headers: authHeader})
             .then((response: AxiosResponse) => {
                 return response.data;
             })
             .catch((error: AxiosError) => {
-                // Handle error response
+                console.log(`ERROR IN DELETE ITEM: ${error}`)
             });
 
         }
         // call delete item api call
-        deleteItem(jwt as string, item.id as number)
+        deleteItem()
 
         // update collection state
         // create new collection with the deleted item removed
@@ -101,16 +109,16 @@ const Collection: React.FC<{}> = () => {
     // get collection on component rendering
     React.useEffect((): void => {
 
-        // function to get collection of user
+        // // function to get collection of user
         const getUserCollection = async () => {
 
-            console.log(`ROLE: ${userRole}`)
+            console.log(`USER ROLE: ${userRole}`)
 
             // set collection state
 
             // WITH FETCHING HERE
             const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
-            const url = apiURL(getAllItemsEndpoint);
+            const url = apiURL(endpoint);
             const authHeader = buildAuthHeader(jwt as string);
             const response = await axios.get(url, {headers: authHeader})
             .then((response: AxiosResponse) => {
@@ -149,9 +157,25 @@ const Collection: React.FC<{}> = () => {
         //     }
 
 
+        // DID NOT WORK
+        // const getData = async () => {
+        //     const response : unknown = await getAllItems(currentUser?.jwt as string);
+        //     if (typeof response === "string") {
+        //         console.error(response);
+        //         setCollection([]);
+        //     } else {
+        //         console.log(response);
+        //         console.log(`RESPONSE with new way COLLECTION: ${JSON.stringify(response)}`)
+        //         setCollection(response as ItemInterface[]);
+        //     }
+        // };
+
+
+
         }
          
         getUserCollection()
+        // getData();
 
     }, [])
 
@@ -161,6 +185,7 @@ const Collection: React.FC<{}> = () => {
         setNameFilter(e.target.value)
     }
 
+    
     return currentUser
     ? (
         <>

@@ -35,9 +35,6 @@ const CollectionItem: React.FC<{
     const userRole: string = currentUser?.role == "USER" ? "user" : "admin"
 
 
-
-
-
     // function to handle if delete button is clicked
     const handleDeleteItemButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         // call parent items function to update collection state
@@ -108,6 +105,7 @@ const CollectionItem: React.FC<{
             <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
                 <Card.Text>
+                </Card.Text>
                     <div>
                         Category: {item.category}
                     </div>
@@ -125,7 +123,7 @@ const CollectionItem: React.FC<{
                         Description: {item.description}
                     </div>
 
-                </Card.Text>
+
             </Card.Body>
         </Card>
        </Modal.Body>

@@ -30,7 +30,8 @@ interface ItemReviewInterface extends ReviewInterface {
     This component will display a review
 */
 const ItemReview: React.FC<{
-    itemReview: ItemReviewInterface
+    // itemReview: ItemReviewInterface
+    itemReview: ReviewInterface
 }> = ({ itemReview }) => {
     
     const [showEditReviewModal, setShowEditReviewModal] = React.useState(false)
@@ -114,13 +115,13 @@ const ItemReview: React.FC<{
                     {itemReview.title}
                 </div>
                 <div>
-                    {itemReview.item.name}
+                    {/* {itemReview.item.name} */}
                 </div>
                 <div>
                     Rating: {itemReview.rating}
                 </div>
             </Card.Header>
-            <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/>
+            {/* <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/> */}
             <Card.Body>
                 {/* <Card.Title>{itemReview.title}</Card.Title> */}
                 <Card.Text>
@@ -136,7 +137,7 @@ const ItemReview: React.FC<{
 
         <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit review for {itemReview.item.name}</Modal.Title>
+                {/* <Modal.Title>Edit review for {itemReview.item.name}</Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
                 <Card style={{ width: '14rem' }} className="m-1">

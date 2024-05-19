@@ -8,6 +8,8 @@ import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 // import { getAllReveiwsByUserId } from "../../FrontendAPI/api"
+import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 
 interface ItemReviewInterface extends ReviewInterface {
@@ -93,8 +95,8 @@ const mockReviews = () => {
 const ReviewList: React.FC<{}> = () => {
 
     // state to store collection
-    const [ itemReviews, setItemReviews ] = React.useState([] as ItemReviewInterface[])
-
+    // const [ itemReviews, setItemReviews ] = React.useState([] as ItemReviewInterface[])
+    const [ itemReviews, setItemReviews ] = React.useState([] as ReviewInterface[])
  
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
@@ -108,6 +110,23 @@ const ReviewList: React.FC<{}> = () => {
 
         // function to get collection of user
         const getReviews = async () => {
+
+            // TODO get endpoint for admin
+            const endpoint = userRole == "user" ? "/reviews/user": "/reviews/user"
+            const url = `${apiURL(endpoint)}/${currentUser?.id}`;
+            console.log(`URL: ${url}`)  
+            const authHeader = buildAuthHeader(jwt as string);
+            const response = await axios.get(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
+                // collectionInput = response.data
+                setItemReviews(response.data as ItemInterface[])
+            })
+            .catch((error: AxiosError) => {
+                console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
+            });
+
+
 
             // const reviews: unknown = userRole == "user"
             //     // TODO add API calls
@@ -130,7 +149,9 @@ const ReviewList: React.FC<{}> = () => {
         // TODO REMOVE line below
         // setReviews()
 
-        setItemReviews(mockReviews())
+        // setItemReviews(mockReviews())
+
+        getReviews()
 
 
     }, [])
