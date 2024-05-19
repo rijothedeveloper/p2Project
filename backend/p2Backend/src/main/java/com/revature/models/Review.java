@@ -43,7 +43,7 @@ public class Review {
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(orphanRemoval = true, mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies; 
   
     @Column(nullable = false)
