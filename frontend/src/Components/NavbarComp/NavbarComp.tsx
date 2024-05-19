@@ -1,4 +1,4 @@
-import { Button, Container, Nav, Navbar } from "react-bootstrap"
+import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import { DeleteMyAccount } from "../Users/DeleteMyAccount";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../Contexts/UserContext";
@@ -45,7 +45,9 @@ export const NavbarComp: React.FC = () => {
                         <Nav>
                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                             <Nav.Link href="">Collections</Nav.Link>
-                            <Nav.Link href="/allusers">Users</Nav.Link>
+                            {currentUser.role?.toUpperCase() == "ADMIN" && <NavDropdown title="ADMIN">
+                                <NavDropdown.Item href="/allusers">Users</NavDropdown.Item>
+                            </NavDropdown>}
                         </Nav>
                         <Button type="button" variant="danger" onClick={logout}>Logout</Button>
                         <DeleteMyAccount />
