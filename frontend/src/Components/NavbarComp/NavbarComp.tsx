@@ -7,7 +7,6 @@ export const NavbarComp: React.FC = () => {
     const upateNavbar = () => {
         const currentURL = new URL(window.location.href);
         const path = currentURL.pathname;
-        console.log(path);
         const navbarItems = document.querySelectorAll(".nav-link");
         navbarItems.forEach((item) => {
             //item.classList.remove("active");
