@@ -8,9 +8,9 @@ import { AllRevByUser } from './Components/Review/AllRevByUser';
 import { Layout } from './Components/Layout/Layout';
 import { AllUsers } from './Components/Users/AllUsers';
 import { UserProvider } from './Contexts/UserProvider';
-import { ItemsByCategory } from './Components/Items/ItemsByCategory';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
+import { AllItems } from './Components/Items/AllItems';
 
 function App() {
 
@@ -30,8 +30,8 @@ function App() {
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
                             <Route path='item/:itemId' />
                             <Route path="allusers" element={<AllUsers />} />
+                            <Route path="items" element={<AllItems/>} />
                             <Route path="additem" element={<AddItem />} />
-                            <Route path="itemsbycategory" element={<ItemsByCategory />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
