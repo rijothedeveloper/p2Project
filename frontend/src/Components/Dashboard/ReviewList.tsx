@@ -158,8 +158,8 @@ const ReviewList: React.FC<{}> = () => {
         let  getReviews = async () => {
 
             // TODO get endpoint for admin
-            const endpoint = userRole == "user" ? "/reviews/user": "/reviews/user"
-            const url = `${apiURL(endpoint)}/${currentUser?.id}`;
+            const endpoint = userRole == "user" ? "/reviews/user": "/reviews"
+            const url = userRole == "user" ?  `${apiURL(endpoint)}/${currentUser?.id}` : `${apiURL(endpoint)}`;
             console.log(`URL: ${url}`)  
             const authHeader = buildAuthHeader(jwt as string);
             const response = await axios.get(url, {headers: authHeader})
@@ -192,7 +192,7 @@ const ReviewList: React.FC<{}> = () => {
         <Container className="mt-4 r-flex">
             <Row className="justify-content-evenly" >
                 {/* display reviews */}
-                {itemReviews
+                {itemReviews && itemReviews
                     // filter items based on nameFilter
                     .map(itemReview => {
                     return (

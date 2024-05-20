@@ -115,6 +115,25 @@ public class ReviewService {
         }
         return allRevDTO;
     }
+
+
+    //This method gets all reviews
+    //then converts them to a list of ReviewDTO's
+    public List<ReviewDTO> getAllReviews() {
+        List<Review> allRevs;
+        try {
+            allRevs = reviewDAO.findAll();
+        }
+        catch(Exception e){
+            throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
+        }
+        List<ReviewDTO> allRevDTO = new ArrayList<ReviewDTO>();
+        for (Review rev : allRevs) {
+            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
+            allRevDTO.add(revDTO);
+        }
+        return allRevDTO;
+    }
 }
 
 

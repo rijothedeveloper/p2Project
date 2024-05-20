@@ -8,7 +8,7 @@ import { ReviewInterface } from "../Interfaces/ReviewInterface";
 
 
 // Current base URL
-const baseURL = "http://localhost:8080";
+export const baseURL = "http://localhost:8080";
 
 /**
  * Helper function to build a URL
