@@ -4,38 +4,7 @@ import { UserContext } from "../../Contexts/UserContext"
 import { Container, Row, Form } from "react-bootstrap"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { Login } from "../Login/Login"
-
-
-
-/***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-
-// create list of mock items
-// const item: ItemInterface = {
-//     id: 9,
-//     name: "Book",
-//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
-//     rating: 2.5,
-//     category: "Books",
-//     description: "book",
-//     producerId: 1
-// }
-
-// const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
-
-// const mockCollection: ItemInterface[] = [];
-// for(let i = 0; i < 7; i++) {
-//     mockCollection.push({
-//         id: item.id as number + i, 
-//         image: item.image,
-//         name: itemNames[i],
-//         rating: item.rating as number + i*0.3,
-//         category: item.category,
-//         description: item.description,
-//         producerId: item.producerId
-//     })
-// }
-/***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
-
+import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 
 
 /*
@@ -45,8 +14,10 @@ import { Login } from "../Login/Login"
 */  
 const Collection: React.FC<{
     collection : ItemInterface[]
+    reviews : ReviewInterface[]
     handleDeleteItem: (itemId: number) => void
-}> = ({collection, handleDeleteItem}) => {
+    handleEditReview: (review: ReviewInterface) => void
+}> = ({collection, handleDeleteItem, reviews, handleEditReview}) => {
 
     const [ nameFilter, setNameFilter ] = React.useState("")
     // get current user from UserContext
@@ -85,6 +56,8 @@ const Collection: React.FC<{
                                  key = { item.id }
                                  item = { item } 
                                  handleDeleteItem= { handleDeleteItem }
+                                 handleEditReview={handleEditReview}
+                                 reviews={reviews}
                              />
                         )
                      })}
