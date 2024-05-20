@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface CollectionDAO extends JpaRepository<Collection, CollectionKey> {
     //@Query("SELECT * FROM collections WHERE user_id = :userId")
-    List<Collection> findAllByIdUserId(/*@Param("userId")*/ int userId);
+    List<Collection> findByIdUserId(int userId);
 
 }

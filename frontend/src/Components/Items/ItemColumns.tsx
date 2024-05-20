@@ -1,6 +1,6 @@
 import { Button, Card, Col, Row } from "react-bootstrap"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-import { truncateText } from "../../Utils/StringUtils"
+import { capitalize, truncateText } from "../../Utils/StringUtils"
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../Contexts/UserContext"
 import { addItemToCollection, getCollectionItem, removeItemFromCollection } from "../../FrontendAPI/api"
@@ -65,7 +65,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
     }, [items])
 
     return (
-        <Row md={3}>
+        <Row md={3} className="g-2">
             {items.map((item, idx) => {
                 return (
                     <Col key={idx}>
@@ -73,8 +73,8 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                             <Card.Header>{item.category}</Card.Header>
                             <Card.Img variant="top" src={item.image} alt={item.name}/>
                             <Card.Body>
-                                <Card.Subtitle>{item.producer?.name}</Card.Subtitle>
-                                <Card.Title>{item.name}</Card.Title>
+                                <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
+                                <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
                                 <Card.Text>
                                     {truncateText(item.description, 30)}
                                 </Card.Text>

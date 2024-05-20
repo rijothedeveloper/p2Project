@@ -53,9 +53,9 @@ export const ItemsByCategory: React.FC<{
                 <Form.Select name="category" defaultValue="" onChange={handleCategoryChange}>
                     {/* Dropdown for selecting Category */}
                     <option value="">Select a Category</option>
-                    {categoryOptions.map((category) => {
+                    {categoryOptions.map((category, idx) => {
                         return (
-                            <option value={category}>{capitalize(category)}</option>
+                            <option key={idx} value={category}>{capitalize(category)}</option>
                         )
                     })}
                 </Form.Select>
