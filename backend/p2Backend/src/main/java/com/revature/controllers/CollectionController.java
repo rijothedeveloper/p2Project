@@ -2,6 +2,7 @@ package com.revature.controllers;
 
 import com.revature.models.Collection;
 import com.revature.models.Item;
+import com.revature.models.dtos.itemIDDTO;
 import com.revature.services.CollectionService;
 import com.revature.utils.JwtTokenUtil;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/collections")
-@CrossOrigin // (origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin  (origins = "http://localhost:3000", allowCredentials = "true")
 public class CollectionController {
 
     CollectionService collectionService;
@@ -43,10 +44,12 @@ public class CollectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addItemToCollection(@RequestBody AddItemToCollectionDTO addItemToCollectionDTO) {
-
+    public ResponseEntity<String> addItemToCollection(@RequestHeader("Authorization") String token, @RequestBody itemIDDTO itemId) {
+        String jwt = token.substring(7); //remove "Bearer " from the token
+        int userId = jwtTokenUtil.extractUserId(jwt); //send the jwt to the util to extract userId
+        AddItemToCollectionDTO item = new AddItemToCollectionDTO(userId, itemId.getItemId());
         try {
-            Collection collection = collectionService.addItemToCollection(addItemToCollectionDTO);
+            Collection collection = collectionService.addItemToCollection(item);
             return ResponseEntity.status(201).body("Item : " + collection.getId().getItem().getName() + " : has been added to user's collection for Username : " + collection.getId().getUser().getUsername());
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
