@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ReplyDAO extends JpaRepository<Reply,Integer> {
 
-    public List<Reply> findByReviewId(int reviewId);
+    public List<Reply> findByReview_Id(int reviewId);
 
 //    @Modifying
 //    @Transactional
