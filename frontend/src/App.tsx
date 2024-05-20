@@ -29,7 +29,7 @@ function App() {
                             <Route path="dashboard" element={< Dashboard />} />
                             <Route path="user/:userId" element={<UserDetails />} />
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
-                            <Route path='item/:itemId' element={<ItemDetails/>}/>
+                            <Route path='item/:itemId' element={<ItemDetails/>} />
                             <Route path="allusers" element={<AllUsers />} />
                             <Route path="items" element={<AllItems/>} />
                             <Route path="additem" element={<AddItem />} />
