@@ -33,7 +33,7 @@ public class ReplyController {
 
         Reply newReply;
         try {
-            newReply = replyService.addReply( userId, reply);
+            newReply = replyService.addReply(userId, reply);
             return ResponseEntity.status(201).body(newReply);
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
@@ -42,10 +42,18 @@ public class ReplyController {
 
 
     @GetMapping("/{reviewId}")
+
+    public ResponseEntity<List<ReplyDTO>> getAllRepliesForReview(@PathVariable("reviewId") int reviewId) {
+        List<ReplyDTO> replies = replyService.getAllRepliesForReview(reviewId);
+        return ResponseEntity.ok(replies);
+    }
+
+       
     public ResponseEntity<List<ReplyDTO>>getAllRepliesForReview(@PathVariable("reviewId") int reviewId) {
         List<ReplyDTO> replies = replyService.getAllRepliesForReview(reviewId);
         return ResponseEntity.ok(replies);
     }
+  
     /**
      * Handles the HTTP DELETE request to delete a reply.
      *
@@ -55,27 +63,28 @@ public class ReplyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteReply(@PathVariable int id, @RequestHeader("Authorization") String token){
 
-        String jwt = token.substring(7);
-        int userId = jwtUtil.extractUserId(jwt);
-        String role = jwtUtil.extractRole(jwt).toLowerCase();
+            String jwt = token.substring(7);
+            int userId = jwtUtil.extractUserId(jwt);
+            String role = jwtUtil.extractRole(jwt).toLowerCase();
 
-        // Check if the user is logged in
-        if (userId == 0) {
-            return ResponseEntity.status(401).body("You must be logged in to delete a reply");
-        }
+            // Check if the user is logged in
+            if (userId == 0) {
+                return ResponseEntity.status(401).body("You must be logged in to delete a reply");
+            }
 
-        System.out.println("Role: " + role);
-        // Check if the user is the author of the reply or an admin
-        if (!replyService.isAuthor(userId, id) && !role.equals("admin")){
-            return ResponseEntity.status(401).body("You must be the author of the review or an admin to delete a review.");
-        }
+            System.out.println("Role: " + role);
+            // Check if the user is the author of the reply or an admin
+            if (!replyService.isAuthor(userId, id) && !role.equals("admin")) {
+                return ResponseEntity.status(401).body("You must be the author of the review or an admin to delete a review.");
+            }
 
-        // Attempt to delete the reply
-        try {
-            replyService.deleteReply(id);
-            return ResponseEntity.ok().body("Reply deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+
+            // Attempt to delete the reply
+            try {
+                replyService.deleteReply(id);
+                return ResponseEntity.ok().body("Reply deleted successfully");
+            } catch (Exception e) {
+                return ResponseEntity.status(400).body(e.getMessage());
+            }
     }
 }
