@@ -40,7 +40,7 @@ export const Login: React.FC = () => {
           console.log(JSON.stringify(response));
           setCurrentUser(response);
         }
-        //navigate("/itemsbycategory")
+        navigate("/itemsbycategory")
 
     }
 
