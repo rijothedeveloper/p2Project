@@ -1,7 +1,10 @@
 import React, { useContext } from "react"
 import { UserContext } from "../../Contexts/UserContext";
+import {useNavigate } from "react-router-dom";
+import { ItemInterface } from "../../Interfaces/ItemInterface";
+import { FloatingLabel,Container, Form } from "react-bootstrap";
 import { capitalize } from "../../Utils/StringUtils";
-import { Container, FloatingLabel, Form } from "react-bootstrap";
+
 
 export const ItemsByCategory: React.FC<{
     setCategory: React.Dispatch<React.SetStateAction<string>>,
@@ -25,7 +28,7 @@ export const ItemsByCategory: React.FC<{
             setItems(response);
         }
     };*/
-    
+
     // Fetch items whenever the category changes
     /*useEffect(() => {
         fetchItems();
