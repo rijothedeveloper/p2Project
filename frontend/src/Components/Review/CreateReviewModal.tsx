@@ -53,7 +53,7 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
             const updated = {...prev, rating}
             return updated           
     })}
-    return (
+   return (
         <Modal show={isOpen} onHide={onClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Review</Modal.Title>
@@ -85,5 +85,5 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
                             </div>
                         </Modal.Footer>
         </Modal>
-    )
+   )
 }

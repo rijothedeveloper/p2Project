@@ -1,9 +1,29 @@
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import ReviewList from '../Dashboard/ReviewList';
+import { ReviewInterface } from '../../Interfaces/ReviewInterface';
 
-const StarRating:React.FC<any> = (review:any) => {
-  const [rating, setRating] = useState(review.rating);
+
+/*
+This component lets the user chose the rating using stars
+@param review - the review the component is used for
+@param handleRatingChange - function from parent to let it handle the rating change at the parent level
+*/
+const StarRating:React.FC<{
+  review: ReviewInterface
+  handleRatingChange: (rating: number) => void
+}> = ({review, handleRatingChange}) => {
+
+  console.log(`INCOMING REVIEW IN STA: ${JSON.stringify(review)}`)
+  const [rating, setRating] = useState(review.rating as number);
   const [hover, setHover] = useState(0);
+
+  const handleRatingButtonClick = () => {  
+    console.log(`RATING FROM STAR RATING: ${rating}`)
+    setRating(hover)
+    handleRatingChange(hover)
+  }
+
 
   return (
     <div>
@@ -16,7 +36,8 @@ const StarRating:React.FC<any> = (review:any) => {
               type="radio"
               name="rating"
               value={ratingValue}
-              onClick={() => setRating(ratingValue)}
+              hidden= {true}
+              onClick={handleRatingButtonClick}
             />
             <FaStar
               className="star"
