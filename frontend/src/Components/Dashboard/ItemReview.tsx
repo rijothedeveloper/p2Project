@@ -71,7 +71,9 @@ const ItemReview: React.FC<{
     
 
     const handleSaveReviewUpdate = () => {
-        if(validStringInput(updatedTitle as string) && validStringInput(updatedBody as string)) {
+        if(validStringInput(updatedTitle as string)
+             && validStringInput(updatedBody as string)
+            && (updatedRating && updatedRating > 0)) {
             itemReview.title = updatedTitle;
             itemReview.rating = updatedRating as number;
             itemReview.body = updatedBody;
@@ -81,7 +83,7 @@ const ItemReview: React.FC<{
             // close modal
             setShowEditReviewModal(false)
         } else {
-            alert("Title and Review Body cannot be empty!")
+            alert("Please fill in all fields!")
         } 
     }
     
