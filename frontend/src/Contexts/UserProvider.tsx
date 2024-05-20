@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { UserContext } from "./UserContext";
+import { UserContextInterface } from "../Interfaces/UserContextInterface";
 
 export const UserProvider: React.FC<any> = ({children}) => {
-    const [currentUser, setCurrentUser] = useState<UserInterface|null>(null);
+    const [currentUser, setCurrentUser] = useState<UserInterface| null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('currentUser');

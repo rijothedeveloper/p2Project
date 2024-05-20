@@ -159,6 +159,38 @@ public class ReviewService {
         }
         return allRevDTO;
     }
+
+    /**
+     * Deletes a review with the specified ID.
+     * If the review does not exist, an IllegalArgumentException is thrown.
+     *
+     * @param id The ID of the review to be deleted.
+     * @throws IllegalArgumentException If the review ID is not found.
+     */
+    public void deleteReview(int id){
+        Optional<Review> oR = reviewDAO.findById(id);
+
+        if(oR.isEmpty()){
+            throw new IllegalArgumentException("Item with " + id +" is not found!");
+        }
+        reviewDAO.delete(oR.get());
+    }
+
+    /**
+     * Checks if the user is the author of the review.
+     *
+     * @param userId The ID of the user.
+     * @param reviewId The ID of the review.
+     * @return true if the user is the author of the review; false otherwise.
+     */
+    public boolean isAuthor(int userId, int reviewId) {
+
+        Optional<Review> review = reviewDAO.findById(reviewId);
+
+        // Check if the review exists and if the user is the author of the review
+        return review.isPresent() && review.get().getUser().getId() == userId;
+    }
+
 }
 
 
