@@ -6,7 +6,7 @@ import { UserContext } from "../../Contexts/UserContext"
 import { addItemToCollection, getCollectionItem, removeItemFromCollection } from "../../FrontendAPI/api"
 import { useNavigate } from "react-router-dom"
 
-export const ItemColumns: React.FC<ItemInterface[]> = (items) => {
+export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
     const { currentUser } = useContext(UserContext);
     const navigate = useNavigate();
