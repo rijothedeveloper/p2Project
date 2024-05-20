@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -200,6 +201,13 @@ public class UserService {
                 input.getTimestamp());
 
         return userOut;
+    }
+
+    public void deleteAccount(int userId){
+
+        User user= userDAO.findById(userId).orElseThrow(
+                () -> new NoSuchElementException("User not found with id: " + userId));
+        userDAO.deleteById(userId);
     }
 
 }
