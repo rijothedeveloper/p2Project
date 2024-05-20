@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { UserContext } from "../../Contexts/UserContext";
 import { capitalize } from "../../Utils/StringUtils";
-import { FloatingLabel, Form } from "react-bootstrap";
+import { Container, FloatingLabel, Form } from "react-bootstrap";
 
 export const ItemsByCategory: React.FC<{
     setCategory: React.Dispatch<React.SetStateAction<string>>,
@@ -45,7 +45,7 @@ export const ItemsByCategory: React.FC<{
     };
     
     return (
-        <div>
+        <Container className="mt-1">
             <FloatingLabel controlId="selectCategory" label="Category">
                 <Form.Select name="category" defaultValue="" onChange={handleCategoryChange}>
                     {/* Dropdown for selecting Category */}
@@ -86,6 +86,6 @@ export const ItemsByCategory: React.FC<{
                     </tbody>
                 </table>
             </div>*/}
-        </div>
+        </Container>
     );
 }
