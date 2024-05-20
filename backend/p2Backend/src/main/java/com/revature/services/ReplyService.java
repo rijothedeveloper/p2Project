@@ -10,8 +10,12 @@ import com.revature.models.dtos.ReplyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< ViewAllReplies
 import java.util.List;
 import java.util.stream.Collectors;
+=======
+import java.util.Optional;
+>>>>>>> dev
 
 @Service
 public class ReplyService {
@@ -35,11 +39,42 @@ public class ReplyService {
         return replyDAO.save(newReply);
     }
 
+<<<<<<< ViewAllReplies
     public List<ReplyDTO> getAllRepliesForReview(int reviewId) {
         Review review = reviewDAO.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("No review found for ID: " + reviewId));
         List<Reply> replies = replyDAO.findByReview(review);
         return replies.stream()
                 .map(reply -> new ReplyDTO(reply.getReview().getId(), reply.getBody(), reply.getUser().getUsername()))
                 .collect(Collectors.toList());
+=======
+    /**
+     * Deletes a reply identified by the specified ID.
+     * If the reply does not exist, an IllegalArgumentException is thrown.
+     *
+     * @param id The ID of the reply to be deleted.
+     * @throws IllegalArgumentException If the reply ID is not found.
+     */
+    public void deleteReply(int id) {
+
+        Optional<Reply> oR = replyDAO.findById(id);
+        if (oR.isEmpty()) {
+            throw new IllegalArgumentException("Reply with ID " + id + " not found!");
+        }
+        replyDAO.delete(oR.get());
+    }
+
+    /**
+     * Checks if the user is the author of the reply.
+     *
+     * @param userId The ID of the user to check.
+     * @param replyId The ID of the reply to check.
+     * @return True if the user is the author of the reply, false otherwise.
+     */
+    public boolean isAuthor(int userId, int replyId) {
+        Optional<Reply> reply = replyDAO.findById(replyId);
+
+        // If the reply is not found or the user is not the author, return false
+        return reply.isPresent() && reply.get().getUser().getId() == userId;
+>>>>>>> dev
     }
 }

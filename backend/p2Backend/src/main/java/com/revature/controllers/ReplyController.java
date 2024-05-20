@@ -40,10 +40,44 @@ public class ReplyController {
         }
     }
 
+<<<<<<< ViewAllReplies
 
     @GetMapping("/{reviewId}")
     public ResponseEntity<List<ReplyDTO>>getAllRepliesForReview(@PathVariable("reviewId") int reviewId){
         List<ReplyDTO> replies = replyService.getAllRepliesForReview(reviewId);
         return ResponseEntity.ok(replies);
+=======
+    /**
+     * Handles the HTTP DELETE request to delete a reply.
+     *
+     * @param id The ID of the reply to be deleted.
+     * @return ResponseEntity containing a success message or an error message.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteReply(@PathVariable int id, @RequestHeader("Authorization") String token){
+
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        String role = jwtUtil.extractRole(jwt).toLowerCase();
+
+        // Check if the user is logged in
+        if (userId == 0) {
+            return ResponseEntity.status(401).body("You must be logged in to delete a reply");
+        }
+
+        System.out.println("Role: " + role);
+        // Check if the user is the author of the reply or an admin
+        if (!replyService.isAuthor(userId, id) && !role.equals("admin")){
+            return ResponseEntity.status(401).body("You must be the author of the review or an admin to delete a review.");
+        }
+
+        // Attempt to delete the reply
+        try {
+            replyService.deleteReply(id);
+            return ResponseEntity.ok().body("Reply deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+>>>>>>> dev
     }
 }

@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6701454d-eb28-489e-814d-667fa7f93cc7" name="Changes" comment="merge conflicts handled dev &lt;- findUsername" />
+    <list default="true" id="cd7bb0d1-4d77-4ddc-a1d5-3bc9361bdd74" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +41,7 @@
   }
 }</component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="DEPENDENCY_CHECKER_PROBLEMS_TAB" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -55,23 +57,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
-    "JUnit.P2BackendApplicationTests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "review-collection",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/code/workspace/intellij_workspace/revatureProject_02_02",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+    "git-widget-placeholder": "rev",
+    "kotlin-language-version-configured": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -155,6 +143,6 @@
     <MESSAGE value="Fixed bugs in the skeleton" />
     <MESSAGE value="Fixed bugs in the skeleton pt 2" />
     <MESSAGE value="merge conflicts handled dev &lt;- findUsername" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge conflicts handled dev &lt;- findUsername" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>

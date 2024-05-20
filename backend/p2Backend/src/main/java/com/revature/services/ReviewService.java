@@ -4,20 +4,29 @@ import com.revature.daos.ReviewDAO;
 import com.revature.models.Reply;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
+import com.revature.daos.UserDAO;
+import com.revature.models.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Service
 public class ReviewService {
+    private UserDAO userDAO;
 
     private ReviewDAO reviewDAO;
 
     @Autowired
-    public ReviewService(ReviewDAO reviewDAO) {
+    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO) {
         this.reviewDAO = reviewDAO;
+        this.userDAO = userDAO;
     }
     /**
      * Edits an existing review identified by the specified ID with the provided review data.
@@ -91,5 +100,59 @@ public class ReviewService {
 //
 //    }
 
+    //This method gets all reviews that belong to a userId,
+    //then converts them to a list of ReviewDTO's
+    public List<ReviewDTO> getAllRevByUserId(int userId) {
+        Optional<User> found = userDAO.findById(userId);
+        if(found.isEmpty()){
+            throw new IllegalArgumentException("That user does not exist.");
+        }
+        List<Review> allRevs;
+        try {
+            allRevs = reviewDAO.findAllByUserId(userId);
+        }
+        catch(Exception e){
+            throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
+        }
+        List<ReviewDTO> allRevDTO = new ArrayList<ReviewDTO>();
+        for (Review rev : allRevs) {
+            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
+            allRevDTO.add(revDTO);
+        }
+        return allRevDTO;
+    }
+
+    /**
+     * Deletes a review with the specified ID.
+     * If the review does not exist, an IllegalArgumentException is thrown.
+     *
+     * @param id The ID of the review to be deleted.
+     * @throws IllegalArgumentException If the review ID is not found.
+     */
+    public void deleteReview(int id){
+        Optional<Review> oR = reviewDAO.findById(id);
+
+        if(oR.isEmpty()){
+            throw new IllegalArgumentException("Item with " + id +" is not found!");
+        }
+        reviewDAO.delete(oR.get());
+    }
+
+    /**
+     * Checks if the user is the author of the review.
+     *
+     * @param userId The ID of the user.
+     * @param reviewId The ID of the review.
+     * @return true if the user is the author of the review; false otherwise.
+     */
+    public boolean isAuthor(int userId, int reviewId) {
+
+        Optional<Review> review = reviewDAO.findById(reviewId);
+
+        // Check if the review exists and if the user is the author of the review
+        return review.isPresent() && review.get().getUser().getId() == userId;
+    }
 
 }
+
+

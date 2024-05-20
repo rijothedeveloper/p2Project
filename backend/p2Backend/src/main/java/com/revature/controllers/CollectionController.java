@@ -3,6 +3,7 @@ package com.revature.controllers;
 import com.revature.models.Collection;
 import com.revature.models.Item;
 import com.revature.services.CollectionService;
+import com.revature.utils.JwtTokenUtil;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,18 @@ public class CollectionController {
     public CollectionController(CollectionService collectionService) {
         this.collectionService = collectionService;
     }
+    @Autowired
+    public JwtTokenUtil jwtTokenUtil;
 
 
     @GetMapping("/my_collection")
-    public ResponseEntity<List<Item>> getCollection(HttpSession session) {
+    public ResponseEntity<List<Item>> getCollection(@RequestHeader("Authorization") String token) {
 
-        int userId = 1;
-        //int userId = (int) session.getAttribute(("userId"));
+//        int userId = 1;
+//        int userId = (int) session.getAttribute(("userId"));
+        String jwt = token.substring(7); //remove "Bearer " from the token
+        int userId = jwtTokenUtil.extractUserId(jwt); //send the jwt to the util to extract userId
+//        System.out.println("User ID in my_collection controller: " + userId);
 
         //if the user is logged in, call userService.getCollection(), otherwise, return an empty list
         return userId == 0? ResponseEntity.ok(new ArrayList<Item>()) : ResponseEntity.ok(collectionService.getCollection(userId));

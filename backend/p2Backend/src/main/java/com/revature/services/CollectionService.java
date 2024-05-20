@@ -31,8 +31,15 @@ public class CollectionService {
 
 
     public List<Item> getCollection(int userId) {
-        return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
 
+//        return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
+
+        // my playground
+        List<Collection> collectionDAOResponse = collectionDAO.findAllByIdUserId(userId);
+        System.out.println("In collection service got collection below: ");
+        System.out.println(collectionDAOResponse);
+        collectionDAOResponse.forEach(item -> System.out.println(item));
+        return collectionDAOResponse.stream().map(collection -> collection.getId().getItem()).toList();
     }
 
     /*
