@@ -6,6 +6,7 @@ import { Accordion, Col, Container, Image, ListGroup, Row } from "react-bootstra
 import { getAllRepliesByReview, getItemById, getItemReviews } from "../../FrontendAPI/api";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { ReplyInterface } from "../../Interfaces/ReplyInterface";
+import { capitalize } from "../../Utils/StringUtils";
 
 export const ItemDetails: React.FC = () => {
 
@@ -88,7 +89,7 @@ export const ItemDetails: React.FC = () => {
 
     return (
         <Container>
-            <h1>{item?.name}</h1>
+            <h1>{capitalize(item?.name as string||"")}</h1>
             <Container id="itemDetailsContainer">
                 <Row>
                     <Col md={6}>
@@ -109,36 +110,38 @@ export const ItemDetails: React.FC = () => {
                 <Accordion>
                     {reviews.map((review, idx) => {
                         return (
-                            <Accordion.Item eventKey={`${idx}`}>
+                            <Accordion.Item eventKey={`${idx}`} key={idx}>
                                 <Accordion.Header>
-                                    <h3 className="fs-4">{review.title}</h3>
-                                    <p className="text-wrap">
-                                        {review.body}
-                                        <span className="text-secondary"> - {review.username}</span>
-                                    </p>
-                                    {
-                                        // TODO: add review rating and score components
-                                    }
-                                    {/* rating is the review's rating of the item, score is the vote tally of the review */}
+                                    <Container className="d-flex flex-column">
+                                        <h3 className="fs-4">{review.title}</h3>
+                                        <p className="text-wrap">
+                                            {review.body}
+                                            <span className="text-secondary"><small> - {review.username ? review.username : "anonymous"}</small></span>
+                                        </p>
+                                        {
+                                            // TODO: add review rating and score components
+                                        }
+                                        {/* rating is the review's rating of the item, score is the vote tally of the review */}
+                                    </Container>
                                 </Accordion.Header>
                                 <Accordion.Body>
                                     <Container className="ms-3">
                                         <ListGroup as="ul" variant="flush">
-                                            {replies[review?.id as number].map((reply) => {
+                                            {replies[review?.id as number]?.map((reply, idx) => {
                                                 return (
-                                                    <ListGroup.Item>
+                                                    <ListGroup.Item key={idx}>
                                                         <p className="text-wrap">
                                                             {reply.body}
-                                                            <span className="text-secondary"> - {reply.username}</span>
+                                                            <span className="text-secondary"> - {reply.username ? reply.username : "anonymous"}</span>
                                                         </p>
                                                     </ListGroup.Item>
-                                                )
-                                            })}
+                                                );
+                                            })||[]}
                                         </ListGroup>
                                     </Container>
                                 </Accordion.Body>
                             </Accordion.Item>
-                        )
+                        );
                     })}
                 </Accordion>
             </Container>
