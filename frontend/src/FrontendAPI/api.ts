@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 import { ReviewInterface } from "../Interfaces/ReviewInterface";
+import { UserContext } from "../Contexts/UserContext";
+import { useContext } from "react";
+
 
 
 // Current base URL
@@ -60,8 +63,9 @@ export const getCollection = async (token: string): Promise<ItemInterface[]> => 
 export const addItemToCollection = async (token: string, item: ItemInterface): Promise<{status: boolean, message: string}> => {
     const url = apiURL(addItemToCollectionEndpoint);
     const authHeader = buildAuthHeader(token);
+    console.log(item.name)
     try {
-        const response = await axios.post(url, item, {headers: authHeader});
+        const response = await axios.post(url, {itemId:item.id}, {headers: authHeader});
         if (response.status !== 201) {
             throw new Error(response.data);
         }

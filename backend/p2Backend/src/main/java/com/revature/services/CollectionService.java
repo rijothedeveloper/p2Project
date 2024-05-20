@@ -52,7 +52,7 @@ public class CollectionService {
     public Collection addItemToCollection(AddItemToCollectionDTO addItemToCollectionDTO) throws IllegalArgumentException {
 
         int userId = addItemToCollectionDTO.getUserId();
-        int itemId = addItemToCollectionDTO.getUserId();
+        int itemId = addItemToCollectionDTO.getItemId();
 
         if (userId <= 0) {
             throw new IllegalArgumentException("User ID must be greater than zero");
