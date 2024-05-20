@@ -4,7 +4,6 @@ import {useNavigate } from "react-router-dom";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 import { FloatingLabel,Container, Form } from "react-bootstrap";
 import { capitalize } from "../../Utils/StringUtils";
-import { Container, FloatingLabel, Form } from "react-bootstrap";
 
 
 export const ItemsByCategory: React.FC<{
