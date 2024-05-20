@@ -24,7 +24,7 @@ export const apiURL = (endpoint: string) => {
  * @param token - JWT token
  * @returns authorization header object
  */
-const buildAuthHeader = (token: string|undefined) => {
+export const buildAuthHeader = (token: string|undefined) => {
     return Object.assign({}, {
         "Authorization": `Bearer ${token}`
     });
