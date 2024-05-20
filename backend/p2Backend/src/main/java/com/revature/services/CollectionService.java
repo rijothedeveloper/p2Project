@@ -67,4 +67,16 @@ public class CollectionService {
         Collection collection = new Collection (collectionkey);
         return collectionDAO.save(collection);
     }
+
+    public void deleteCollectionItemById(int itemId, int userId) {
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
+        User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
+        collectionDAO.deleteById(new CollectionKey(item, user));
+    }
+
+    public Object getCollectionItemById(int itemId, int userId) {
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
+        User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
+        return collectionDAO.findById(new CollectionKey(item, user)).orElseThrow(() -> new IllegalArgumentException("No collection found for item ID: " + itemId + " and user ID: " + userId));
+    }
 }

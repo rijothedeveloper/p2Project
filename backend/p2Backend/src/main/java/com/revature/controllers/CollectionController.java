@@ -53,4 +53,25 @@ public class CollectionController {
         }
     }
 
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<?> deleteCollectionItemById(@RequestHeader("Authorization") String token, @PathVariable int itemId) {
+        String jwt = token.substring(7);
+        int userId = jwtTokenUtil.extractUserId(jwt);
+        try {
+            collectionService.deleteCollectionItemById(itemId, userId);
+            return ResponseEntity.ok("Item successfully deleted from user's collection");
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/id/{itemId}/user/{userId}")
+    public ResponseEntity<?> getCollectionItemById(@PathVariable int itemId, @PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(collectionService.getCollectionItemById(itemId, userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
 }

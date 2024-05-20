@@ -1,70 +1,70 @@
-import axios from "axios"
-import React, { useContext, useEffect, useState } from "react"
-import { UserInterface } from "../../Interfaces/UserInterface"
+import React, { useContext } from "react"
 import { UserContext } from "../../Contexts/UserContext";
 import {useNavigate } from "react-router-dom";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
-import { getAllItems, itemsByCategory } from "../../FrontendAPI/api";
-import { Container, Form } from "react-bootstrap";
+import { FloatingLabel,Container, Form } from "react-bootstrap";
+import { capitalize } from "../../Utils/StringUtils";
 
+export const ItemsByCategory: React.FC<{
+    setCategory: React.Dispatch<React.SetStateAction<string>>,
+    categoryOptions: string[]
+}> = ({
+    setCategory,
+    categoryOptions
+}) => {
 
- export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
+    // The below functions were moved to AllItems component
+    /*const [category, setCategory] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
+    const [items, setItems] = useState<ItemInterface[]>([]);*/
 
-     const { currentUser, setCurrentUser } = useContext(UserContext);
-     const [category, setCategory] = useState('');
-     const [items, setItems] = useState<ItemInterface[]>([]);
+    /*const fetchItems = async () => {
+        const response = await getItemsByCategory(currentUser?.jwt as string, category);
+        if (typeof response === "string") {
+            console.error(response);
+        } else {
+            console.log(response);
+            setItems(response);
+        }
+    };*/
 
-    useEffect(() => {
-        const getItemsByCategory = async () => {
-            try {
-                if (currentUser?.jwt) {
-                    if (category == ""){
-                        const data = await getAllItems(currentUser?.jwt);
-                        setItems(data);
-                    }else{
-                        const data = await itemsByCategory(currentUser.jwt, category);
-                        setItems(data);           
-                    }   
-                }
-            } catch (error) {
-                alert("No item found in " + category + " category!");
-            }
-        };
+    // Fetch items whenever the category changes
+    /*useEffect(() => {
+        fetchItems();
+    }, [category, currentUser]);*/
 
-        getItemsByCategory();
-    }, [category, currentUser]);
+    // Get list of categories when items are updated
+    /*useEffect(() => {
+        const categories = items.map((item) => {
+            return item.category;
+        });
+        setCategoryOptions(Array.from(new Set(categories)));
+    }, [items])*/
 
- const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    // Handle category change
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setCategory(event.target.value);
+    };
     
- };
-    
- return (
-    <>
-        <Container id="profile-container">
-            {/* Can add logged in user information here */}
-        </Container>
-        <Container id="select-view-container">
-            <Form id="select-view-form">
-                <Form.FloatingLabel label="" controlId="dashboard-select-view" onChange={handleCategoryChange}>
-                    <Form.Select id="selectCategory" defaultValue="">
-                        <option value="">Select a category</option>
-                        <option value="health">HEALTH</option>
-                        <option value="beauty">BEAUTY</option>
-                        <option value="food">FOOD</option>
-                        <option value="shoes">SHOES</option>
-                        <option value="furniture">FURNITURE</option>
-                    </Form.Select>
-                </Form.FloatingLabel>
-            </Form>
-        </Container>
-        <Container id="collection-review-container">
-            {/* Render items based on category */}
-            <div className="table-responsive">
+    return (
+        <div>
+            <FloatingLabel controlId="selectCategory" label="Category">
+                <Form.Select name="category" defaultValue="" onChange={handleCategoryChange}>
+                    {/* Dropdown for selecting Category */}
+                    <option value="">Select a Category</option>
+                    {categoryOptions.map((category) => {
+                        return (
+                            <option value={category}>{capitalize(category)}</option>
+                        )
+                    })}
+                </Form.Select>
+            </FloatingLabel>
+            {/* Swapped out a table of items for a gird of items placed in ItemColumns component
+            <div>
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th>Image</th>
+                            <th>image</th>
                             <th>Item ID</th>
                             <th>Name</th>
                             <th>Description</th>
@@ -76,7 +76,7 @@ import { Container, Form } from "react-bootstrap";
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index}>
-                                <td><img src={`/Category/shoes/${item.name}.png`} alt={item.name} className="img-fluid" style={{ maxWidth: '100px' }} /></td>
+                                <td><img src={`/Category/shoes/${item.name}.png`} /> </td>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
@@ -87,8 +87,7 @@ import { Container, Form } from "react-bootstrap";
                         ))}
                     </tbody>
                 </table>
-            </div>
-        </Container>
-    </>
-);
-};
+            </div>*/}
+        </div>
+    );
+}

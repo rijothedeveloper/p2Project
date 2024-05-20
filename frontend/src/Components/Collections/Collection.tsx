@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { ItemDetails } from "../Items/ItemDetails"
-import axios from "axios"
+import { getCollection } from "../../FrontendAPI/api"
+import { UserContext } from "../../Contexts/UserContext"
 
 export const Collection:React.FC = () => {
 
+    const { currentUser } = useContext(UserContext);
 
     const [myCollection, setCollection] = useState<ItemInterface[]>([])
-    useEffect(() => {getCollection()},[]) 
+    useEffect(() => {getMyCollection()},[]) 
 
-    const getCollection = async () => {
-        //will change to AWS RDS eventually
-        await axios.get("http://localhost:8080/collections/my_collection", {withCredentials:true})
-            .then((response)=>{setCollection(response.data)})
-            .catch((error)=>{console.log(error)})
-            //shouldn't encounter any errors, if user is not logged in it simply returns an empty list
+    const getMyCollection = async () => {
+        const response = await getCollection(currentUser?.jwt as string);
+        setCollection(response);
     }
 
     return (

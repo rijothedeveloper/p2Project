@@ -1,11 +1,9 @@
 import { useContext, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
+import { FloatingLabel, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { wait } from "@testing-library/user-event/dist/utils";
-import axios from "axios";
-import { useAuth } from "../../globalData/AuthContextType";
 import { UserContext } from "../../Contexts/UserContext";
+import { addItem } from "../../FrontendAPI/api";
 
 export const AddItem: React.FC = () => {
 
@@ -28,47 +26,17 @@ export const AddItem: React.FC = () => {
         }))
     }
     
-    const addItem = async () => {
+    const createItem = async () => {
         // Add item to the database
-        const jwt = currentUser?.jwt;
-        const response = await axios.post("http://localhost:8080/items", item, {headers: {Authorization: `Bearer ${jwt}`}})
-        .then((response) => {      
-            alert("Item added successfully");
-            
-            //navigate("/allitems");
-        })
-        .catch((error) => {
-            console.log(error);
-            alert(error.response.data);
-        });
+        const response = await addItem(currentUser?.jwt as string, item);
+        alert(response);
     };
 
     return (
         <div className="additem">
-            <div>
-                {/* Navigation Bar */}
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div className="container">
-                        <a className="navbar-brand" href="/">Logo</a>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarNav">
-                            <ul className="navbar-nav ms-auto">
-                                <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="/">Home</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/allusers">all users</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
 
     {/* Add a new item form */}
-      <div className="container py-5" style={{ backgroundColor: '#f8f9fa' }}>
+      <div className="container" style={{ backgroundColor: '#f8f9fa' }}>
         <div className="row justify-content-center">
           <div className="col-md-6">
             <div className="card shadow-sm">
@@ -94,7 +62,7 @@ export const AddItem: React.FC = () => {
                 </div>
 
                 <div className="d-flex flex-row ms-3">
-                  <button className="btn btn-primary" onClick={addItem}>Add</button>
+                  <button className="btn btn-primary" onClick={createItem}>Add</button>
                   {/* Add a back button to navigate back to the home page or admin page*/}
                   <button className="btn btn-secondary ms-2" onClick={() => navigate("/")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>back</button>
                 </div>

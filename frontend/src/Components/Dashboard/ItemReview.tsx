@@ -7,32 +7,13 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 
 
-interface ItemReviewInterface extends ReviewInterface {
-    item: ItemInterface
-}
-
-
-
-/***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-// create mock user
-// const currentUser = {
-//     role: "admin",
-//     // role: "user",
-//     jwt: "token"
-// }
-
-// const baseUrl = "localhost:3000"
-/***** TODO REMOVE MOCK DATA AREA ABOVE ****************************
-
-
-
 /*
     This component will display a review
 */
 const ItemReview: React.FC<{
-    // itemReview: ItemReviewInterface
     itemReview: ReviewInterface
-}> = ({ itemReview }) => {
+    handleEditReview: (review: ReviewInterface) => void
+}> = ({ itemReview, handleEditReview }) => {
     
     const [showEditReviewModal, setShowEditReviewModal] = React.useState(false)
     const [updatedTitle, setUpdatedTitle] = React.useState(itemReview.title)
@@ -42,9 +23,7 @@ const ItemReview: React.FC<{
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
-    // const { jwt } = currentUser as  UserInterface
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
-    // const userRole = "admin"
 
 
     const handleEditReviewButtonClick = () => {
@@ -65,6 +44,7 @@ const ItemReview: React.FC<{
         return input.length > 0
     }   
 
+
     // function to handle change in title
     const handleReviewTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedTitle(e.target.value)
@@ -78,19 +58,22 @@ const ItemReview: React.FC<{
         setUpdatedRating(parseInt(ratingEntered, 10))
     }
 
+
     // function to handle change in name filter input
     const handleReviewBodyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedBody(e.target.value)
     }
     
-    const handleSaveReveiwUpdate = () => {
+
+    const handleSaveReviewUpdate = () => {
         if(validStringInput(updatedTitle as string) && validStringInput(updatedBody as string)) {
             itemReview.title = updatedTitle;
             itemReview.rating = updatedRating as number;
             itemReview.body = updatedBody;
-            // TODO save changes
-            // TODO send changes to DB
-            // update state ?
+            // send changes to db
+            console.log(`SENDING REVIEW TO UPDATE: ${JSON.stringify(itemReview)}`)
+            handleEditReview(itemReview)
+            // close modal
             setShowEditReviewModal(false)
         } else {
             alert("Title and Review Body cannot be empty!")
@@ -121,9 +104,9 @@ const ItemReview: React.FC<{
                     {itemReview.body}
                 </Card.Text>
                 <Button 
-                    variant="primary"
-                    
+                    variant="primary"                   
                     onClick={handleEditReviewButtonClick}
+                    hidden={userRole == "admin"}
                 >Edit Review</Button>
             </Card.Body>
         </Card>
@@ -176,7 +159,7 @@ const ItemReview: React.FC<{
                 <Card.Footer>
                     <Button 
                         variant="primary"
-                        onClick={handleSaveReveiwUpdate}
+                        onClick={handleSaveReviewUpdate}
                     >Save Changes</Button>
                     {/* <Button 
                         variant="danger"

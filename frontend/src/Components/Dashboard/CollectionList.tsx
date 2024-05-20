@@ -5,7 +5,9 @@ import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
 // import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
-import { baseURL, getCollection } from "../../FrontendAPI/api"
+import { getCollection } from "../../FrontendAPI/api"
+import { baseURL } from "../../FrontendAPI/api"
+
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
 import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
@@ -78,12 +80,11 @@ const Collection: React.FC<{}> = () => {
         // delete item form database
         // api call to delete item
         const deleteItem = async () => {
-            const baseurl = baseURL ? baseURL : "http://localhost:8080"
             // console.log(`BASEURL: ${baseurl}`)
             const endpoint = deleteItemEndpoint ? deleteItemEndpoint : "/items"
             // console.log(`ENDPOINT: ${endpoint}`)
             // console.log(`ITEM ID TO DELETE: ${itemId}`)
-            const url = `${baseurl}${deleteItemEndpoint}/${itemId}`;
+            const url = `${baseURL}${deleteItemEndpoint}/${itemId}`;
             // console.log(`URL TO DELETE ITEM: ${url}`)
             const authHeader = buildAuthHeader(currentUser?.jwt as string);
             const response = await axios.delete(url, {headers: authHeader})
@@ -118,6 +119,7 @@ const Collection: React.FC<{}> = () => {
 
             // WITH FETCHING HERE
             const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
+            // const baseurl = baseURL ? baseURL : "http://localhost:8080"
             const url = apiURL(endpoint);
             const authHeader = buildAuthHeader(jwt as string);
             const response = await axios.get(url, {headers: authHeader})

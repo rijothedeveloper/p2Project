@@ -5,6 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7bb0d1-4d77-4ddc-a1d5-3bc9361bdd74" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/revature/models/dtos/OutgoingReviewDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/services/ReviewService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/services/ReviewService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ItemReview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ItemReview.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ReviewList.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +62,7 @@
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rev",
+    "git-widget-placeholder": "getCollection",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -144,5 +148,20 @@
     <MESSAGE value="Fixed bugs in the skeleton pt 2" />
     <MESSAGE value="merge conflicts handled dev &lt;- findUsername" />
     <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/revature/models/dtos/OutgoingReviewDTO.java</url>
+          <line>62</line>
+          <properties class="com.revature.models.dtos.OutgoingReviewDTO" method="toString">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
