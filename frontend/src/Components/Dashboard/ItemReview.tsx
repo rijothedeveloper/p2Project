@@ -106,7 +106,7 @@ const ItemReview: React.FC<{
         getItem()
     }, [])
 
-    console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
+    // console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
 
     return (
         <>
