@@ -33,6 +33,9 @@ export const buildAuthHeader = (token: string) => {
 
 // CollectionController
 export const myCollectionEndpoint = "/collections/my_collection";
+const addItemToCollectionEndpoint = "/collections";
+const removeItemFromCollectionEndpoint = "/collections";
+const myCollectionItemEndpoint = "/collections/id" // /{itemId}/user/{userId}
 
 /**
  * Get the current logged in users collection of items
@@ -53,6 +56,65 @@ export const getCollection = async (token: string): Promise<ItemInterface[]> => 
     }
 };
 
+export const addItemToCollection = async (token: string, item: ItemInterface): Promise<{status: boolean, message: string}> => {
+    const url = apiURL(addItemToCollectionEndpoint);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.post(url, item, {headers: authHeader});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message
+        });
+    }
+}
+
+export const removeItemFromCollection = async (token: string, itemId: number): Promise<{status: boolean, message: string}> => {
+    const url = apiURL(`${removeItemFromCollectionEndpoint}/${itemId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: response.data
+        })
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message
+        });
+    }
+}
+
+export const getCollectionItem = async (token: string, itemId: number, userId: number): Promise<{status:boolean, message: string}> => {
+    const url = apiURL(`${myCollectionItemEndpoint}/${itemId}/user/${userId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Collection item found!"
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message
+        });
+    }
+};
 
 // FollowController
 
