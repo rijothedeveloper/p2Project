@@ -5,9 +5,12 @@ import com.revature.daos.ReplyDAO;
 import com.revature.daos.ReviewDAO;
 import com.revature.daos.UserDAO;
 import com.revature.models.Reply;
+import com.revature.models.Review;
 import com.revature.models.dtos.ReplyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ReplyService {
@@ -29,5 +32,10 @@ public class ReplyService {
         newReply.setUser(userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId)));
         newReply.setReview(reviewDAO.findById(reply.getReviewId()).orElseThrow(() -> new IllegalArgumentException("No review found for ID: " + reply.getReviewId())));
         return replyDAO.save(newReply);
+    }
+
+    public List<Reply> repliesByReview(int reviewId) {
+        Review review = reviewDAO.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("No review found for review ID: " + reviewId));
+        return replyDAO.findByReviewId(reviewId);
     }
 }

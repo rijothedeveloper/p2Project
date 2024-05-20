@@ -21,6 +21,20 @@ public class ReplyController {
         this.jwtUtil = jwtUtil;
     }
 
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<?> getRepliesByReviewId(@RequestHeader("Authorization") String token, @PathVariable int reviewId) {
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            return ResponseEntity.status(403).body("You must be logged in to view all replies to a review");
+        }
+        try {
+            return ResponseEntity.ok(replyService.repliesByReview(reviewId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Object> addReply(@RequestBody ReplyDTO reply, @RequestHeader("Authorization") String token) {
         String jwt = token.substring(7);
