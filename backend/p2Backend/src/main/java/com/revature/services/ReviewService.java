@@ -131,6 +131,21 @@ public class ReviewService {
         }
         reviewDAO.delete(oR.get());
     }
+
+    /**
+     * Checks if the user is the author of the review.
+     *
+     * @param userId The ID of the user.
+     * @param reviewId The ID of the review.
+     * @return true if the user is the author of the review; false otherwise.
+     */
+    public boolean isAuthor(int userId, int reviewId) {
+
+        Optional<Review> review = reviewDAO.findById(reviewId);
+
+        // Check if the review exists and if the user is the author of the review
+        return review.isPresent() && review.get().getUser().getId() == userId;
+    }
 }
 
 
