@@ -11,17 +11,32 @@ import { DeleteReview } from "./DeleteReview"
 
 export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
+    // Moved to top to load currentUser ASAP - NEIL
+    const { currentUser } = useContext(UserContext)
+
     const [thisReview, setThisReview] = useState<ReviewInterface>(review)
     const [replies, setReplies] = useState<ReplyInterface[]>([])
 
     //When the review loads then we need to fetch all replies for the current review.  Then we can properly map the replies to the reply component.
-    const fetchReplies = getAllRepliesByReview
-    const { currentUser } = useContext(UserContext)
+    const fetchReplies = async () => {
+        const response = await getAllRepliesByReview(currentUser?.jwt as string,review.id as number);
+        if (!response.status) {
+            console.error(response.message);
+            alert(response.message);
+        } else {
+            console.log(response.message);
+            setReplies(response.data);
+        }
+    }
 
     useEffect(() => {
+        /* Abstracted this into the above fetchReplies function - NEIL
         const result = fetchReplies(currentUser?.jwt as string,review.id as number)
-        .then((result) => {setReplies(result as ReplyInterface[])})  //Need to convert result into an array of replies.
-    }, [])
+        .then((result) => {setReplies(result as ReplyInterface[])})  //Need to convert result into an array of replies.*/
+        if (currentUser) {
+            fetchReplies();
+        }
+    }, [currentUser])
 
     return (
             <div className="modal fade" id="reviewModal" tabIndex={-1} aria-labelledby="reviewModalLabel" aria-hidden="true">
