@@ -122,7 +122,7 @@ const ItemReview: React.FC<{
                     Rating: {itemReview.rating}
                 </div>
             </Card.Header>
-            <Card.Img variant="top" src={item.image} className="mt-2"/>
+            <Card.Img variant="top" src={item.image} alt={`Image of ${item.name}`} className="mt-2"/>
             <Card.Body>
                 <Card.Title>{itemReview.title}</Card.Title>
                 <Card.Text>
