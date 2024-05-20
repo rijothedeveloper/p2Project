@@ -63,6 +63,7 @@ export const Dashboard: React.FC = () => {
     console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
     // get role and jwt of current user
     const jwt = currentUser ? currentUser.jwt : null
+    
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
     
 
@@ -156,6 +157,11 @@ export const Dashboard: React.FC = () => {
     // get collection and reviews on component rendering
     React.useEffect(() => {
         
+        console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+        console.log(`JWT: ${jwt}`)
+
+        if (!currentUser) return;
+
         // get collection of user
         const getUserCollection = async () => {
 
@@ -201,7 +207,7 @@ export const Dashboard: React.FC = () => {
         }
         getReviews()
 
-    }, []);
+    }, [currentUser]);
 
     return currentUser 
     ?  (
