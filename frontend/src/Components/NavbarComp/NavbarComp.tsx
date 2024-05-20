@@ -44,7 +44,7 @@ export const NavbarComp: React.FC = () => {
                     <>
                         <Nav>
                             <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-                            <Nav.Link href="">Collections</Nav.Link>
+                            <Nav.Link href="/items">Collections</Nav.Link>
                             {currentUser.role?.toUpperCase() == "ADMIN" && <NavDropdown title="ADMIN">
                                 <NavDropdown.Item href="/allusers">Users</NavDropdown.Item>
                             </NavDropdown>}

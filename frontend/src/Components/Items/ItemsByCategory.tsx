@@ -1,19 +1,22 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext } from "react"
 import { UserContext } from "../../Contexts/UserContext";
-import { ItemInterface } from "../../Interfaces/ItemInterface";
-import { getItemsByCategory } from "../../FrontendAPI/api";
 import { capitalize } from "../../Utils/StringUtils";
+import { Container, FloatingLabel, Form } from "react-bootstrap";
 
-export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
+export const ItemsByCategory: React.FC<{
+    setCategory: React.Dispatch<React.SetStateAction<string>>,
+    categoryOptions: string[]
+}> = ({
+    setCategory,
+    categoryOptions
+}) => {
 
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-    const [category, setCategory] = useState('');
+    // The below functions were moved to AllItems component
+    /*const [category, setCategory] = useState('');
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
-    const [items, setItems] = useState<ItemInterface[]>([]);
+    const [items, setItems] = useState<ItemInterface[]>([]);*/
 
-    console.log(currentUser?.jwt)
-
-    const fetchItems = async () => {
+    /*const fetchItems = async () => {
         const response = await getItemsByCategory(currentUser?.jwt as string, category);
         if (typeof response === "string") {
             console.error(response);
@@ -21,20 +24,20 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
             console.log(response);
             setItems(response);
         }
-    };
+    };*/
     
     // Fetch items whenever the category changes
-    useEffect(() => {
+    /*useEffect(() => {
         fetchItems();
-    }, [category, currentUser]);
+    }, [category, currentUser]);*/
 
     // Get list of categories when items are updated
-    useEffect(() => {
+    /*useEffect(() => {
         const categories = items.map((item) => {
             return item.category;
         });
         setCategoryOptions(Array.from(new Set(categories)));
-    }, [items])
+    }, [items])*/
 
     // Handle category change
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,16 +45,19 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
     };
     
     return (
-        <div>
-            <select id="category" name="category" defaultValue="" onChange={handleCategoryChange}>
-                {/* Dropdown for selecting Category */}
-                <option value="">Select a category</option>
-                {categoryOptions.map((category) => {
-                    return (
-                        <option value={category}>{capitalize(category)}</option>
-                    )
-                })}
-            </select>
+        <Container className="mt-1">
+            <FloatingLabel controlId="selectCategory" label="Category">
+                <Form.Select name="category" defaultValue="" onChange={handleCategoryChange}>
+                    {/* Dropdown for selecting Category */}
+                    <option value="">Select a Category</option>
+                    {categoryOptions.map((category) => {
+                        return (
+                            <option value={category}>{capitalize(category)}</option>
+                        )
+                    })}
+                </Form.Select>
+            </FloatingLabel>
+            {/* Swapped out a table of items for a gird of items placed in ItemColumns component
             <div>
                 <table className="table table-striped">
                     <thead>
@@ -79,7 +85,7 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
                         ))}
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </div>*/}
+        </Container>
     );
 }
