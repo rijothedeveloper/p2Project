@@ -2,6 +2,7 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
+import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 import { ReviewInterface } from "../Interfaces/ReviewInterface";
@@ -24,7 +25,7 @@ export const apiURL = (endpoint: string) => {
  * @param token - JWT token
  * @returns authorization header object
  */
-export const buildAuthHeader = (token: string) => {
+export const buildAuthHeader = (token: string|undefined) => {
     return Object.assign({}, {
         "Authorization": `Bearer ${token}`
     });

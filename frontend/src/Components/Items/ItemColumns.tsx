@@ -5,10 +5,12 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../../Contexts/UserContext"
 import { addItemToCollection, getCollectionItem, removeItemFromCollection } from "../../FrontendAPI/api"
 import { useNavigate } from "react-router-dom"
+import { CreateReviewModal } from "../Review/CreateReviewModal"
 
 export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
     const { currentUser } = useContext(UserContext);
+    const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const [inCollection, setInCollection] = useState<{[key:number]:Boolean}>({});
@@ -23,6 +25,12 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
             alert(response.message);
         }
     };
+    const openModal = () => {
+        setIsReviewModalOpen(true)
+    }
+    const closeModal = () => {
+        setIsReviewModalOpen(false)
+    }
     const deleteFromCollection = async (itemId: number) => {
         const response = await removeItemFromCollection(currentUser?.jwt as string, itemId);
         if (!response.status) {
@@ -81,6 +89,8 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                     <Button variant="success" onClick={async () => {await addToCollection(item)}}>Add to Collection</Button>
                                 )}
                                 <Button className="ms-3" variant="info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
+                                <Button className="ms-3" onClick={openModal} >Review Item</Button>
+                                <CreateReviewModal isOpen={isReviewModalOpen} onClose={closeModal} itemIdToPass={item.id as number}/>
                             </Card.Footer>
                         </Card>
                     </Col>

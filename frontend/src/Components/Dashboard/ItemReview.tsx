@@ -6,6 +6,9 @@ import { baseURL } from "../../FrontendAPI/api";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 
+import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { UserInterface } from "../../Interfaces/UserInterface";
 
 /*
     This component will display a review
@@ -19,10 +22,12 @@ const ItemReview: React.FC<{
     const [updatedTitle, setUpdatedTitle] = React.useState(itemReview.title)
     const [updatedRating, setUpdatedRating] = React.useState(itemReview.rating)
     const [updatedBody, setUpdatedBody] = React.useState(itemReview.body)
+    const [item, setItem] = React.useState({} as ItemInterface)
 
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    const { jwt } = currentUser as  UserInterface
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
 
 
@@ -66,7 +71,9 @@ const ItemReview: React.FC<{
     
 
     const handleSaveReviewUpdate = () => {
-        if(validStringInput(updatedTitle as string) && validStringInput(updatedBody as string)) {
+        if(validStringInput(updatedTitle as string)
+             && validStringInput(updatedBody as string)
+            && (updatedRating && updatedRating > 0)) {
             itemReview.title = updatedTitle;
             itemReview.rating = updatedRating as number;
             itemReview.body = updatedBody;
@@ -76,30 +83,48 @@ const ItemReview: React.FC<{
             // close modal
             setShowEditReviewModal(false)
         } else {
-            alert("Title and Review Body cannot be empty!")
+            alert("Please fill in all fields!")
         } 
     }
     
+    React.useEffect(() => {
+        // get item
+        const getItem = async () => {
+            const endpoint = "/items"
+            const url = `${apiURL(endpoint)}/id/${itemReview.itemId}`
+            const authHeader = buildAuthHeader(jwt as string);
+            const response = await axios.get(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                // console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
+                // collectionInput = response.data
+                setItem(response.data as ItemInterface)
+            })
+            .catch((error: AxiosError) => {
+                console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
+            });
+        }
+        getItem()
+    }, [])
 
-    console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
+    // console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
 
     return (
         <>
         <Card style={{ width: '14rem' }} className="m-1">
             <Card.Header>
-                <div>
+                {/* <div>
                     {itemReview.title}
-                </div>
+                </div> */}
                 <div>
-                    {/* {itemReview.item.name} */}
+                    {item.name}
                 </div>
                 <div>
                     Rating: {itemReview.rating}
                 </div>
             </Card.Header>
-            {/* <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/> */}
+            <Card.Img variant="top" src={item.image} className="mt-2"/>
             <Card.Body>
-                {/* <Card.Title>{itemReview.title}</Card.Title> */}
+                <Card.Title>{itemReview.title}</Card.Title>
                 <Card.Text>
                     {itemReview.body}
                 </Card.Text>
@@ -113,7 +138,7 @@ const ItemReview: React.FC<{
 
         <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
-                {/* <Modal.Title>Edit review for {itemReview.item.name}</Modal.Title> */}
+                <Modal.Title>Edit review for {item.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Card style={{ width: '14rem' }} className="m-1">
