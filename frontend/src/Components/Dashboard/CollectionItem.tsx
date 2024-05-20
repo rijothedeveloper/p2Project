@@ -60,6 +60,7 @@ const CollectionItem: React.FC<{
     return currentUser 
     ?  (
         <>
+        {/* CARD THAT SHOWS ITEM */}
         <Card style={{ width: '14rem' }} className="m-1">
             <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
@@ -92,7 +93,9 @@ const CollectionItem: React.FC<{
                 >Delete</Button>
             </Card.Body>
         </Card>
-        
+
+    
+    {/* MODAL TO SHOW ITEM DETAILS */}
       <Modal show={showItemDetails} onHide={handleItemDetailsModalClose}>
        <Modal.Header closeButton>
          <Modal.Title>{item.name}</Modal.Title>
