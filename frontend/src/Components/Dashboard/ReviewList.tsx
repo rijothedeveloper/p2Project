@@ -24,7 +24,6 @@ const ReviewList: React.FC<{
 
     console.log(`REVIEWS: ${JSON.stringify(reviews)}`)
 
-
     return currentUser
     ?  (
         <>
