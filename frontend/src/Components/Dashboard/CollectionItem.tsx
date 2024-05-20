@@ -101,7 +101,7 @@ const CollectionItem: React.FC<{
         <>
         {/* CARD THAT SHOWS ITEM */}
         <Card style={{ width: '14rem' }} className="m-1">
-            <Card.Img variant="top" src={ image } className="mt-2"/>
+            <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`} className="mt-2"/>
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
