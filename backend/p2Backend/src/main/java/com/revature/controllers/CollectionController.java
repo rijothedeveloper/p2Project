@@ -55,7 +55,8 @@ public class CollectionController {
 
     @DeleteMapping("/{itemId}")
     public ResponseEntity<?> deleteCollectionItemById(@RequestHeader("Authorization") String token, @PathVariable int itemId) {
-        int userId = jwtTokenUtil.extractUserId(token);
+        String jwt = token.substring(7);
+        int userId = jwtTokenUtil.extractUserId(jwt);
         try {
             collectionService.deleteCollectionItemById(itemId, userId);
             return ResponseEntity.ok("Item successfully deleted from user's collection");
