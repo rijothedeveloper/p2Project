@@ -11,6 +11,7 @@ import { UserProvider } from './Contexts/UserProvider';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
 import { AllItems } from './Components/Items/AllItems';
+import { ItemDetails } from './Components/Items/ItemDetails';
 
 function App() {
 
@@ -28,7 +29,7 @@ function App() {
                             <Route path="dashboard" element={< Dashboard />} />
                             <Route path="user/:userId" element={<UserDetails />} />
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
-                            <Route path='item/:itemId' />
+                            <Route path='item/:itemId' element={<ItemDetails/>}/>
                             <Route path="allusers" element={<AllUsers />} />
                             <Route path="items" element={<AllItems/>} />
                             <Route path="additem" element={<AddItem />} />

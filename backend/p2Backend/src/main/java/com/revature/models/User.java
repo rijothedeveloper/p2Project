@@ -89,6 +89,17 @@ public class User implements UserDetails {
         this.replies = replies;
     }
 
+    public User(int id, String username, String password, String email, String firstName, String lastName, String role, String timestamp) {
+        Id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.role = role;
+        this.lastName = lastName;
+        this.email = email;
+        this.timestamp = timestamp;
+    }
+
     public int getId() {
         return Id;
     }
