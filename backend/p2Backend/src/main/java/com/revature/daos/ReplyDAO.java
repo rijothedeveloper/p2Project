@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface ReplyDAO extends JpaRepository<Reply,Integer> {
 
+    public List<Reply> findByReviewId(int reviewId);
+
 //    @Modifying
 //    @Transactional
 //    @Query("delete from Reply r where r.user.userId = :userId")
