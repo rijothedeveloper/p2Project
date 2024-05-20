@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { Table } from "react-bootstrap";
 import { UserContext } from "../../Contexts/UserContext";
 import { getUserReviews } from "../../FrontendAPI/api";
@@ -9,9 +10,11 @@ import { getUserReviews } from "../../FrontendAPI/api";
 export const AllRevByUser: React.FC = () => {
     const {userId} = useParams();
     
-    const { currentUser } = useContext(UserContext);
 
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+
+    console.log(currentUser?.jwt);
 
     const navigate = useNavigate();
     useEffect(() => {

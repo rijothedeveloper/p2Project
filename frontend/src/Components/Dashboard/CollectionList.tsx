@@ -3,48 +3,49 @@ import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
 import { Container, Row, Form } from "react-bootstrap"
 import { UserContextInterface } from "../../Interfaces/UserContextInterface"
-import { getAllItems } from "../../FrontendAPI/api"
+// import { getAllItems } from "../../FrontendAPI/api"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { getCollection } from "../../FrontendAPI/api"
+import { baseURL } from "../../FrontendAPI/api"
+
 import { UserInterface } from "../../Interfaces/UserInterface"
 import { Login } from "../Login/Login"
-
+import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { getAllItemsEndpoint } from "../../FrontendAPI/api"
+import { myCollectionEndpoint } from "../../FrontendAPI/api"
+import { getAllItems } from "../../FrontendAPI/api"
+import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses"
+import { deleteItemEndpoint } from "../../FrontendAPI/api"
 
 
 /***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
 
-/* FOR GIT
-
-git restore backend/p2Backend/.idea/misc.xml
-git restore  backend/p2Backend/.idea/workspace.xml
-*/
-
-
 // create list of mock items
-const item: ItemInterface = {
-    id: 9,
-    name: "Book",
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
-    rating: 2.5,
-    category: "Books",
-    description: "book",
-    producerId: 1
-}
+// const item: ItemInterface = {
+//     id: 9,
+//     name: "Book",
+//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
+//     rating: 2.5,
+//     category: "Books",
+//     description: "book",
+//     producerId: 1
+// }
 
-const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
+// const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
 
-const mockCollection: ItemInterface[] = [];
-for(let i = 0; i < 7; i++) {
-    mockCollection.push({
-        id: item.id as number + i, 
-        image: item.image,
-        name: itemNames[i],
-        rating: item.rating as number + i*0.3,
-        category: item.category,
-        description: item.description,
-        producerId: item.producerId
-    })
-}
+// const mockCollection: ItemInterface[] = [];
+// for(let i = 0; i < 7; i++) {
+//     mockCollection.push({
+//         id: item.id as number + i, 
+//         image: item.image,
+//         name: itemNames[i],
+//         rating: item.rating as number + i*0.3,
+//         category: item.category,
+//         description: item.description,
+//         producerId: item.producerId
+//     })
+// }
 /***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
 
 
@@ -53,7 +54,7 @@ for(let i = 0; i < 7; i++) {
     This componenet will display a list items aka collection
     If the role of user logged in is a user it will display the items of the user
     If the role of user logged in is an admin it will display all items
-*/
+*/  
 const Collection: React.FC<{}> = () => {
 
     // state to store collection
@@ -62,7 +63,7 @@ const Collection: React.FC<{}> = () => {
     const [ nameFilter, setNameFilter ] = React.useState("")
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
-    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
 
     // get role and jwt of current user
@@ -73,6 +74,32 @@ const Collection: React.FC<{}> = () => {
 
 
     const handleDeleteItem = (itemId: number) => {
+
+        console.log(`ITEM ID TO DELETE: ${itemId}`)
+
+        // delete item form database
+        // api call to delete item
+        const deleteItem = async () => {
+            // console.log(`BASEURL: ${baseurl}`)
+            const endpoint = deleteItemEndpoint ? deleteItemEndpoint : "/items"
+            // console.log(`ENDPOINT: ${endpoint}`)
+            // console.log(`ITEM ID TO DELETE: ${itemId}`)
+            const url = `${baseURL}${deleteItemEndpoint}/${itemId}`;
+            // console.log(`URL TO DELETE ITEM: ${url}`)
+            const authHeader = buildAuthHeader(currentUser?.jwt as string);
+            const response = await axios.delete(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                console.log(`ERROR IN DELETE ITEM: ${error}`)
+            });
+
+        }
+        // call delete item api call
+        deleteItem()
+
+        // update collection state
         // create new collection with the deleted item removed
         const updatedCollection = collection.filter(item => item.id != itemId)
         // update collection state
@@ -80,36 +107,77 @@ const Collection: React.FC<{}> = () => {
     }
 
 
-
-
     // get collection on component rendering
     React.useEffect((): void => {
 
-        // function to get collection of user
+        // // function to get collection of user
         const getUserCollection = async () => {
 
-            console.log(`ROLE: ${userRole}`)
-            console.log(`JWT BEFORE GETTING COLLECTION: ${jwt}`)
-            // get collection based on role
-            const collection: unknown = userRole == "user"
-                // if the role is user only get the items of the current user
-                ? await getCollection(jwt as string)
-                // if the role is admin get all items
-                : await getAllItems(jwt as string )
+            console.log(`USER ROLE: ${userRole}`)
 
-            // // set collection state
-            // setCollection(collection as ItemInterface[])
+            // set collection state
 
-            console.log(`COLLECTION: ${JSON.stringify(collection)}`)
-        }
+            // WITH FETCHING HERE
+            const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
+            // const baseurl = baseURL ? baseURL : "http://localhost:8080"
+            const url = apiURL(endpoint);
+            const authHeader = buildAuthHeader(jwt as string);
+            const response = await axios.get(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
+                // collectionInput = response.data
+                setCollection(response.data as ItemInterface[])
+            })
+            .catch((error: AxiosError) => {
+                console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
+            });
 
-        
-//         // TODO uncomment invoking getCollection()
-//         // invoke getCollection function
+
+            // WITH USING API CALL FROM API.TS NOT WORKING RIGHT NOW
+        //     if(userRole == "user"){
+        //         const response: unknown = await getCollection(jwt as string)
+        //         .then((response) => {
+        //             console.log(`TYPE OF RESPONsSE: ${typeof response}`)
+        //             console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+        //             // setCollection(response as ItemInterface[])
+        //         })
+        //         .catch((error) => {
+        //             console.log(`ERROR IN GET COLLECTION: ${error}`)
+        //         })
+        //     } else if(userRole == "admin") {
+        //         const response = await getAllItems(jwt as string)
+        //         .then(response => {
+        //             console.log(`TYPE OF RESPONSE: ${typeof response}`)
+        //             console.log(`RESPONSE IN COLLECTION: ${JSON.stringify(response)}`)
+        //             // setCollection(response as ItemInterface[])
+        //         })
+        //         .catch((error) => {
+        //             console.log(`ERROR IN GET COLLECTION: ${error}`)
+        //         })
+        //     } else {
+        //         setCollection([])
+        //     }
+
+    }
+
+        // // DID NOT WORK
+        // const getData = async () => {
+        //     const response : unknown = await getAllItems(currentUser?.jwt as string);
+        //     if (typeof response === "string") {
+        //         console.error(response);
+        //         setCollection([]);
+        //     } else {
+        //         console.log(response);
+        //         console.log(`RESPONSE with new way COLLECTION: ${JSON.stringify(response)}`)
+        //         setCollection(response as ItemInterface[]);
+        //     }
+        // };
+
+
+
+         
         getUserCollection()
-
-        // TODO REMOVE line below
-        setCollection(mockCollection)
+        // getData();
 
     }, [])
 
@@ -119,6 +187,7 @@ const Collection: React.FC<{}> = () => {
         setNameFilter(e.target.value)
     }
 
+    
     return currentUser
     ? (
         <>
@@ -140,6 +209,7 @@ const Collection: React.FC<{}> = () => {
                          // filter items based on nameFilter
                          .filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase())> -1)
                          .map(item => {
+                            // console.log(`ITEM: ${JSON.stringify(item)}`)
                          return (
                              <CollectionItem 
                                  key = { item.id }

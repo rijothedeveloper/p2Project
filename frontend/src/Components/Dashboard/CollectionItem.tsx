@@ -32,25 +32,19 @@ const CollectionItem: React.FC<{
     const userRole: string = currentUser?.role == "USER" ? "user" : "admin"
 
 
-
-
-
-    // delet item from collection if delete button is clicked
+    // function to handle if delete button is clicked
     const handleDeleteItemButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        // delete item from database
-        await deleteItem(jwt as string, item.id as number)
         // call parent items function to update collection state
         handleDeleteItem(item.id as number)
     }
 
     const handleClickViewDetailsButton = (event: React.MouseEvent<HTMLButtonElement>) => {
-        // TODO uncomment and test view items
-        // navigate to itemDetails
-        // navigate(`/items/${id}`)
+        // show item item details modal
         setShowItemDetails(true)
     }
 
     const handleItemDetailsModalClose = () => {
+        // close item details modal
         setShowItemDetails(false)
     }
 
@@ -108,6 +102,7 @@ const CollectionItem: React.FC<{
             <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
                 <Card.Text>
+                </Card.Text>
                     <div>
                         Category: {item.category}
                     </div>
@@ -125,7 +120,7 @@ const CollectionItem: React.FC<{
                         Description: {item.description}
                     </div>
 
-                </Card.Text>
+
             </Card.Body>
         </Card>
        </Modal.Body>

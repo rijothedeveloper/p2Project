@@ -8,14 +8,14 @@ import { ReviewInterface } from "../Interfaces/ReviewInterface";
 
 
 // Current base URL
-const baseURL = "http://localhost:8080";
+export const baseURL = "http://localhost:8080";
 
 /**
  * Helper function to build a URL
  * @param endpoint - The endpoint to connect to the server
  * @returns the base URL + the endpoint
  */
-const apiURL = (endpoint: string) => {
+export const apiURL = (endpoint: string) => {
     return baseURL + endpoint;
 };
 
@@ -24,7 +24,7 @@ const apiURL = (endpoint: string) => {
  * @param token - JWT token
  * @returns authorization header object
  */
-const buildAuthHeader = (token: string) => {
+export const buildAuthHeader = (token: string) => {
     return Object.assign({}, {
         "Authorization": `Bearer ${token}`
     });
@@ -32,7 +32,7 @@ const buildAuthHeader = (token: string) => {
 
 
 // CollectionController
-const myCollectionEndpoint = "/collections/my_collection";
+export const myCollectionEndpoint = "/collections/my_collection";
 const addItemToCollectionEndpoint = "/collections";
 const removeItemFromCollectionEndpoint = "/collections";
 const myCollectionItemEndpoint = "/collections/id" // /{itemId}/user/{userId}
@@ -121,10 +121,10 @@ export const getCollectionItem = async (token: string, itemId: number, userId: n
 // ItemController
 const itemControllerEndpoint = "/items";
 const addItemEndpoint = itemControllerEndpoint;
-const getAllItemsEndpoint = itemControllerEndpoint;
+export const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";
-const deleteItemEndpoint = itemControllerEndpoint;
+export const deleteItemEndpoint = itemControllerEndpoint;
 const updateItemEndpoint = itemControllerEndpoint;
 
 /**
@@ -304,6 +304,7 @@ export const getUserReviews = async (token: string, userId: string): Promise<Rev
         return error.message;
     }
 }
+
 
 /**
  * Delete review by ID
