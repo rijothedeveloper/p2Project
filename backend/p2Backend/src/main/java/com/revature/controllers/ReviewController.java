@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.revature.utils.JwtTokenUtil;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/reviews")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -38,14 +40,14 @@ public class ReviewController {
     }
 
 
-    /**
-     * Handles the HTTP PUT request to edit a review.
-     *
-     * @param id      The ID of the review to be edited.
-     * @param review  The updated review data in the form of a ReviewDTO object.
-     * @param session The HttpSession object to check user authentication (optional).
-     * @return ResponseEntity containing the edited review data or an error message.
-     */
+//    /**
+//     * Handles the HTTP PUT request to edit a review.
+//     *
+//     * @param id      The ID of the review to be edited.
+//     * @param review  The updated review data in the form of a ReviewDTO object.
+//     * @param session The HttpSession object to check user authentication (optional).
+//     * @return ResponseEntity containing the edited review data or an error message.
+//     */
     @PutMapping("/{id}")
     public ResponseEntity<Object> editReview(@PathVariable int id, @RequestBody ReviewDTO review){
         try{
@@ -90,5 +92,7 @@ public class ReviewController {
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+
+
 
 }

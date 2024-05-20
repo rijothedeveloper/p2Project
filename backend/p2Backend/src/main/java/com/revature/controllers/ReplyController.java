@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/replies")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -38,6 +40,13 @@ public class ReplyController {
         }
     }
 
+<<<<<<< ViewAllReplies
+
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<List<ReplyDTO>>getAllRepliesForReview(@PathVariable("reviewId") int reviewId){
+        List<ReplyDTO> replies = replyService.getAllRepliesForReview(reviewId);
+        return ResponseEntity.ok(replies);
+=======
     /**
      * Handles the HTTP DELETE request to delete a reply.
      *
@@ -69,5 +78,6 @@ public class ReplyController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
+>>>>>>> dev
     }
 }

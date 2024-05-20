@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.daos.ReviewDAO;
+import com.revature.models.Reply;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
 import com.revature.daos.UserDAO;
@@ -9,6 +10,7 @@ import com.revature.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import java.util.ArrayList;
@@ -93,6 +95,10 @@ public class ReviewService {
         return true;
     }
 
+//    public List<Review> viewAllReviews(int userId) {
+//        return reviewDAO.findByUserUserId(userId);
+//
+//    }
 
     //This method gets all reviews that belong to a userId,
     //then converts them to a list of ReviewDTO's

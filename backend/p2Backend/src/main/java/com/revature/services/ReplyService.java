@@ -5,11 +5,17 @@ import com.revature.daos.ReplyDAO;
 import com.revature.daos.ReviewDAO;
 import com.revature.daos.UserDAO;
 import com.revature.models.Reply;
+import com.revature.models.Review;
 import com.revature.models.dtos.ReplyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< ViewAllReplies
+import java.util.List;
+import java.util.stream.Collectors;
+=======
 import java.util.Optional;
+>>>>>>> dev
 
 @Service
 public class ReplyService {
@@ -33,6 +39,14 @@ public class ReplyService {
         return replyDAO.save(newReply);
     }
 
+<<<<<<< ViewAllReplies
+    public List<ReplyDTO> getAllRepliesForReview(int reviewId) {
+        Review review = reviewDAO.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("No review found for ID: " + reviewId));
+        List<Reply> replies = replyDAO.findByReview(review);
+        return replies.stream()
+                .map(reply -> new ReplyDTO(reply.getReview().getId(), reply.getBody(), reply.getUser().getUsername()))
+                .collect(Collectors.toList());
+=======
     /**
      * Deletes a reply identified by the specified ID.
      * If the reply does not exist, an IllegalArgumentException is thrown.
@@ -61,5 +75,6 @@ public class ReplyService {
 
         // If the reply is not found or the user is not the author, return false
         return reply.isPresent() && reply.get().getUser().getId() == userId;
+>>>>>>> dev
     }
 }
