@@ -5,7 +5,9 @@ import { UserContext } from "../../Contexts/UserContext";
 import { deleteItem } from "../../FrontendAPI/api";
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { UserInterface } from "../../Interfaces/UserInterface";
+import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { Login } from "../Login/Login";
+import ItemReview from "./ItemReview";
 
 
 /*
@@ -16,11 +18,16 @@ import { Login } from "../Login/Login";
 const CollectionItem: React.FC<{
     item: ItemInterface,
     handleDeleteItem: (itemId: number) => void
-}> = ({ item, handleDeleteItem }) => {
+    reviews: ReviewInterface[]
+    handleEditReview: (review: ReviewInterface) => void
+}> = ({ item, handleDeleteItem, reviews, handleEditReview }) => {
 
     const [ showItemDetails, setShowItemDetails ] = React.useState(false)
+    const [ showReview, setShowReview ] = React.useState(false)
+
+    const currentItemReview = reviews.filter(review => review.itemId === item.id)[0] as ReviewInterface
     
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // TODO finalize item detials to show
     const { id, image, name,  rating } = item;
@@ -56,10 +63,43 @@ const CollectionItem: React.FC<{
       return "text-danger"
     }
 
+    // function to check if user already reviewed item
+    const isItemReviewed = (itemId: number) => {    
+        // console.log(`ITEM ID: ${itemId}`)
+        return reviews.filter(review => review.itemId === itemId).length > 0
+    }
+
+    const handleViewReviewButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        
+        // show review
+        setShowReview(true)
+
+    }
+
+    const handleShowReviewModalClose = () => {
+        setShowReview(false)
+    }
+
+    console.log(JSON.stringify(reviews))
+    console.log(isItemReviewed(id as number))
     
     return currentUser 
     ?  (
+        showReview 
+        ? ( 
+            <Modal show={showReview} onHide={handleShowReviewModalClose}>
+                <Modal.Header closeButton>
+                </Modal.Header>
+                <ItemReview
+                    itemReview = { currentItemReview as ReviewInterface }
+                    handleEditReview={handleEditReview}
+                />
+            </Modal>
+        )
+        
+        : (
         <>
+        {/* CARD THAT SHOWS ITEM */}
         <Card style={{ width: '14rem' }} className="m-1">
             <Card.Img variant="top" src={ image } className="mt-2"/>
             <Card.Body>
@@ -70,7 +110,6 @@ const CollectionItem: React.FC<{
                             {/* TODO find beter way for spacing  */}
                             {`  ${rating}`}
                         </span>
-
                 </Card.Text>
                 <Button 
                     variant="outline-primary"
@@ -78,11 +117,13 @@ const CollectionItem: React.FC<{
                     className = "mr-6"
                     onClick={handleClickViewDetailsButton}
                 >View Details</Button>
-                 {/* <Button 
+                 <Button 
                     variant="outline-primary"
                     size="sm"
                     className = "mr-6"
-                >View Details</Button> */}
+                    hidden = { userRole === "admin" || !isItemReviewed(id as number)}
+                    onClick={handleViewReviewButtonClick}
+                >View My  Review</Button>
                 {`     `}
                 <Button
                     variant="outline-danger"
@@ -92,56 +133,51 @@ const CollectionItem: React.FC<{
                 >Delete</Button>
             </Card.Body>
         </Card>
+
         
-      <Modal show={showItemDetails} onHide={handleItemDetailsModalClose}>
-       <Modal.Header closeButton>
-         <Modal.Title>{item.name}</Modal.Title>
-       </Modal.Header>
-       <Modal.Body>
-       <Card style={{ width: '18rem' }} className="m-1">
-            <Card.Img variant="top" src={ image } className="mt-2"/>
-            <Card.Body>
-                <Card.Text>
-                </Card.Text>
-                    <div>
-                        Category: {item.category}
-                    </div>
-                    {/* <div>
-                        Producer: {item.producerId}
-                    </div> */}
-                    <div>
-                        Rating: 
-                            <span id="rating" className={ratingColor()}>
-                                {/* TODO find beter way for spacing  */}
-                                {`  ${rating}`}
-                            </span>
-                    </div>
-                    <div>
-                        Description: {item.description}
-                    </div>
-
-
-            </Card.Body>
-        </Card>
-       </Modal.Body>
-       <Modal.Footer>
-
-         <Button
+        {/* MODAL TO SHOW ITEM DETAILS */}
+        <Modal show={showItemDetails} onHide={handleItemDetailsModalClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>{item.name}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Card style={{ width: '18rem' }} className="m-1">
+                    <Card.Img variant="top" src={ image } className="mt-2"/>
+                    <Card.Body>
+                        <Card.Text>
+                        </Card.Text>
+                            <div>
+                                Category: {item.category}
+                            </div>
+                            {/* <div>
+                                Producer: {item.producerId}
+                            </div> */}
+                            <div>
+                                Rating: 
+                                    <span id="rating" className={ratingColor()}>
+                                        {/* TODO find beter way for spacing  */}
+                                        {`  ${rating}`}
+                                    </span>
+                            </div>
+                            <div>
+                                Description: {item.description}
+                            </div>
+                    </Card.Body>
+                </Card>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
                     variant="outline-danger"
                     size="sm"    
                     onClick = { handleDeleteItemButtonClick }
                     hidden = { userRole == "user" }
-            >Delete</Button>
-         {/* <Button variant="primary" onClick={handleItemDetailsModalClose}>
-           Save Changes
-         </Button> */}
-
-        <Button variant="secondary" onClick={handleItemDetailsModalClose}>
-           Close
-         </Button>
-       </Modal.Footer>
-     </Modal>
+                >Delete</Button>
+                <Button variant="secondary" onClick={handleItemDetailsModalClose}
+                > Close</Button>
+            </Modal.Footer>
+        </Modal>
         </>
+        )
     )
     : <Login />
 }
