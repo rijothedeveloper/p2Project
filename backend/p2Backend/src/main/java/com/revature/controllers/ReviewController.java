@@ -66,7 +66,7 @@ public class ReviewController {
      * @param id The ID of the review to be deleted.
      * @return ResponseEntity containing a success message or an error message.
      */
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteReview(@PathVariable int id, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);

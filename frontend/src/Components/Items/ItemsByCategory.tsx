@@ -46,8 +46,9 @@ import { Container, Form } from "react-bootstrap";
         </Container>
         <Container id="select-view-container">
             <Form id="select-view-form">
-                <Form.FloatingLabel label="Select a category" controlId="dashboard-select-view" onChange={handleCategoryChange}>
+                <Form.FloatingLabel label="" controlId="dashboard-select-view" onChange={handleCategoryChange}>
                     <Form.Select id="selectCategory" defaultValue="">
+                        <option value="">Select a category</option>
                         <option value="health">HEALTH</option>
                         <option value="beauty">BEAUTY</option>
                         <option value="food">FOOD</option>
