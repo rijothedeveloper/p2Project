@@ -3,7 +3,7 @@ package com.revature.controllers;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
 import com.revature.services.ReviewService;
-import jakarta.servlet.http.HttpSession;
+import com.revature.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +15,8 @@ import com.revature.utils.JwtTokenUtil;
 public class ReviewController {
 
     private ReviewService reviewService;
-
     private JwtTokenUtil jwtUtil;
+
 
     @Autowired
     public ReviewController(ReviewService reviewService, JwtTokenUtil jwtUtil) {

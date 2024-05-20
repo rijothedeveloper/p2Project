@@ -132,7 +132,6 @@ public class ReviewService {
         reviewDAO.delete(oR.get());
     }
 
-
     /**
      * Checks if the user is the author of the review.
      *
@@ -147,7 +146,6 @@ public class ReviewService {
         // Check if the review exists and if the user is the author of the review
         return review.isPresent() && review.get().getUser().getId() == userId;
     }
-
 
 }
 

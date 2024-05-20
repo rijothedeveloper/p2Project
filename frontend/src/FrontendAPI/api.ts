@@ -15,7 +15,7 @@ export const baseURL = "http://localhost:8080";
  * @param endpoint - The endpoint to connect to the server
  * @returns the base URL + the endpoint
  */
-const apiURL = (endpoint: string) => {
+export const apiURL = (endpoint: string) => {
     return baseURL + endpoint;
 };
 
@@ -24,7 +24,7 @@ const apiURL = (endpoint: string) => {
  * @param token - JWT token
  * @returns authorization header object
  */
-const buildAuthHeader = (token: string|undefined) => {
+export const buildAuthHeader = (token: string|undefined) => {
     return Object.assign({}, {
         "Authorization": `Bearer ${token}`
     });
@@ -32,7 +32,7 @@ const buildAuthHeader = (token: string|undefined) => {
 
 
 // CollectionController
-const myCollectionEndpoint = "/collections/my_collection";
+export const myCollectionEndpoint = "/collections/my_collection";
 
 /**
  * Get the current logged in users collection of items
@@ -56,10 +56,10 @@ export const getCollection = async (token: string) => {
 // ItemController
 const itemControllerEndpoint = "/items";
 const addItemEndpoint = itemControllerEndpoint;
-const getAllItemsEndpoint = itemControllerEndpoint;
+export const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";
-const deleteItemEndpoint = itemControllerEndpoint;
+export const deleteItemEndpoint = itemControllerEndpoint;
 const updateItemEndpoint = itemControllerEndpoint;
 
 /**
@@ -220,6 +220,7 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
 
 // ReviewController
 const deleteReviewEndpoint = "/reviews";
+
 
 /**
  * Delete review by ID
