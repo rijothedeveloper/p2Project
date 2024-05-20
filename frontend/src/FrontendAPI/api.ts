@@ -182,16 +182,30 @@ export const getAllItems = async (token: string): Promise<{
  * @param token - JWT token
  * @param itemId - id of the item to fetch
  */
-export const getItemById = async (token: string, itemId: number) => {
+export const getItemById = async (token: string, itemId: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ItemInterface
+}> => {
     const url = apiURL(`${getItemByIdEndpoint}/${itemId}`);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get(url, {headers: authHeader})
-    .then((respones: AxiosResponse) => {
-        return respones.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: `Item found with ID: ${itemId}`,
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message as string,
+            data: {} as ItemInterface
+        });
+    }
 };
 
 /**
@@ -261,17 +275,39 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
 };
 
 // ReplyController
-const fetchRepliesEndpoint = "/replies";
+const replyControllerEndpoint = "/replies";
+const addReplyEndpoint = replyControllerEndpoint;
 
 /**
  * Get all replies for a review
  * @param token - JWT token
- * @param ID - ID of the review to fetch replies for
+ * @param reviewId - ID of the review to fetch replies for
  */
-export const getAllRepliesByReview = async (token: string, ID: number) : Promise<ReplyInterface[]|String> => {
-    const url = apiURL(`${fetchRepliesEndpoint}/${ID}`);
+export const getAllRepliesByReview = async (token: string, reviewId: number) : Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface[]
+}> => {
+    const url = apiURL(`${replyControllerEndpoint}/review/${reviewId}`);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get<ReplyInterface[]>(url, {headers: authHeader})
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully retrieved replies for review",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message ? error.message : "No Replies",
+            data: []
+        })
+    }
+    /* Used try-catch block for typing, returning an object for consistent handling of request status, feedback and data typing - NEIL
     .then((response: AxiosResponse<ReplyInterface[]>) => {
         return response.data;
     })
@@ -279,10 +315,8 @@ export const getAllRepliesByReview = async (token: string, ID: number) : Promise
         // Handle error response
         return error.message ? error.message: "No Replies";
     });
-    return "No Replies";
+    return "No Replies";*/
 };
-const replyControllerEndpoint = "/replies";
-const addReplyEndpoint = replyControllerEndpoint;
 
 /**
  * Add a reply to a review
@@ -300,7 +334,6 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
-
 };
 
 // ReviewController
@@ -320,6 +353,31 @@ export const getUserReviews = async (token: string, userId: string): Promise<Rev
     }
 }
 
+export const getItemReviews = async (token: string, itemId: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface[]
+}> => {
+    const url = apiURL(`${reviewControllerEndpoint}/item/${itemId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully retrieved reviews!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: []
+        });
+    }
+};
 
 /**
  * Delete review by ID
