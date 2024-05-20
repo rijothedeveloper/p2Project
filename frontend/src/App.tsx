@@ -28,6 +28,7 @@ function App() {
                             <Route path="dashboard" element={< Dashboard />} />
                             <Route path="user/:userId" element={<UserDetails />} />
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
+                            <Route path='item/:itemId' />
                             <Route path="allusers" element={<AllUsers />} />
                             <Route path="additem" element={<AddItem />} />
                             <Route path="itemsbycategory" element={<ItemsByCategory />} />
