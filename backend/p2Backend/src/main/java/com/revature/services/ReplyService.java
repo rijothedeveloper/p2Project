@@ -38,7 +38,7 @@ public class ReplyService {
 
     public List<Reply> repliesByReview(int reviewId) {
         Review review = reviewDAO.findById(reviewId).orElseThrow(() -> new IllegalArgumentException("No review found for review ID: " + reviewId));
-        return replyDAO.findByReviewId(reviewId);
+        return replyDAO.findByReview_Id(reviewId);
     }
     /**
      * Deletes a reply identified by the specified ID.
