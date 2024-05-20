@@ -3,12 +3,9 @@ import { Button, Card, Modal }from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { deleteItem } from "../../FrontendAPI/api";
-import { baseURL } from "../../FrontendAPI/api";
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { UserInterface } from "../../Interfaces/UserInterface";
 import { Login } from "../Login/Login";
-import { Link } from "react-router-dom";
-
 
 
 /*

@@ -4,10 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Table } from "react-bootstrap";
 import { UserContext } from "../../Contexts/UserContext";
+import { getUserReviews } from "../../FrontendAPI/api";
 
 
 export const AllRevByUser: React.FC = () => {
-    const {userId} = useParams(); 
+    const {userId} = useParams();
+    
 
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
     const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -19,12 +21,13 @@ export const AllRevByUser: React.FC = () => {
         getAllUsersRevs();
     },[])
     const getAllUsersRevs = async () => {
-        const response = await axios.get(`http://localhost:8080/reviews/user/${userId}`, {
-            headers: {
-                'Authorization': "Bearer " + currentUser?.jwt // Use the token from context
-            }
-        });
-        setRevsByUser(response.data);
+        const response = await getUserReviews(currentUser?.jwt as string, userId as string);
+        if (typeof response === "string") {
+            console.error(response);
+            setRevsByUser([]);
+        } else {
+            setRevsByUser(response);
+        }
     }
 
   

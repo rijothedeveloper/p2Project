@@ -2,13 +2,13 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
-import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
+import { ReviewInterface } from "../Interfaces/ReviewInterface";
 
 
 // Current base URL
-export const baseURL = "http://localhost:8080";
+const baseURL = "http://localhost:8080";
 
 /**
  * Helper function to build a URL
@@ -38,16 +38,19 @@ export const myCollectionEndpoint = "/collections/my_collection";
  * Get the current logged in users collection of items
  * @param token - JWT token
  */
-export const getCollection = async (token: string) => {
+export const getCollection = async (token: string): Promise<ItemInterface[]> => {
     const url = apiURL(myCollectionEndpoint);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
         return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+    } catch (error: any) {
+        console.log(error.message);
+        return [];
+    }
 };
 
 
@@ -67,16 +70,18 @@ const updateItemEndpoint = itemControllerEndpoint;
  * @param token - JWT token
  * @param item - the item to add to the collection
  */
-export const addItem = async (token: string, item: ItemInterface) => {
+export const addItem = async (token: string, item: ItemInterface): Promise<string> => {
     const url = apiURL(addItemEndpoint);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.post(url, item, {headers: authHeader})
-    .then((response: AxiosResponse) => {
-        return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+    try {
+        const response = await axios.post(url, item, {headers: authHeader});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return "Item added successfully!";
+    } catch (error: any) {
+        return error.message;
+    }
 };
 
 /**
@@ -127,6 +132,20 @@ export const getItemByName = async (token: string, name: string) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+};
+
+export const getItemsByCategory = async (token: string, category: string): Promise<ItemInterface[]|string> => {
+    const url = apiURL(itemControllerEndpoint + `/${category}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return response.data;
+    } catch (error: any) {
+        return error.message;
+    }
 };
 
 /**
@@ -208,7 +227,21 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
 };
 
 // ReviewController
-const deleteReviewEndpoint = "/reviews";
+const reviewControllerEndpoint = "/reviews";
+
+export const getUserReviews = async (token: string, userId: string): Promise<ReviewInterface[]|string> => {
+    const url = apiURL(`${reviewControllerEndpoint}/${userId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return response.data
+    } catch (error: any) {
+        return error.message;
+    }
+}
 
 
 /**
@@ -217,13 +250,17 @@ const deleteReviewEndpoint = "/reviews";
  * @param reviewid - ID of the review to delete
  */
 export const deleteReviewByID = async (token: string, reviewid: number) => {
-    const url = apiURL(`${deleteReviewEndpoint}/${reviewid}`);
+    const url = apiURL(`${reviewControllerEndpoint}/${reviewid}`);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.delete(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
         return response.data;
-    })
-    .catch((error: AxiosError) => {alert(error)});
+    } catch (error: any) {
+        return error.message;
+    }
 };
 
 
@@ -233,6 +270,8 @@ export const deleteReviewByID = async (token: string, reviewid: number) => {
 const loginEndpoint = "/users/login";
 const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users";
+const deleteUserEndpoint = "/users";
+const getAllUsersEndpoint = "/users/all";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
@@ -272,19 +311,41 @@ export const findUserByUsername = async (token: string, username: string) => {
     });
 };
 
-const deleteUserEndpoint = "/users";
-
 /**
  * Delete user by ID
  * @param token - JWT token
  * @param userid - ID of the user to delete
  */
-export const deleteUserByID = async (token: string, userid: number) => {
+export const deleteUserByID = async (token: string, userid: number): Promise<{status: boolean, message: string}> => {
     const url = apiURL(`${deleteUserEndpoint}/${userid}`);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.delete(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
-        return response.data;
-    })
-    .catch((error: AxiosError) => {alert(error)});
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message
+        });
+    }
 };
+
+export const getAllUsers = async (token: string): Promise<UserInterface[]|string> => {
+    const url = apiURL(getAllUsersEndpoint);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return response.data;
+    } catch (error: any) {
+        return error.message;
+    }
+}

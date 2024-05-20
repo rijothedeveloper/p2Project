@@ -53,4 +53,13 @@ public class CollectionController {
         }
     }
 
+    @GetMapping("/id/{itemId}/user/{userId}")
+    public ResponseEntity<?> getCollectionItemById(@PathVariable int itemId, @PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(collectionService.getCollectionItemById(itemId, userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
 }

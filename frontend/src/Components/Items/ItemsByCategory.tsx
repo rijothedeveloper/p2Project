@@ -1,40 +1,40 @@
-import axios from "axios"
 import React, { useContext, useEffect, useState } from "react"
-import { UserInterface } from "../../Interfaces/UserInterface"
 import { UserContext } from "../../Contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
+import { getItemsByCategory } from "../../FrontendAPI/api";
+import { capitalize } from "../../Utils/StringUtils";
 
 export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelectElement>)=>{
 
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const [category, setCategory] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [items, setItems] = useState<ItemInterface[]>([]);
 
+    console.log(currentUser?.jwt)
 
-    //console.log(currentUser?.jwt)
+    const fetchItems = async () => {
+        const response = await getItemsByCategory(currentUser?.jwt as string, category);
+        if (typeof response === "string") {
+            console.error(response);
+        } else {
+            console.log(response);
+            setItems(response);
+        }
+    };
     
     // Fetch items whenever the category changes
     useEffect(() => {
-            const fetchItems = async () => {
-                try {
-                    const response = await axios.get("http://localhost:8080/items/"+ category, {
-                        headers: {
-                            'Authorization': "Bearer " + currentUser?.jwt // Use the token from context
-                        }
-                    });
-                  
-                    //console.log(response)
-                    setItems(response.data);
-                } catch (error) {
-                    console.error('Error fetching items:', error);
-                }
-            };
-            
-
-            fetchItems();
+        fetchItems();
     }, [category, currentUser]);
 
+    // Get list of categories when items are updated
+    useEffect(() => {
+        const categories = items.map((item) => {
+            return item.category;
+        });
+        setCategoryOptions(Array.from(new Set(categories)));
+    }, [items])
 
     // Handle category change
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,14 +43,14 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
     
     return (
         <div>
-            <select id="category" name="category" onChange={handleCategoryChange}>
+            <select id="category" name="category" defaultValue="" onChange={handleCategoryChange}>
                 {/* Dropdown for selecting Category */}
                 <option value="">Select a category</option>
-                <option value="health">HEALTH</option>
-                <option value="beauty">BEAUTY</option>
-                <option value="food">FOOD</option>
-                <option value="shoes">SHOES</option>
-                <option value="furniture">FURNITURE</option>
+                {categoryOptions.map((category) => {
+                    return (
+                        <option value={category}>{capitalize(category)}</option>
+                    )
+                })}
             </select>
             <div>
                 <table className="table table-striped">
@@ -75,11 +75,10 @@ export const ItemsByCategory: React.FC <any>=(event: React.ChangeEvent<HTMLSelec
                                 <td>{item.rating}</td>
                                 <td>{item.category}</td>
                                 <td>{item.producer?.name}</td>
-                               
                             </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
