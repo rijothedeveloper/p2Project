@@ -18,4 +18,7 @@ public interface ReviewDAO extends JpaRepository<Review,Integer> {
 //    @Query("delete from Review r where r.user.userId = :userId")
 //    void deleteByReviewsUserId(int userId);
     public List<Review> findAllByUserId(int Id);
+
+    public List<Review> findByItemId(int Id);
+
 }
