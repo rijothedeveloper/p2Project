@@ -150,16 +150,30 @@ export const addItem = async (token: string, item: ItemInterface): Promise<strin
  * Get all items in the collection
  * @param token - JWT token
  */
-export const getAllItems = async (token: string) => {
+export const getAllItems = async (token: string): Promise<{
+    status: boolean,
+    message: string,
+    data: ItemInterface[]
+}> => {
     const url = apiURL(getAllItemsEndpoint);
     const authHeader = buildAuthHeader(token);
-    const response = await axios.get(url, {headers: authHeader})
-    .then((response: AxiosResponse) => {
-        return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully retrieved all items!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: []
+        });
+    }
 };
 
 /**
