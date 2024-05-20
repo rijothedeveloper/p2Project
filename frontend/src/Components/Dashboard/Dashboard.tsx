@@ -15,38 +15,6 @@ import { myCollectionEndpoint } from "../../FrontendAPI/api"
 import { deleteItemEndpoint } from "../../FrontendAPI/api"
 
 
-
-
-/***** TODO REMOVE MOCK DATA AREA BELOW ****************************/
-
-// create list of mock items
-const item: ItemInterface = {
-    id: 9,
-    name: "Book",
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'",
-    rating: 2.5,
-    category: "Books",
-    description: "book",
-    producerId: 1
-}
-
-const itemNames = ["Book", "Laptop", "Phone", "Tablet", "Headphones", "Keyboard", "Mouse"]
-
-const mockCollection: ItemInterface[] = [];
-for(let i = 0; i < 7; i++) {
-    mockCollection.push({
-        id: i, 
-        image: item.image,
-        name: itemNames[i],
-        rating: item.rating as number + i*0.3,
-        category: item.category,
-        description: item.description,
-        producerId: item.producerId
-    })
-}
-/***** TODO REMOVE MOCK DATA AREA ABOVE ****************************/
-
-
 export const Dashboard: React.FC = () => {
 
     // COMPONENT STATE
@@ -166,8 +134,7 @@ export const Dashboard: React.FC = () => {
         const getUserCollection = async () => {
 
             // get collection from backend
-            // const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
-            const endpoint = userRole == "user" ? getAllItemsEndpoint : getAllItemsEndpoint
+            const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
             const url = apiURL(endpoint);
             const authHeader = buildAuthHeader(jwt as string);
             const response = await axios.get(url, {headers: authHeader})
