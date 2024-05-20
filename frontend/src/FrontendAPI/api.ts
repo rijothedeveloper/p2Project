@@ -89,6 +89,7 @@ export const getAllItems = async (token: string | undefined): Promise<ItemInterf
     const response = await axios.get(url, {headers: authHeader})
         
     return response.data;
+    
 };
 
 /**
@@ -96,11 +97,11 @@ export const getAllItems = async (token: string | undefined): Promise<ItemInterf
  * @param token - JWT token
  * @param itemId - id of the item to fetch
  */
-export const itemsByCategory = async (token: string | undefined, category: string): Promise<ItemInterface[]> => {
+export const itemsByCategory = async (token: string | undefined, category: string): Promise<any> => {
     const url = apiURL(`${itemControllerEndpoint }/${category}`);
     const authHeader = buildAuthHeader(token);
     const response = await axios.get(url, {headers: authHeader})
-    
+
     return response.data;
 
 };
