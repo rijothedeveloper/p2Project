@@ -12,8 +12,6 @@ export const AllRevByUser: React.FC = () => {
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
     const { currentUser, setCurrentUser } = useContext(UserContext);
 
-    console.log(currentUser?.jwt);
-
     const navigate = useNavigate();
     useEffect(() => {
         getAllUsersRevs();

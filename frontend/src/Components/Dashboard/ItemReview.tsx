@@ -30,7 +30,8 @@ interface ItemReviewInterface extends ReviewInterface {
     This component will display a review
 */
 const ItemReview: React.FC<{
-    itemReview: ItemReviewInterface
+    // itemReview: ItemReviewInterface
+    itemReview: ReviewInterface
 }> = ({ itemReview }) => {
     
     const [showEditReviewModal, setShowEditReviewModal] = React.useState(false)
@@ -58,34 +59,23 @@ const ItemReview: React.FC<{
         setShowEditReviewModal(false)
     }
 
+    
+    // function to validate string inputs
+    const validStringInput = (input: string) => {
+        return input.length > 0
+    }   
+
     // function to handle change in title
     const handleReviewTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUpdatedTitle(e.target.value)
+            
     }
 
-    const validAmount = (amount: string) => {
-        if(isNaN(Number(amount))) {
-            alert(`Amount has to be a number!`)
-            return false
-        }
-        if(amount == "") {
-            alert('Please enter an amount')
-            return false
-        }
-
-        const num = Number(amount)
-
-        if(num > 5 || num < 1) {
-            alert('Please enter a rating between 1 and 5')
-            return false
-        }
-        return true
-    }
 
     // function to handle change in rating
     const handleReviewRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const ratingEntered = e.target.value
-        if(validAmount(ratingEntered)) setUpdatedRating(parseInt(ratingEntered, 10))
+        setUpdatedRating(parseInt(ratingEntered, 10))
     }
 
     // function to handle change in name filter input
@@ -94,17 +84,21 @@ const ItemReview: React.FC<{
     }
     
     const handleSaveReveiwUpdate = () => {
-        
-        itemReview.title = updatedTitle;
-        itemReview.rating = updatedRating as number;
-        itemReview.body = updatedBody;
-        // TODO save changes
-        // TODO send changes to DB
-        // update state ?
-
-        setShowEditReviewModal(false)
+        if(validStringInput(updatedTitle as string) && validStringInput(updatedBody as string)) {
+            itemReview.title = updatedTitle;
+            itemReview.rating = updatedRating as number;
+            itemReview.body = updatedBody;
+            // TODO save changes
+            // TODO send changes to DB
+            // update state ?
+            setShowEditReviewModal(false)
+        } else {
+            alert("Title and Review Body cannot be empty!")
+        } 
     }
+    
 
+    console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
 
     return (
         <>
@@ -114,13 +108,13 @@ const ItemReview: React.FC<{
                     {itemReview.title}
                 </div>
                 <div>
-                    {itemReview.item.name}
+                    {/* {itemReview.item.name} */}
                 </div>
                 <div>
                     Rating: {itemReview.rating}
                 </div>
             </Card.Header>
-            <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/>
+            {/* <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/> */}
             <Card.Body>
                 {/* <Card.Title>{itemReview.title}</Card.Title> */}
                 <Card.Text>
@@ -136,7 +130,7 @@ const ItemReview: React.FC<{
 
         <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit review for {itemReview.item.name}</Modal.Title>
+                {/* <Modal.Title>Edit review for {itemReview.item.name}</Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
                 <Card style={{ width: '14rem' }} className="m-1">
@@ -161,8 +155,10 @@ const ItemReview: React.FC<{
                     {/* Edit Ratings */}
                     <Form.Label htmlFor="ratingUpdate">Rating</Form.Label>
                     <Form.Control
-                        type="text"
+                        type="number"
                         id="ratingUpdate"
+                        min="1"
+                        max="5"
                         value={updatedRating?.toString()}
                         onChange={handleReviewRatingChange}
                     ></Form.Control>

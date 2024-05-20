@@ -3,7 +3,7 @@ package com.revature.controllers;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
 import com.revature.services.ReviewService;
-import com.revature.utils.JwtTokenUtil;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
 
     private ReviewService reviewService;
-    private JwtTokenUtil jwtUtil;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, JwtTokenUtil jwtUtil) {
-
+    public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
-        this.jwtUtil = jwtUtil;
-
     }
 
     //This method will return a List of outbound review DTOs that all belong to a userId
@@ -67,22 +63,7 @@ public class ReviewController {
      * @return ResponseEntity containing a success message or an error message.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteReview(@PathVariable int id, @RequestHeader("Authorization") String token){
-        String jwt = token.substring(7);
-        int userId = jwtUtil.extractUserId(jwt);
-        String role = jwtUtil.extractRole(jwt).toLowerCase();
-
-        // Check if the user is logged in
-        if (userId == 0) {
-            return ResponseEntity.status(401).body("You must be logged in to delete a review.");
-        }
-        System.out.println("Role: " + role);
-        // Check if the user is the author of the review or an admin
-        if (!reviewService.isAuthor(userId, id) && !role.equals("admin")){
-            return ResponseEntity.status(401).body("You must be the author of the review or an admin to delete a review.");
-        }
-
-        // Attempt to delete the review
+    public ResponseEntity<Object> deleteReview(@PathVariable int id){
         try{
             reviewService.deleteReview(id);
             return ResponseEntity.ok().body("Review deleted successfully");

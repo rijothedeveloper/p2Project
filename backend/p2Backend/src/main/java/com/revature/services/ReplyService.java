@@ -48,18 +48,4 @@ public class ReplyService {
         }
         replyDAO.delete(oR.get());
     }
-
-    /**
-     * Checks if the user is the author of the reply.
-     *
-     * @param userId The ID of the user to check.
-     * @param replyId The ID of the reply to check.
-     * @return True if the user is the author of the reply, false otherwise.
-     */
-    public boolean isAuthor(int userId, int replyId) {
-        Optional<Reply> reply = replyDAO.findById(replyId);
-
-        // If the reply is not found or the user is not the author, return false
-        return reply.isPresent() && reply.get().getUser().getId() == userId;
-    }
 }
