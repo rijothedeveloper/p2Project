@@ -7,6 +7,7 @@ import com.revature.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.revature.utils.JwtTokenUtil;
 
 @RestController
 @RequestMapping("/reviews")
@@ -15,6 +16,7 @@ public class ReviewController {
 
     private ReviewService reviewService;
     private JwtTokenUtil jwtUtil;
+
 
     @Autowired
     public ReviewController(ReviewService reviewService, JwtTokenUtil jwtUtil) {
@@ -64,7 +66,7 @@ public class ReviewController {
      * @param id The ID of the review to be deleted.
      * @return ResponseEntity containing a success message or an error message.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteReview(@PathVariable int id, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
