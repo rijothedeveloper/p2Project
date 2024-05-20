@@ -13,6 +13,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { getAllItemsEndpoint } from "../../FrontendAPI/api"
 import { myCollectionEndpoint } from "../../FrontendAPI/api"
 import { deleteItemEndpoint } from "../../FrontendAPI/api"
+import { getCollection } from "../../FrontendAPI/api";
 
 
 
@@ -158,17 +159,13 @@ export const Dashboard: React.FC = () => {
         
         // get collection of user
         const getUserCollection = async () => {
-
             // get collection from backend
             // const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
-            const endpoint = userRole == "user" ? getAllItemsEndpoint : getAllItemsEndpoint
-            const url = apiURL(endpoint);
-            const authHeader = buildAuthHeader(jwt as string);
-            const response = await axios.get(url, {headers: authHeader})
-            .then((response: AxiosResponse) => {
+            const response = getCollection(currentUser?.jwt as string)
+            .then((response) => {
                 // console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
                 // set collection state
-                setCollection(response.data as ItemInterface[])
+                setCollection(response as ItemInterface[])
             })
             .catch((error: AxiosError) => {
                 console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)

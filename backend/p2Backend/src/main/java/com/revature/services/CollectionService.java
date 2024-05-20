@@ -35,11 +35,11 @@ public class CollectionService {
 //        return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
 
         // my playground
-        List<Collection> collectionDAOResponse = collectionDAO.findAllByIdUserId(userId);
+        List<Collection> collectionDAOResponse = collectionDAO.findByIdUserId(userId);
         System.out.println("In collection service got collection below: ");
         System.out.println(collectionDAOResponse);
         collectionDAOResponse.forEach(item -> System.out.println(item));
-        return collectionDAOResponse.stream().map(collection -> collection.getId().getItem()).toList();
+        return collectionDAOResponse.stream().map(collectionKey -> collectionKey.getId().getItem()).toList();
     }
 
     /*
@@ -71,7 +71,9 @@ public class CollectionService {
     public void deleteCollectionItemById(int itemId, int userId) {
         Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
         User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
-        collectionDAO.deleteById(new CollectionKey(item, user));
+        CollectionKey collectionkey = new CollectionKey(item, user);
+        Collection collection = new Collection (collectionkey);
+        collectionDAO.delete(collection);
     }
 
     public Object getCollectionItemById(int itemId, int userId) {
