@@ -61,7 +61,6 @@ public class ReplyController {
         if (!replyService.isAuthor(userId, id) && !role.equals("admin")){
             return ResponseEntity.status(401).body("You must be the author of the review or an admin to delete a review.");
         }
-
         // Attempt to delete the reply
         try {
             replyService.deleteReply(id);
