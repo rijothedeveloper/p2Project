@@ -11,13 +11,14 @@ export const AllItems: React.FC = () => {
 
     const { currentUser } = useContext(UserContext);
 
-    const [category, setCategory] = useState('');
-    const [categoryItems, setCategoryItems] = useState<ItemInterface[]>([]);
+    const [category, setCategory] = useState("");
+    // const [categoryItems, setCategoryItems] = useState<ItemInterface[]>([]);
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
     const [nameFilter, setNameFilter] = useState<string>("");
-    const [nameItems, setNameItems] = useState<ItemInterface[]>([]);
+    // const [nameItems, setNameItems] = useState<ItemInterface[]>([]);
     const [items, setItems] = useState<ItemInterface[]>([]);
     const [view, setView] = useState<string>("category");
+    const [displayedItems, setDisplayedItems] = useState<ItemInterface[]>([]);
 
     // Fetch all items
     const fetchItems = async () => {
@@ -52,6 +53,7 @@ export const AllItems: React.FC = () => {
         });
         setCategoryOptions(Array.from(new Set(categories)));
     }, [items]);
+    /*
     // Filter list of items for items with category
     useEffect(() => {
         const itemsWithCategory = items.filter(item => item.category === category);
@@ -61,7 +63,30 @@ export const AllItems: React.FC = () => {
     useEffect(() => {
         const itemsWithName = items.filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase()) > -1);
         setNameItems(itemsWithName);
-    }, [nameFilter])
+    }, [nameFilter]);
+    */
+    // Get items to display in ItemColumns
+    useEffect(() => {
+        switch (view) {
+            case "category":
+                if (category === "") {
+                    setDisplayedItems(items);
+                } else {
+                    setDisplayedItems(items.filter(item => item.category === category));
+                }
+                break;
+            case "name":
+                if (nameFilter === "") {
+                    setDisplayedItems(items);
+                } else {
+                    setDisplayedItems(items.filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase()) > -1));
+                }
+                break;
+            default:
+                setDisplayedItems(items);
+                break;
+        }
+    }, [view, category, nameFilter, items]);
 
     return (
         <Container>
@@ -74,7 +99,7 @@ export const AllItems: React.FC = () => {
             </Container>
             <ItemsByName setNameFilter={setNameFilter} />
             <Container id="itemGrid" className="mt-3">
-                <ItemColumns items={view === "category" ? categoryItems : nameItems} />
+                <ItemColumns items={displayedItems} />
             </Container>
         </Container>
     )

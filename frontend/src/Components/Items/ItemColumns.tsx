@@ -65,7 +65,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
     }, [items])
 
     return (
-        <Row md={3}>
+        <Row md={3} className="g-2">
             {items.map((item, idx) => {
                 return (
                     <Col key={idx}>
