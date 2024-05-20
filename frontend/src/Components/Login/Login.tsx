@@ -12,7 +12,7 @@ export const Login: React.FC = () => {
   
     const navigate = useNavigate()
 
-    const { setCurrentUser } = useContext(UserContext)
+    const { currentUser, setCurrentUser } = useContext(UserContext);
 
     const[UserInterface, setUser] = useState<UserInterface>({
         username:"",
@@ -44,33 +44,42 @@ export const Login: React.FC = () => {
 
     }
 
+    const handleLogout = () => {
+      setCurrentUser(null);
+      navigate("/login");
+  };
+
     return (
 <div>
-      {/* Navigation Bar */}
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <a className="navbar-brand" href="/">Logo</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/allusers">all users</a>
-             </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">Login</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/register">Register</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+{/* Navigation Bar */}
+<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div className="container">
+                        <a className="navbar-brand" href="/">Logo</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-auto">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/">Home</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/allusers">All Users</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/">Login</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" href="/register">Register</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+         
 
       {/* Login Form */}
       <div className="container py-5" style={{ backgroundColor: '#f8f9fa' }}>

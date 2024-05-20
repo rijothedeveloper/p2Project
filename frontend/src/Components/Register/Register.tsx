@@ -1,17 +1,19 @@
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { UserInterface } from '../../Interfaces/UserInterface'
 import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap"
 import { register } from "../../FrontendAPI/api";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { UserContext } from "../../Contexts/UserContext";
 
 
 export const Register: React.FC = () => {
 
     const navigate = useNavigate()
 
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     const[UserInterface, setUser] = useState<UserInterface>({
         firstName:"",
         lastName:"",
@@ -41,33 +43,43 @@ export const Register: React.FC = () => {
         }
     }
 
+    const handleLogout = () => {
+      setCurrentUser(null);
+      navigate("/login");
+  };
+
+
     return (
         <div>
-        {/* Navigation Bar */}
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div className="container">
-            <a className="navbar-brand" href="/">Logo</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <a className="nav-link" href="/">Home</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/allusers">all users</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="/">Login</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="/register">Register</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
+ {/* Navigation Bar */}
+ <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div className="container">
+                        <a className="navbar-brand" href="/">Logo</a>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-auto">
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/">Home</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/allusers">All Users</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/">Login</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link active" aria-current="page" href="/register">Register</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+   
   
         {/* Registration Form */}
         <div className="container py-5" style={{ backgroundColor: '#f8f9fa' }}>
