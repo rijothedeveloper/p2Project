@@ -2,10 +2,12 @@ import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap"
 import { DeleteMyAccount } from "../Users/DeleteMyAccount";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../Contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const NavbarComp: React.FC = () => {
 
-    const { currentUser } = useContext(UserContext);
+    const { currentUser, setCurrentUser } = useContext(UserContext)
+    const navigate = useNavigate();
 
     const upateNavbar = () => {
         const currentURL = new URL(window.location.href);
@@ -27,7 +29,9 @@ export const NavbarComp: React.FC = () => {
     }, []);
 
     const logout = () => {
-        // TODO: implement logout function
+        setCurrentUser(null);
+        localStorage.removeItem('currentUser');
+        navigate("/");
     };
 
     return (
