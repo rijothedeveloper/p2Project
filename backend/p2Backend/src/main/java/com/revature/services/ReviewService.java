@@ -1,6 +1,8 @@
 package com.revature.services;
 
+import com.revature.daos.ItemDAO;
 import com.revature.daos.ReviewDAO;
+import com.revature.models.Item;
 import com.revature.models.Review;
 import com.revature.models.dtos.OutgoingReviewDTO;
 import com.revature.models.dtos.ReviewDTO;
@@ -19,12 +21,13 @@ import java.util.List;
 @Service
 public class ReviewService {
     private UserDAO userDAO;
-
+    private ItemDAO itemDAO;
     private ReviewDAO reviewDAO;
 
     @Autowired
-    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO) {
+    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO, ItemDAO itemDAO) {
         this.reviewDAO = reviewDAO;
+        this.itemDAO = itemDAO;
         this.userDAO = userDAO;
     }
     /**
@@ -141,6 +144,23 @@ public class ReviewService {
         return allRevDTO;
     }
 
+    public List<OutgoingReviewDTO> reviewsByItemId(int itemId) {
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with ID: " + itemId));
+        List<Review> allRevs;
+        try {
+            allRevs = reviewDAO.findByItemId(itemId);
+        }
+        catch(Exception e){
+            throw new IllegalArgumentException("Something went wrong when trying to receive an item's reviews.");
+        }
+        List<OutgoingReviewDTO> allRevDTO = new ArrayList<OutgoingReviewDTO>();
+        for (Review rev : allRevs) {
+            OutgoingReviewDTO outgoingReviewDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
+
+            allRevDTO.add(outgoingReviewDTO);
+        }
+        return allRevDTO;
+    }
 
     //This method gets all reviews
     //then converts them to a list of ReviewDTO's
@@ -190,6 +210,7 @@ public class ReviewService {
         // Check if the review exists and if the user is the author of the review
         return review.isPresent() && review.get().getUser().getId() == userId;
     }
+
 
 }
 

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/replies")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -19,6 +21,20 @@ public class ReplyController {
     public ReplyController(ReplyService replyService, JwtTokenUtil jwtUtil) {
         this.replyService = replyService;
         this.jwtUtil = jwtUtil;
+    }
+
+    @GetMapping("/review/{reviewId}")
+    public ResponseEntity<?> getRepliesByReviewId(@RequestHeader("Authorization") String token, @PathVariable int reviewId) {
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            return ResponseEntity.status(403).body("You must be logged in to view all replies to a review");
+        }
+        try {
+            return ResponseEntity.ok(replyService.repliesByReview(reviewId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping
@@ -69,5 +85,10 @@ public class ReplyController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
+    }
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<List<ReplyDTO>>getAllRepliesForReview(@PathVariable("reviewId") int reviewId){
+        List<ReplyDTO> replies = replyService.getAllRepliesForReview(reviewId);
+        return ResponseEntity.ok(replies);
     }
 }

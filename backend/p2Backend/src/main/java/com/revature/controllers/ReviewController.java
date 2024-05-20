@@ -3,7 +3,6 @@ package com.revature.controllers;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
 import com.revature.services.ReviewService;
-import com.revature.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +31,20 @@ public class ReviewController {
 
         try {
             return ResponseEntity.ok(reviewService.getAllRevByUserId(userId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/item/{itemId}")
+    public ResponseEntity<?> getReviewsByItemId(@RequestHeader("Authorization") String token, @PathVariable int itemId) {
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            throw new RuntimeException("You must be logged in to reply to a review");
+        }
+        try {
+            return ResponseEntity.ok(reviewService.reviewsByItemId(itemId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
