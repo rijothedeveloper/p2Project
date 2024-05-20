@@ -16,7 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/collections")
-@CrossOrigin // (origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000, http://54.175.24.2")
+//@CrossOrigin//(origins = "http://localhost:3000", allowCredentials = "true")
 public class CollectionController {
 
     CollectionService collectionService;

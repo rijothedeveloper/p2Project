@@ -41,7 +41,6 @@ export const Login: React.FC = () => {
           setCurrentUser(response);
           navigate("/dashboard");
         }
-        navigate("/itemsbycategory")
 
     }
 
