@@ -1,11 +1,13 @@
 package com.revature.services;
 
 import com.revature.daos.ReviewDAO;
+import com.revature.models.Reply;
 import com.revature.models.Review;
 import com.revature.models.dtos.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,6 +86,10 @@ public class ReviewService {
         return true;
     }
 
+//    public List<Review> viewAllReviews(int userId) {
+//        return reviewDAO.findByUserUserId(userId);
+//
+//    }
 
 
 }
