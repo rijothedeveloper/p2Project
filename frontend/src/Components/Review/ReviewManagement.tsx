@@ -30,6 +30,7 @@ export const ReviewManagement: React.FC = () => {
         } else {
             console.log(response.message);
             alert(response.message);
+            setReviews(reviews.filter(review => review.id !== reviewId));
         }
     };
 
@@ -41,6 +42,7 @@ export const ReviewManagement: React.FC = () => {
 
     return (
         <Container>
+            <h1>Manage Reviews</h1>
             <Table className="align-middle" striped hover responsive>
                 <thead>
                     <tr>
