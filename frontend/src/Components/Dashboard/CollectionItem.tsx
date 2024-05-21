@@ -8,6 +8,8 @@ import { UserInterface } from "../../Interfaces/UserInterface";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { Login } from "../Login/Login";
 import ItemReview from "./ItemReview";
+import { ReviewModal } from "../Review/ReviewModal";
+import { CreateReviewModal } from "../Review/CreateReviewModal";
 
 
 /*
@@ -24,6 +26,7 @@ const CollectionItem: React.FC<{
 
     const [ showItemDetails, setShowItemDetails ] = React.useState(false)
     const [ showReview, setShowReview ] = React.useState(false)
+    const [ showAddReviewModal, setShowAddReviewModal ] = React.useState(false) 
 
     const currentItemReview = reviews.filter(review => review.itemId === item.id)[0] as ReviewInterface
     
@@ -79,27 +82,38 @@ const CollectionItem: React.FC<{
     const handleShowReviewModalClose = () => {
         setShowReview(false)
     }
+    
+
+    // ADD REVIEW MODAL FUNCTIONALITY
+    const handleAddReviewButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        // console.log("ADD REVIEW BUTTON CLICKED")
+        setShowAddReviewModal(true)
+    }
+
+    const handleAddReviewModalClose = () => {
+        setShowAddReviewModal(false)
+    }
+
+
 
     console.log(JSON.stringify(reviews))
     console.log(isItemReviewed(id as number))
     
     return currentUser 
     ?  (
-        showReview 
-        ? ( 
-            <Modal show={showReview} onHide={handleShowReviewModalClose}>
-                <Modal.Header closeButton>
-                </Modal.Header>
-                <ItemReview
-                    itemReview = { currentItemReview as ReviewInterface }
-                    handleEditReview={handleEditReview}
-                />
-            </Modal>
-        )
-        
-        : (
         <>
-        {/* CARD THAT SHOWS ITEM */}
+
+        {/* modal to edit review */}
+        <Modal show={showReview} onHide={handleShowReviewModalClose}>
+            <Modal.Header closeButton>
+            </Modal.Header>
+            <ItemReview
+                itemReview = { currentItemReview as ReviewInterface }
+                handleEditReview={handleEditReview}
+            />
+        </Modal>
+
+        {/* card to show item */}
         <Card style={{ width: '14rem' }} className="m-1">
             <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`} className="mt-2"/>
             <Card.Body>
@@ -123,7 +137,14 @@ const CollectionItem: React.FC<{
                     className = "mr-6"
                     hidden = { userRole === "admin" || !isItemReviewed(id as number)}
                     onClick={handleViewReviewButtonClick}
-                >View My  Review</Button>
+                >View My Review</Button>
+                 <Button 
+                    variant="outline-primary"
+                    size="sm"
+                    className = "mr-6"
+                    hidden = { userRole === "admin" || isItemReviewed(id as number)}
+                    onClick={handleAddReviewButtonClick}
+                >Review Item</Button>
                 {`     `}
                 <Button
                     variant="outline-danger"
@@ -132,10 +153,9 @@ const CollectionItem: React.FC<{
                     hidden = { userRole === "user" }
                 >Delete</Button>
             </Card.Body>
-        </Card>
+        </Card>   
 
-        
-        {/* MODAL TO SHOW ITEM DETAILS */}
+        {/* modal to show item details */}
         <Modal show={showItemDetails} onHide={handleItemDetailsModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{item.name}</Modal.Title>
@@ -176,8 +196,14 @@ const CollectionItem: React.FC<{
                 > Close</Button>
             </Modal.Footer>
         </Modal>
+
+        {/* modal to add review */}
+        {/* <CreateReviewModal */}
+            {/* isOpen={showAddReviewModal} */}
+            {/* onClose={handleAddReviewModalClose} */}
+            {/* itemIdToPass={id as number}  */}
+        {/* /> */}
         </>
-        )
     )
     : <Login />
 }
