@@ -6,6 +6,7 @@ import { UserContext } from "../../Contexts/UserContext"
 import { addItemToCollection, getCollectionItem, removeItemFromCollection } from "../../FrontendAPI/api"
 import { useNavigate } from "react-router-dom"
 import { CreateReviewModal } from "../Review/CreateReviewModal"
+import { BsStarFill } from "react-icons/bs"
 
 export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
@@ -65,7 +66,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
     }, [items])
 
     return (
-        <Row md={3} className="g-2">
+        <Row md={2} className="g-2">
             {items.map((item, idx) => {
                 return (
                     <Col key={idx}>
@@ -81,17 +82,19 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                     {truncateText(item.description, 30)}
                                 </Card.Text>
                                 <Card.Text>
-                                    {item.rating}
+                                    <div className="d-flex align-items-center">
+                                        {item.rating} <BsStarFill className="text-warning mx-1"/>'s
+                                    </div>
                                 </Card.Text>
                             </Card.Body>
                             <Card.Footer>
                                 {inCollection[item.id as number] ? (
-                                    <Button size="sm" variant="danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove</Button>
+                                    <Button size="sm" variant="outline-danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove</Button>
                                 ) : (
-                                    <Button size="sm" variant="success" onClick={async () => {await addToCollection(item)}}>Add</Button>
+                                    <Button size="sm" variant="outline-success" onClick={async () => {await addToCollection(item)}}>Add</Button>
                                 )}
-                                <Button size="sm" variant="info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
-                                <Button size="sm" onClick={openModal} >Review Item</Button>
+                                <Button className="ms-2" size="sm" variant="outline-info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
+                                <Button className="ms-2" size="sm" variant="outline-primary" onClick={openModal} >Review Item</Button>
                                 <CreateReviewModal isOpen={isReviewModalOpen} onClose={closeModal} itemIdToPass={item.id as number}/>
                             </Card.Footer>
                         </Card>
