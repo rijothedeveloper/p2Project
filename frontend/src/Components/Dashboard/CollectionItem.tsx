@@ -245,6 +245,7 @@ const CollectionItem: React.FC<{
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
+                    </Card.Text>
                     {/*
                     Rating: 
                         <span id="rating" className={ratingColor()}>
@@ -257,7 +258,6 @@ const CollectionItem: React.FC<{
                         {/* <span className={ratingColor()}>{item.rating}</span>  */}
                         <DisplayStars rating={item.rating as number}/>
                     </div>
-                </Card.Text>
             </Card.Body>
             <Card.Footer>
                 <div className="mb-2 general-button-container">
@@ -304,7 +304,8 @@ const CollectionItem: React.FC<{
             </Card.Footer>
         </Card>   
 
-        {/* modal to show item details */}
+
+        {/*** MODAL TO SHOW ITEM DETAILS ************************************/}
         <Modal size="sm" show={showItemDetails} onHide={handleItemDetailsModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{item.name}</Modal.Title>
@@ -319,15 +320,12 @@ const CollectionItem: React.FC<{
                                 Category: {item.category}
                             </div>
                             {/* <div>
-                                Producer: {item.producerId}
-                            </div> */}
-                            <div>
                                 Rating: 
                                     <span id="rating" className={ratingColor()}>
-                                        {/* TODO find beter way for spacing  */}
                                         {`  ${rating}`}
                                     </span>
-                            </div>
+                            </div> */}
+                            <DisplayStars rating={item.rating as number}/>
                             <div>
                                 Description: {item.description}
                             </div>

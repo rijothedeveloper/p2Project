@@ -30,10 +30,9 @@ export const Dashboard: React.FC = () => {
     // CURRENT USER
     // get current user from UserContext
     const { currentUser } = React.useContext(UserContext)
-    console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+    // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
     // get role and jwt of current user
     const jwt = currentUser ? currentUser.jwt : null
-   
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
     
 
@@ -201,8 +200,8 @@ export const Dashboard: React.FC = () => {
     // get collection and reviews on component rendering
     React.useEffect(() => {
         
-        console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
-        console.log(`JWT: ${jwt}`)
+        // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
+        // console.log(`JWT: ${jwt}`)
 
         if (!currentUser) return;
 
