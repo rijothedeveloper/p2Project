@@ -136,4 +136,8 @@ public class Item {
                 ", reviews='" + reviews + '\'' +
                 '}';
     }
+
+    public double getReviewCount() {
+        return reviews.size();
+    }
 }

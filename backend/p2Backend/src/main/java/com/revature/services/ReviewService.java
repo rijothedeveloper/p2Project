@@ -1,7 +1,9 @@
 package com.revature.services;
 
+import com.revature.daos.CollectionDAO;
 import com.revature.daos.ItemDAO;
 import com.revature.daos.ReviewDAO;
+import com.revature.models.CollectionKey;
 import com.revature.models.Item;
 import com.revature.models.Review;
 import com.revature.models.dtos.OutgoingReviewDTO;
@@ -23,12 +25,14 @@ public class ReviewService {
     private UserDAO userDAO;
     private ItemDAO itemDAO;
     private ReviewDAO reviewDAO;
+    private CollectionDAO collectionDAO;
 
     @Autowired
-    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO, ItemDAO itemDAO) {
+    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO, ItemDAO itemDAO, CollectionDAO collectionDAO) {
         this.reviewDAO = reviewDAO;
         this.itemDAO = itemDAO;
         this.userDAO = userDAO;
+        this.collectionDAO = collectionDAO;
     }
     /**
      * Edits an existing review identified by the specified ID with the provided review data.
@@ -246,6 +250,13 @@ public class ReviewService {
         if (reviewDAO.findAllByUserId(userId).stream().anyMatch(rev -> rev.getItem().getId() == review.getItemId())) {
             throw new IllegalArgumentException("You have already reviewed this item.");
         }
+        if (collectionDAO.findById(new CollectionKey(r.getItem(), userDAO.findById(userId).get())).isEmpty()) {
+            throw new IllegalArgumentException("You must add the item to your collection before reviewing it.");
+        }
+
+        Item item = itemDAO.findById(review.getItemId()).orElseThrow(() -> new IllegalArgumentException("Item not found."));
+        item.setRating((item.getRating() * item.getReviewCount() + r.getRating()) / (item.getReviewCount() + 1));
+        itemDAO.save(item);
         return reviewDAO.save(r);
     }
 }
