@@ -72,19 +72,21 @@ const CollectionItem: React.FC<{
         return reviews.filter(review => review.itemId === itemId).length > 0
     }
 
-    const handleViewReviewButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        
+
+    // SHOW REVIEW MODAL FUNCTIONALITY
+    
+    const handleViewReviewButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {      
         // show review
         setShowReview(true)
-
     }
 
     const handleShowReviewModalClose = () => {
         setShowReview(false)
     }
-    
+
 
     // ADD REVIEW MODAL FUNCTIONALITY
+
     const handleAddReviewButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         // console.log("ADD REVIEW BUTTON CLICKED")
         setShowAddReviewModal(true)
@@ -94,10 +96,11 @@ const CollectionItem: React.FC<{
         setShowAddReviewModal(false)
     }
 
-
-
     console.log(JSON.stringify(reviews))
     console.log(isItemReviewed(id as number))
+
+
+
     
     return currentUser 
     ?  (
@@ -198,11 +201,11 @@ const CollectionItem: React.FC<{
         </Modal>
 
         {/* modal to add review */}
-        {/* <CreateReviewModal */}
-            {/* isOpen={showAddReviewModal} */}
-            {/* onClose={handleAddReviewModalClose} */}
-            {/* itemIdToPass={id as number}  */}
-        {/* /> */}
+        <CreateReviewModal
+            isOpen={showAddReviewModal}
+            onClose={handleAddReviewModalClose}
+            itemIdToPass={id as number} 
+        />
         </>
     )
     : <Login />
