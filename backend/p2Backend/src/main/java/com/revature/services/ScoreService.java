@@ -49,6 +49,7 @@ public class ScoreService {
         }
 
         review.get().setScore( review.get().getScore() + vote);
+        scoreDAO.save(new Score(key, vote));
         return reviewDAO.save(review.get());
     }
 
