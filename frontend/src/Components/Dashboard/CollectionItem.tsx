@@ -10,6 +10,7 @@ import { Login } from "../Login/Login";
 import ItemReview from "./ItemReview";
 import { ReviewModal } from "../Review/ReviewModal";
 import { CreateReviewModal } from "../Review/CreateReviewModal";
+import { BsStarFill } from "react-icons/bs";
 
 
 /*
@@ -179,12 +180,12 @@ const CollectionItem: React.FC<{
         </Modal>
 
         {/* modal to edit item  */}
-        <Modal show={showUpdateItemModal} onHide={handleShowUpdateItemModalClose}>
+        <Modal size="sm" show={showUpdateItemModal} onHide={handleShowUpdateItemModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Update Item</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Card style={{ width: '14rem' }} className="m-1">
+                <Card  className="m-1">
                 <Card.Body>
                     {/* Edit Name */}
                     <Form.Label htmlFor="name">Name</Form.Label>
@@ -234,19 +235,25 @@ const CollectionItem: React.FC<{
         </Modal>       
 
         {/* card to show item */}
-        <Card style={{ width: '14rem' }} className="m-1">
+        <Card className="h-100">
             <Container className="ratio ratio-1x1">
-                <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`} className="mt-2"/>
+                <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`}/>
             </Container>
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
+                    {/*
                     Rating: 
                         <span id="rating" className={ratingColor()}>
-                            {/* TODO find beter way for spacing  */}
+                            TODO find beter way for spacing
                             {`  ${rating}`}
                         </span>
+                    */}
+                    <div className="d-flex align-items-center">
+                        <span className={ratingColor()}>{item.rating}</span> <BsStarFill className="text-warning ms-2"/>'s
+                    </div>
                 </Card.Text>
+                {/*
                 <Row className="mb-2">
                 <Button 
                     variant="outline-primary"
@@ -289,17 +296,61 @@ const CollectionItem: React.FC<{
                     hidden = { userRole === "user" }
                 >Delete Item</Button>
                 </Row>
+                */}
             </Card.Body>
+            <Card.Footer>
+                <div className="mb-2 general-button-container">
+                    <Button 
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={handleClickViewDetailsButton}
+                    >View Details</Button>
+                </div>
+
+                {/* User or Reviewed */}
+                <div className="mb-2 user-reviewed-button-container">
+                    <Button 
+                        variant="outline-primary"
+                        size="sm"
+                        className = "me-2"
+                        hidden = { userRole === "admin" || !isItemReviewed(id as number)}
+                        onClick={handleViewReviewButtonClick}
+                    >View My Review</Button>
+                    <Button 
+                        variant="outline-primary"
+                        size="sm"
+                        hidden = { userRole === "admin" || isItemReviewed(id as number)}
+                        onClick={handleAddReviewButtonClick}
+                    >Review Item</Button>
+                </div>
+
+                {/* Admin */}
+                <div className="admin-button-container">
+                    <Button
+                        variant="outline-success"
+                        size="sm"
+                        className="me-2"
+                        onClick = { handleUpdateItemButtonClick }
+                        hidden = { userRole === "user" }
+                    >Update Item</Button>
+                    <Button
+                        variant="outline-danger"
+                        size="sm"    
+                        onClick = { handleDeleteItemButtonClick }
+                        hidden = { userRole === "user" }
+                    >Delete Item</Button>
+                </div>
+            </Card.Footer>
         </Card>   
 
         {/* modal to show item details */}
-        <Modal show={showItemDetails} onHide={handleItemDetailsModalClose}>
+        <Modal size="sm" show={showItemDetails} onHide={handleItemDetailsModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{item.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Card style={{ width: '18rem' }} className="m-1">
-                    <Card.Img variant="top" src={ image } className="mt-2"/>
+                <Card className="m-1">
+                    <Card.Img variant="top" src={ image }/>
                     <Card.Body>
                         <Card.Text>
                         </Card.Text>
@@ -329,7 +380,7 @@ const CollectionItem: React.FC<{
                     onClick = { handleDeleteItemButtonClick }
                     hidden = { userRole == "user" }
                 >Delete</Button>
-                <Button variant="secondary" onClick={handleItemDetailsModalClose}
+                <Button size="sm" variant="outline-secondary" onClick={handleItemDetailsModalClose}
                 > Close</Button>
             </Modal.Footer>
         </Modal>

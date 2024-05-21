@@ -6,6 +6,7 @@ import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { Login } from "../Login/Login"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import { AddItem } from "../Items/AddItem"
+import { ObjectsByName } from "../GeneralUse/ObjectsByName"
 
 /*
     This componenet will display a list items aka collection
@@ -55,27 +56,37 @@ const Collection: React.FC<{
         )
         : (
             <>
+        <div className="mt-2">
+            <ObjectsByName setNameFilter={setNameFilter} label="Filter by Name" />
+        </div>
+        <Container className="mt-2">
+            <Button
+                variant="primary" 
+                onClick={handleAddItemButtonClick}
+                hidden={currentUser?.role === "USER"}
+            >Add Item</Button>
+        </Container>
         <Container className="mt-4 r-flex">
-            <Row>
+            {/*<Row>
                 <Col>
-                <Form.Label htmlFor="nameFilter"> Filter By Item Name: {  }
-                    <Form.Control 
-                    type="text"
-                    id="nameFilter"
-                    value={nameFilter}
-                    onChange={handleNameFilterChange}
-                />
-                </ Form.Label>
+                    <Form.Label htmlFor="nameFilter"> Filter By Item Name: {  }
+                        <Form.Control 
+                        type="text"
+                        id="nameFilter"
+                        value={nameFilter}
+                        onChange={handleNameFilterChange}
+                        />
+                    </ Form.Label>
                 </Col>
                 <Col>
-                <Button 
-                    variant="primary" 
-                    onClick={handleAddItemButtonClick}
-                    hidden={currentUser?.role === "USER"}
-                >Add Item</Button>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleAddItemButtonClick}
+                        hidden={currentUser?.role === "USER"}
+                    >Add Item</Button>
                 </Col>
-            </Row>
-            <Row className="justify-content-evenly" >
+            </Row>*/}
+            <Row md={2} className="g-2">
                 {/* display collection items */}
                 {collection && collection
                     // filter items based on nameFilter
@@ -83,15 +94,17 @@ const Collection: React.FC<{
                     .map(item => {
                     // console.log(`ITEM: ${JSON.stringify(item)}`)
                     return (
-                        <CollectionItem 
-                            key = { item.id }
-                            item = { item } 
-                            handleDeleteItem= { handleDeleteItem }
-                            handleEditReview={handleEditReview}
-                            reviews={reviews}
-                            handleUpdateItem={handleUpdateItem}
-                        />
-                )
+                        <Col>
+                            <CollectionItem 
+                                key = { item.id }
+                                item = { item } 
+                                handleDeleteItem= { handleDeleteItem }
+                                handleEditReview={handleEditReview}
+                                reviews={reviews}
+                                handleUpdateItem={handleUpdateItem}
+                            />
+                        </Col>
+                    )
                 })}
             </Row>
         </Container> 

@@ -219,14 +219,14 @@ export const Dashboard: React.FC = () => {
                 {/* Can add logged in user information here */}
             </Container>
             <Container id="select-view-container">
-                <Form id="select-view-form">
+                <Container>
                     <Form.FloatingLabel label="Select View" controlId="dashboard-select-view" onChange={handleSelectViewOnChange}>
                         <Form.Select id="selectMyView" defaultValue="myCollection">
                             <option value="myCollection">My Collection</option>
                             <option value="myReviews">My Reviews</option>
                         </Form.Select>
                     </Form.FloatingLabel>
-                </Form>
+                </Container>
             </Container>
             <Container id="collection-review-container">
                 {/* Conditionally render my collection or my reviews based on currentView */}
