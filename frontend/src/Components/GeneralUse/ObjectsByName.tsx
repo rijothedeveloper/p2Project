@@ -1,6 +1,6 @@
 import { Container, FloatingLabel, Form } from "react-bootstrap";
 
-export const ItemsByName: React.FC<{
+export const ObjectsByName: React.FC<{
     setNameFilter: React.Dispatch<React.SetStateAction<string>>
 }> = ({setNameFilter}) => {
 
