@@ -39,10 +39,12 @@ import java.util.Optional;
 public class UserController {
 
     UserService userService;
+    JwtTokenUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService,JwtTokenUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/add")
@@ -67,6 +69,18 @@ public class UserController {
             return ResponseEntity.ok(userList); //200
         }
     }
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<String> deleteAccount(@RequestHeader("Authorization") String token, @PathVariable int userId){
+        String jwt = token.substring(7);
+        int userIdFromToken = jwtUtil.extractUserId(jwt);
+        if(userIdFromToken != userId){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete this account. " +
+                                                                        "Only the account owner can delete their own account.");
+        }
+        userService.deleteAccount(userId);
+        return ResponseEntity.ok("Account Deleted Successfully");
+    }
+
 }
 
 
