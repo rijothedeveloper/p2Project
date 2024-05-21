@@ -60,10 +60,10 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
     return (
         <Container>
             <h5>Rate Review</h5>
-            <Container className="d-flex">
+            <Container className="d-flex align-items-center">
                 {userVoteSignal > 0 ?
                 <BsHandThumbsUpFill className="text-success" onClick={()=> handleVote(1)}/> : <BsHandThumbsUp onClick={() => handleVote(1)}/>}
-                <p>{votes}</p>
+                <div className="align-self-center">{votes}</div>
                 {userVoteSignal < 0 ? <BsHandThumbsDownFill className="text-danger" onClick={() => handleVote(-1)}/> : <BsHandThumbsDown onClick={() => handleVote(-1)}/>}
             </Container>
         </Container>
