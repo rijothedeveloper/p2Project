@@ -83,7 +83,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                 </Card.Text>
                                 <Card.Text>
                                     <div className="d-flex align-items-center">
-                                        {item.rating} <BsStarFill className="text-warning mx-1"/>'s
+                                        {item.rating} <BsStarFill className="text-warning ms-2"/>'s
                                     </div>
                                 </Card.Text>
                             </Card.Body>
