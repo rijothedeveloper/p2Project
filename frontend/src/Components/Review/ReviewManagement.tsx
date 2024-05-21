@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { Button, Container, Table } from "react-bootstrap"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import { UserContext } from "../../Contexts/UserContext";
-import { getAllReviews } from "../../FrontendAPI/api";
+import { deleteReviewByID, getAllReviews } from "../../FrontendAPI/api";
 import { useNavigate } from "react-router-dom";
 
 export const ReviewManagement: React.FC = () => {
@@ -22,6 +22,16 @@ export const ReviewManagement: React.FC = () => {
             setReviews(response.data);
         }
     };
+    const deleteReview = async (reviewId: number) => {
+        const response = await deleteReviewByID(currentUser?.jwt as string, reviewId);
+        if (!response.status) {
+            console.error(response.message);
+            alert(response.message);
+        } else {
+            console.log(response.message);
+            alert(response.message);
+        }
+    };
 
     useEffect(() => {
         if (currentUser) {
@@ -31,7 +41,7 @@ export const ReviewManagement: React.FC = () => {
 
     return (
         <Container>
-            <Table striped hover>
+            <Table className="align-middle" striped hover responsive>
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -39,6 +49,7 @@ export const ReviewManagement: React.FC = () => {
                         <th>Username</th>
                         <th>Rating</th>
                         <th>Item</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody className='table-group-divider'>
@@ -49,9 +60,14 @@ export const ReviewManagement: React.FC = () => {
                                 <td className="text-wrap">{review.body}</td>
                                 <td>{review.username}</td>
                                 <td>{review.rating}</td>
-                                <td>
-                                    <Button variant="outline-info" onClick={() => navigate(`/item/${review.itemId}`)}>
+                                <td className="text-nowrap">
+                                    <Button variant="outline-info" size="sm" onClick={() => navigate(`/item/${review.itemId}`)}>
                                         View Item
+                                    </Button>
+                                </td>
+                                <td>
+                                    <Button variant="outline-danger" size="sm" onClick={() => deleteReview(review.id as number)}>
+                                        Delete
                                     </Button>
                                 </td>
                             </tr>
