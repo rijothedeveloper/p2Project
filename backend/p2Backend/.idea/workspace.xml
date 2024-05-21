@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ItemReview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/ItemReview.tsx" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +61,7 @@
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "rev",
+    "git-widget-placeholder": "AllTogether1",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -152,7 +153,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/revature/models/dtos/OutgoingReviewDTO.java</url>
-          <line>62</line>
+          <line>72</line>
           <properties class="com.revature.models.dtos.OutgoingReviewDTO" method="toString">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
