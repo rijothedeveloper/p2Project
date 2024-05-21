@@ -109,6 +109,8 @@ public class ScoreService {
                 throw new NullPointerException("No vote to delete");
 
             review.get().setScore( review.get().getScore() - score.get().getVote());
+            userDAO.findById(userId).get().getScores().remove(score.get());
+            reviewDAO.findById(reviewId).get().getScores().remove(score.get());
             scoreDAO.delete(score.get());
             return reviewDAO.save(review.get());
     }
