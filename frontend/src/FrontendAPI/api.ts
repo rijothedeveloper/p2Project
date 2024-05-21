@@ -412,6 +412,7 @@ const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users";
 const deleteUserEndpoint = "/users";
 const getAllUsersEndpoint = "/users/all";
+const suspendUserEndpoint = "/users/suspend";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
@@ -487,5 +488,28 @@ export const getAllUsers = async (token: string): Promise<UserInterface[]|string
         return response.data;
     } catch (error: any) {
         return error.message;
+    }
+};
+
+export const suspendUser = async (token: string, username: string): Promise<{
+    status: boolean,
+    message: string
+}> => {
+    const url = apiURL(`${suspendUserEndpoint}/${username}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.patch(url, {}, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data)
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully suspended " + username
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: "Failed to suspend " + username
+        });
     }
 }
