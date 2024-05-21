@@ -34,13 +34,14 @@ const ReviewList: React.FC<{
                 {reviews && reviews
                     // filter items based on nameFilter
                     .map(itemReview => {
+                    {console.log(`ITEM REVIEW ID: ${JSON.stringify(itemReview.id)}`)}
                     return (
                         <Col>
                             <Review 
+                                key = {itemReview.id as number}
                                 itemReview = { itemReview } 
                                 handleEditReview = { handleEditReview }
                                 handleDeleteReview={handleDeleteReview}
-                                key={itemReview.id}
                             />
                         </Col>
                 )

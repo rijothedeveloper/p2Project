@@ -28,11 +28,6 @@ const Collection: React.FC<{
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
-    // function to handle change in name filter input
-    const handleNameFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNameFilter(e.target.value)
-    }
-
     // ADD ITEM FUNCTINOALITY
     const handleAddItemButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setShowAddItemModal(true)
@@ -42,6 +37,7 @@ const Collection: React.FC<{
     ? (
         showAddItemModal
         ? (
+            // *** ADD ITEM MODAL  ****************************************************
             <>
             <Modal show={showAddItemModal} onHide={() => setShowAddItemModal(false)}>
                 <Modal.Header closeButton>
@@ -50,12 +46,11 @@ const Collection: React.FC<{
 
                     <AddItem />
                     </Modal.Body>
-
             </Modal>
 \        </>
-
         )
         : (
+        // *** DISPLAY COLLECTION ITEMS  ****************************************************
             <>
         <div className="mt-2">
             <ObjectsByName setNameFilter={setNameFilter} label="Filter by Name" />
@@ -68,36 +63,16 @@ const Collection: React.FC<{
             >Add Item</Button>
         </Container>
         <Container className="mt-4 r-flex">
-            {/*<Row>
-                <Col>
-                    <Form.Label htmlFor="nameFilter"> Filter By Item Name: {  }
-                        <Form.Control 
-                        type="text"
-                        id="nameFilter"
-                        value={nameFilter}
-                        onChange={handleNameFilterChange}
-                        />
-                    </ Form.Label>
-                </Col>
-                <Col>
-                    <Button 
-                        variant="primary" 
-                        onClick={handleAddItemButtonClick}
-                        hidden={currentUser?.role === "USER"}
-                    >Add Item</Button>
-                </Col>
-            </Row>*/}
             <Row md={2} className="g-2">
                 {/* display collection items */}
                 {collection && collection
                     // filter items based on nameFilter
                     .filter(item => item.name.toLowerCase().indexOf(nameFilter.toLowerCase())> -1)
                     .map(item => {
-                    // console.log(`ITEM: ${JSON.stringify(item)}`)
+                    // console.log(`ITEM ID: ${JSON.stringify(item.id)}`)
                     return (
-                        <Col>
+                        <Col key = { item.id as number }>
                             <CollectionItem 
-                                key = { item.id }
                                 item = { item } 
                                 handleDeleteItem= { handleDeleteItem }
                                 handleEditReview={handleEditReview}

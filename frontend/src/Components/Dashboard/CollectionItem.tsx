@@ -1,17 +1,17 @@
 import * as React from "react"
-import { Button, Card, Modal, Row, Container, Form }from 'react-bootstrap';
-import { Route, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
-import { deleteItem } from "../../FrontendAPI/api";
+// for bootstrap
+import { Button, Card, Modal, Row, Container, Form, Col }from 'react-bootstrap';
+// interfaces
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { UserInterface } from "../../Interfaces/UserInterface";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { Login } from "../Login/Login";
+// components
 import ItemReview from "./ItemReview";
-import { ReviewModal } from "../Review/ReviewModal";
 import { CreateReviewModal } from "../Review/CreateReviewModal";
-import { BsStarFill } from "react-icons/bs";
 import { DisplayStars } from "../Review/DisplayStars";
+import { DisplayPartialStars } from "../Review/DisplayPartialStars";
 
 
 /*
@@ -182,6 +182,7 @@ const CollectionItem: React.FC<{
             />
         </Modal>
 
+
         {/* modal to edit item  */}
         <Modal size="sm" show={showUpdateItemModal} onHide={handleShowUpdateItemModalClose}>
             <Modal.Header closeButton>
@@ -214,15 +215,6 @@ const CollectionItem: React.FC<{
                         value={updatedItemDescription}
                         onChange={handleItemDescriptionUpdate}
                     ></Form.Control>                    
-                    {/* Edit Producer id
-                    <Form.Label htmlFor="producerId">Producer Id</Form.Label>
-                    <Form.Control
-                        type="number"
-                        id="producerId"
-                        min="1"
-                        value={updatedItemProducerId?.toString()}
-                        onChange={handleItemProducerIdUpdate}
-                    ></Form.Control> */}
                 </Card.Body>
                 <Card.Footer>
                     <Button 
@@ -232,10 +224,10 @@ const CollectionItem: React.FC<{
                 </Card.Footer>
             </Card>
             </Modal.Body>
-            <Modal.Footer>   
-                
+            <Modal.Footer>                  
             </Modal.Footer>
         </Modal>       
+
 
         {/*****  CARD TO SHOW ITEM  ******************************/}
         <Card className="h-100">
@@ -245,6 +237,7 @@ const CollectionItem: React.FC<{
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
+                </Card.Text>
                     {/*
                     Rating: 
                         <span id="rating" className={ratingColor()}>
@@ -252,12 +245,20 @@ const CollectionItem: React.FC<{
                             {`  ${rating}`}
                         </span>
                     */}
-                    <div className="d-flex align-items-center">
+                    {/* <div className="d-flex align-items-center"> */}
                         {/* <span className={ratingColor()}>{item.rating}</span> <BsStarFill className="text-warning ms-2"/>'s */}
                         {/* <span className={ratingColor()}>{item.rating}</span>  */}
-                        <DisplayStars rating={item.rating as number}/>
-                    </div>
-                </Card.Text>
+                        {/* <DisplayStars rating={item.rating as number}/> */}
+                    {/* </div> */}
+                    <Row className="mb-2">
+                        <Col>
+                            <DisplayPartialStars rating={item.rating as number}/>
+                        </Col>
+                        <Col className="text-start">
+                            <span id="rating" className={ratingColor()}>{`(${rating})`}</span>
+                            {/* <span id="rating" className={ratingColor()}>{`${rating}`}</span> */}
+                        </Col>
+                    </Row>    
             </Card.Body>
             <Card.Footer>
                 <div className="mb-2 general-button-container">
@@ -304,7 +305,8 @@ const CollectionItem: React.FC<{
             </Card.Footer>
         </Card>   
 
-        {/* modal to show item details */}
+
+        {/*** MODAL TO SHOW ITEM DETAILS ************************************/}
         <Modal size="sm" show={showItemDetails} onHide={handleItemDetailsModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{item.name}</Modal.Title>
@@ -315,22 +317,30 @@ const CollectionItem: React.FC<{
                     <Card.Body>
                         <Card.Text>
                         </Card.Text>
-                            <div>
+                            <Row className="mb-2">
+                                <Col>
+                                    <DisplayPartialStars rating={item.rating as number}/>
+                                </Col>
+                                <Col className="text-start">
+                                    <span id="rating" className={ratingColor()}>{`(${rating})`}</span>
+                                    {/* <span id="rating" className={ratingColor()}>{`${rating}`}</span> */}
+                                </Col>
+                            </Row>                        
+                            <div className="mb-2">
                                 Category: {item.category}
                             </div>
                             {/* <div>
-                                Producer: {item.producerId}
-                            </div> */}
-                            <div>
                                 Rating: 
                                     <span id="rating" className={ratingColor()}>
-                                        {/* TODO find beter way for spacing  */}
                                         {`  ${rating}`}
                                     </span>
-                            </div>
+                            </div> */}
+
                             <div>
                                 Description: {item.description}
                             </div>
+
+    
                     </Card.Body>
                 </Card>
             </Modal.Body>
