@@ -97,7 +97,7 @@ export const AllItems: React.FC = () => {
             <Container id="nameSwitch" className="mt-3 ms-3">
                 <Form.Switch inline id="nameFilter" name="selectView" label="Filter by Name" value="name" checked={view === "name"} onChange={handleSwitchChange} />
             </Container>
-            <ObjectsByName setNameFilter={setNameFilter} />
+            <ObjectsByName setNameFilter={setNameFilter} label="Filter by Name" />
             <Container id="itemGrid" className="mt-3">
                 <ItemColumns items={displayedItems} />
             </Container>
