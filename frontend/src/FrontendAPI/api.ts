@@ -547,4 +547,88 @@ export const suspendUserByUsername = async (token: string, username: string): Pr
             message: "Failed to suspend " + username
         });
     }
+
+}
+
+// ScoreController
+const scoreControllerEndpoint = "/scores";
+const addScoreEndpoint = scoreControllerEndpoint;
+const updateScoreEndpoint = scoreControllerEndpoint;
+const deleteScoreEndpoint = scoreControllerEndpoint;
+const getUserScoreEndpoint = scoreControllerEndpoint;
+
+/**
+ * Add a score to an item
+ * @param token - JWT token
+ * @param score - the score to add
+ */
+export const addScore = async (token: string, review: ReviewInterface, score: number): Promise<string> => {
+    const url = apiURL(`${addScoreEndpoint}/${review.id}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.post(url, {score}, {headers: authHeader});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return "Score added successfully!";
+    } catch (error: any) {
+        return error.message;
+    }
+}
+
+/**
+ * Update a score by its id
+ * @param token - JWT token
+ * @param score - the score to update
+ */
+export const updateScore = async (token: string, score: number): Promise<string> => {
+    const url = apiURL(updateScoreEndpoint);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.patch(url, {score}, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return "Score updated successfully!";
+    } catch (error: any) {
+        return error.message;
+    }
+}
+
+/**
+ * Delete a score by its id
+ * @param token - JWT token
+ * @param scoreId - id of the score to delete
+ */
+export const deleteScore = async (token: string, scoreId: number): Promise<string> => {
+    const url = apiURL(`${deleteScoreEndpoint}/${scoreId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return "Score deleted successfully!";
+    } catch (error: any) {
+        return error.message;
+    }
+}
+
+/**
+ * Get a user's score
+ * @param token - JWT token
+ * @param userId - id of the user to get the score for
+ */
+export const getUserScore = async (token: string, userId: number): Promise<number> => {
+    const url = apiURL(`${getUserScoreEndpoint}/${userId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return response.data;
+    } catch (error: any) {
+        return error.message;
+    }
 }

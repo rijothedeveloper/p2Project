@@ -1,9 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { BsHandThumbsDown, BsHandThumbsDownFill, BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import { UserContext } from "../../Contexts/UserContext";
+import { ReviewInterface } from "../../Interfaces/ReviewInterface";
+import { addScore, getUserScore } from "../../FrontendAPI/api";
 
-export const ReactToReview: React.FC = () => {
+export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     const { currentUser } = useContext(UserContext);
 
@@ -12,6 +14,13 @@ export const ReactToReview: React.FC = () => {
     const [userVoteSignal, setUserVoteSignal] = useState<number>(0);
     const [votes, setVotes] = useState(0);
 
+    const vote = addScore(currentUser?.jwt as string, review, userVoteSignal).then((response) => {
+                if (response) {
+                    console.log(response);
+                } else {
+                    console.error(response);
+                }
+            });
     const handleUpvote = () => {
         // handle changing user vote to neutral
         if (userVoteSignal > 0) {
@@ -25,6 +34,14 @@ export const ReactToReview: React.FC = () => {
         }
         setVotes(votes + 1);
         setUserVoteSignal(1);
+        addScore(currentUser?.jwt as string, review, 1).then((response) => {
+            if (response) {
+                console.log(response);
+            } else {
+                console.error(response);
+            }
+        });
+
     };
     const handleDownvote = () => {
         // handle changing user vote to neutral
@@ -39,7 +56,27 @@ export const ReactToReview: React.FC = () => {
         }
         setVotes(votes - 1);
         setUserVoteSignal(-1)
+        if (userVoteSignal === 0) {
+            addScore(currentUser?.jwt as string, review, -1).then((response) => {
+                if (response) {
+                    console.log(response);
+                } else {
+                    console.error(response);
+                }
+            });
+        } else {}
+            
     };
+
+    useEffect(() => {
+            getUserScore(currentUser?.jwt as string, review.id as number).then((response) => {
+                setUserVoteSignal(response);
+            });
+        }, [currentUser, review.id]);
+
+    
+    
+    
 
     return (
         <Container>

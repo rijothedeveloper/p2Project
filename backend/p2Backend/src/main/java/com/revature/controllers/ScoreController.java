@@ -43,7 +43,7 @@ public class ScoreController {
         }
     }
     //@PutMapping("/{reviewId}")
-    @PutMapping("/update/{reviewId}")
+    @PutMapping("/{reviewId}")
     public ResponseEntity<Object> updateVote(@PathVariable int reviewId, @RequestBody int vote, @RequestHeader("Authorization") String token ){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
@@ -59,7 +59,7 @@ public class ScoreController {
         }
     }
     //@DeleteMapping("/{reviewId}")
-    @DeleteMapping("/delete/{reviewId}")
+    @DeleteMapping("/{reviewId}")
     public ResponseEntity<Object> deleteVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
@@ -75,7 +75,7 @@ public class ScoreController {
         }
     }
     //@GetMapping("/{reviewId}")
-    @GetMapping("/vote/{reviewId}")
+    @GetMapping("/{reviewId}")
     public ResponseEntity<Object> getUserVote(@PathVariable int reviewId, @RequestHeader("Authorization") String token){
         String jwt = token.substring(7);
         int userId = jwtUtil.extractUserId(jwt);
