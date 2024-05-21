@@ -491,7 +491,7 @@ export const getAllUsers = async (token: string): Promise<UserInterface[]|string
     }
 };
 
-export const suspendUser = async (token: string, username: string): Promise<{
+export const suspendUserByUsername = async (token: string, username: string): Promise<{
     status: boolean,
     message: string
 }> => {

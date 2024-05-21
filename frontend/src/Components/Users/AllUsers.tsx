@@ -2,9 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../../Interfaces/UserInterface";
-import { getAllUsers } from '../../FrontendAPI/api';
+import { getAllUsers, suspendUserByUsername } from '../../FrontendAPI/api';
 import { UserContext } from '../../Contexts/UserContext';
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { ObjectsByName } from '../GeneralUse/ObjectsByName';
 
 export const AllUsers: React.FC = () => {
@@ -42,6 +42,17 @@ export const AllUsers: React.FC = () => {
             setUsers(response);
         }
     };
+    const suspendUser = async (username: string) => {
+        const response = await suspendUserByUsername(currentUser?.jwt as string, username);
+        if (!response.status) {
+            console.error(response.message);
+            alert(response.message);
+        } else {
+            console.log(response.message);
+            alert(response.message);
+            getUsers();
+        }
+    }
 
     return (
         <div>
@@ -54,6 +65,7 @@ export const AllUsers: React.FC = () => {
                             <thead>
                                 <tr>
                                     <th>User ID</th>
+                                    <th>Suspend</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Username</th>
@@ -66,6 +78,15 @@ export const AllUsers: React.FC = () => {
                                 {filteredUsers.map((user) => (
                                     <tr key={user.id}>
                                         <td>{user.id}</td>
+                                        <td>
+                                            {user.role !== "SUSPEND" ?
+                                            <Button variant="outline-danger" onClick={() => suspendUser(user.username as string)}>
+                                                Suspend
+                                            </Button> :
+                                            <Button variant="outline-danger" disabled>
+                                                Suspend
+                                            </Button>}
+                                        </td>
                                         <td>{user.firstName}</td>
                                         <td>{user.lastName}</td>
                                         <td>{user.username}</td>
