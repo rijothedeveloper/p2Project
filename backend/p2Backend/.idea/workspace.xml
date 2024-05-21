@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3dd7e04-9145-4984-8604-f4af80b19180" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionItem.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Review/CreateReviewModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Review/CreateReviewModal.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,9 +17,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2gktXrZ044azU0VuzusN7A6FVEy" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -32,7 +32,7 @@
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "dashboardReviews",
+    "git-widget-placeholder": "adminUser",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>

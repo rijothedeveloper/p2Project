@@ -100,6 +100,17 @@ const CollectionItem: React.FC<{
     console.log(isItemReviewed(id as number))
 
 
+    const handleAddReview = (review: ReviewInterface) => {
+        // // console.log(`REVIEW TO ADD: ${JSON.stringify(review)}`)
+        // // add review to reviews array
+        // reviews.push(review)
+        // // console.log(`REVIEWS AFTER ADD: ${JSON.stringify(reviews)}`)
+        // // close review modal
+        // setShowAddReviewModal(false)
+        console.log(`REVIEW ADDED ${JSON.stringify(review)}`)
+    }   
+
+
 
     
     return currentUser 
