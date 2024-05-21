@@ -19,7 +19,8 @@ const Collection: React.FC<{
     handleDeleteItem: (itemId: number) => void
     handleEditReview: (review: ReviewInterface) => void
     handleUpdateItem: (item: ItemInterface) => void
-}> = ({collection, handleDeleteItem, reviews, handleEditReview, handleUpdateItem}) => {
+    handleDleteReview: (review: ReviewInterface) => void
+}> = ({collection, handleDeleteItem, reviews, handleEditReview, handleUpdateItem, handleDleteReview}) => {
 
     const [ nameFilter, setNameFilter ] = React.useState("")
     const [ showAddItemModal, setShowAddItemModal ] = React.useState(false)
@@ -102,6 +103,7 @@ const Collection: React.FC<{
                                 handleEditReview={handleEditReview}
                                 reviews={reviews}
                                 handleUpdateItem={handleUpdateItem}
+                                handleDeleteReview={handleDleteReview}
                             />
                         </Col>
                     )

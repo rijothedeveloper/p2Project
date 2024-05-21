@@ -5,7 +5,10 @@ import { deleteReviewByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 
-export const DeleteReview: React.FC<any> = (review:ReviewInterface) => {
+export const DeleteReview: React.FC<{
+    review: ReviewInterface
+    handleDeleteReview: (review: ReviewInterface) => void
+}> = ({review, handleDeleteReview}) => {
 
 
     //We are given the review information from the parent component and we will need the review ID for the html call.
@@ -21,36 +24,47 @@ export const DeleteReview: React.FC<any> = (review:ReviewInterface) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const handleCloseConfirm = async () => {
-        setShow(false)
-        const response = await deleteReview(currentUser?.jwt as string,review.id as number);
-        if (typeof response === "string") {
-            console.error(response);
-        } else {
-            handleClose();
-            navigate("/");
-        }
-    };
+
+    // const handleCloseConfirm = async () => {
+    //     setShow(false)
+    //     const response = await deleteReview(currentUser?.jwt as string,review.id as number);
+    //     if (typeof response === "string") {
+    //         console.error(response);
+    //     } else {
+    //         handleClose();
+    //         // navigate("/");
+    //     }
+    // };
+
+    const handleCloseConfirm = () => {
+        handleDeleteReview(review)
+        handleClose()
+    }
+
 
 
     return (
-        <div>
-            <button onClick={handleShow} className="btn btn-warning ms-1">Delete Review</button>
+        <>
+            <Button 
+                onClick={handleShow} 
+                variant="outline-danger"
+                // className="btn btn-warning ms-1"
+            >Delete Review</Button>
             
             <Modal show={show}>
                 <Modal.Header>
                     <Modal.Title>Delete your review?</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Deleting your review will delete all its replies. <br /><br />Click OK to delete review, Cancel to cancel.</Modal.Body>
+                <Modal.Body>Deleting your review will delete all its replies!</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleCloseConfirm}>
-                        OK
+                    <Button variant="danger" onClick={handleCloseConfirm}>
+                        Delete Review And All Its Replies
                     </Button>
                     <Button variant="secondary" onClick={handleClose}>
                         Cancel
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </>
     )
 }

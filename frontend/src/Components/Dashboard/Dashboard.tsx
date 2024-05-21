@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Container, Form } from "react-bootstrap"
 import { UserContext } from "../../Contexts/UserContext";
+// bootstrap
+import { Container, Form } from "react-bootstrap"
+// components
 import ReviewList from "./ReviewList";
 import CollectionList from "./CollectionList";
 import { Login } from "../Login/Login";
@@ -8,12 +10,11 @@ import { Login } from "../Login/Login";
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 // for making api calls
-import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import { apiURL, buildAuthHeader, deleteReviewByIdEndpoint } from "../../FrontendAPI/api"
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { getAllItemsEndpoint } from "../../FrontendAPI/api"
 import { myCollectionEndpoint } from "../../FrontendAPI/api"
 import { deleteItemEndpoint } from "../../FrontendAPI/api"
-import { getCollection } from "../../FrontendAPI/api";
 
 
 export const Dashboard: React.FC = () => {
@@ -32,7 +33,7 @@ export const Dashboard: React.FC = () => {
     console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
     // get role and jwt of current user
     const jwt = currentUser ? currentUser.jwt : null
-    
+   
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
     
 
@@ -58,37 +59,11 @@ export const Dashboard: React.FC = () => {
         }
     };
 
-    const handleDeleteItem = (itemId: number) => {
-
-        console.log(`ITEM ID TO DELETE: ${itemId}`)
-
-        // delete item form database
-        // api call to delete item
-        const deleteItem = async () => {
-            // console.log(`ITEM ID TO DELETE: ${itemId}`)
-            const url = `${apiURL(deleteItemEndpoint)}/${itemId}`;
-            // console.log(`URL TO DELETE ITEM: ${url}`)
-            const authHeader = buildAuthHeader(currentUser?.jwt as string);
-            const response = await axios.delete(url, {headers: authHeader})
-            .then((response: AxiosResponse) => {
-                return response.data;
-            })
-            .catch((error: AxiosError) => {
-                console.log(`ERROR IN DELETE ITEM: ${error}`)
-            });
-
-        }
-        // call delete item api call
-        deleteItem()
-
-        // update collection state
-        // create new collection with the deleted item removed
-        const updatedCollection = collection.filter(item => item.id != itemId)
-        // update collection state
-        setCollection(updatedCollection)
-    }    
 
 
+    // ITEM RELATED FUNCTIONS /////////////////////////////////////////////////
+   
+    // UPDATE ITEM
     const handleUpdateItem = (item: ItemInterface) => { 
         console.log(`ITEM TO UPDATE: ${JSON.stringify(item)}`)
 
@@ -120,11 +95,46 @@ export const Dashboard: React.FC = () => {
         })
         // update collection state
         setCollection(updatedCollection)
-
-
     }
 
-    // function to handle edit review
+
+    // DELETE ITEM
+    const handleDeleteItem = (itemId: number) => {
+
+        console.log(`ITEM ID TO DELETE: ${itemId}`)
+
+        // delete item form database
+        // api call to delete item
+        const deleteItem = async () => {
+            // console.log(`ITEM ID TO DELETE: ${itemId}`)
+            const url = `${apiURL(deleteItemEndpoint)}/${itemId}`;
+            // console.log(`URL TO DELETE ITEM: ${url}`)
+            const authHeader = buildAuthHeader(currentUser?.jwt as string);
+            const response = await axios.delete(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                console.log(`ERROR IN DELETE ITEM: ${error}`)
+            });
+
+        }
+        // call delete item api call
+        deleteItem()
+
+        // update collection state
+        // create new collection with the deleted item removed
+        const updatedCollection = collection.filter(item => item.id != itemId)
+        // update collection state
+        setCollection(updatedCollection)
+    }    
+
+
+
+    // REVIEW RELATED FUNCTIONS /////////////////////////////////////////////////
+
+
+    // UPDATE REVIEW
     const handleEditReview = (review: ReviewInterface) => {
 
         // update review in the database
@@ -154,8 +164,38 @@ export const Dashboard: React.FC = () => {
         }
         // call delete item api call
         updateReview()
-
     }    
+
+
+    // DELETE REVIEW
+    const handleDeleteReview = (review: ReviewInterface) => {
+
+        // delete review from database
+        // api call to delete item
+        const deleteReview = async () => {
+            // console.log(`REVIEW ID TO DELETE: ${itemId}`)
+            const url = `${apiURL(deleteReviewByIdEndpoint)}/${review.id}`;
+            // console.log(`URL TO DELETE ITEM: ${url}`)
+            const authHeader = buildAuthHeader(currentUser?.jwt as string);
+            const response = await axios.delete(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                console.log(`ERROR IN DELETE ITEM: ${error}`)
+            });
+
+        }
+        // call delete item api call
+        deleteReview()
+
+        // update collection state
+        // create new collection with the deleted item removed
+        const updatedReveiws = reviews.filter(rev=> rev.id != review.id)
+        // update collection state
+        setReviews(updatedReveiws)
+    }    
+
 
 
     // get collection and reviews on component rendering
@@ -184,11 +224,6 @@ export const Dashboard: React.FC = () => {
             });    
         }
         getUserCollection()
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // //TODO REMOVE SETTING MOCK COLLECTION FOR USER
-        // if(userRole == "user") setCollection(mockCollection)
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
         // get reviews from backend
@@ -237,10 +272,12 @@ export const Dashboard: React.FC = () => {
                     handleDeleteItem={handleDeleteItem}
                     handleEditReview={handleEditReview}
                     handleUpdateItem={handleUpdateItem}
+                    handleDleteReview={handleDeleteReview}
                     />
                 : <ReviewList
                     reviews={reviews}
                     handleEditReview={handleEditReview}
+                    handleDeleteReview={handleDeleteReview}
                     />
                 }
             </Container>

@@ -351,6 +351,7 @@ ReviewController
 ------------------------------*/
 const reviewControllerEndpoint = "/reviews";
 const getUserReviewsEndpoint = reviewControllerEndpoint + "/user";
+export const deleteReviewByIdEndpoint = reviewControllerEndpoint + "/delete";
 
 export const getAllReviews = async (token: string): Promise<{
     status: boolean,

@@ -15,7 +15,8 @@ import { Login } from "../Login/Login"
 const ReviewList: React.FC<{
     reviews : ReviewInterface[]
     handleEditReview: (review: ReviewInterface) => void
-}> = ({reviews, handleEditReview }) => {
+    handleDeleteReview: (review: ReviewInterface) => void
+}> = ({reviews, handleEditReview, handleDeleteReview }) => {
 
  
     // get current user from UserContext
@@ -38,6 +39,7 @@ const ReviewList: React.FC<{
                             <Review 
                                 itemReview = { itemReview } 
                                 handleEditReview = { handleEditReview }
+                                handleDeleteReview={handleDeleteReview}
                                 key={itemReview.id}
                             />
                         </Col>
