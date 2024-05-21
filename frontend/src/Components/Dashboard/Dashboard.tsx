@@ -134,13 +134,15 @@ export const Dashboard: React.FC = () => {
         // get collection of user
         const getUserCollection = async () => {
             // get collection from backend
-
             // const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
-            const response = getCollection(currentUser?.jwt as string)
-            .then((response) => {
+            const endpoint = userRole == "user" ? getAllItemsEndpoint : getAllItemsEndpoint
+            const url = apiURL(endpoint);
+            const authHeader = buildAuthHeader(jwt as string);
+            const response  = await axios.get(url, {headers: authHeader})
+            .then((response: AxiosResponse) => {
                 // console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
                 // set collection state
-                setCollection(response as ItemInterface[])
+                setCollection(response.data as ItemInterface[])
             })
             .catch((error: AxiosError) => {
                 console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)

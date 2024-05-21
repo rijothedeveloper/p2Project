@@ -9,6 +9,7 @@ import { ItemInterface } from "../../Interfaces/ItemInterface";
 import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { UserInterface } from "../../Interfaces/UserInterface";
+import StarRating from "../Review/StarRating";
 
 /*
     This component will display a review
@@ -69,6 +70,10 @@ const ItemReview: React.FC<{
         setUpdatedBody(e.target.value)
     }
     
+    // function to handle change in star rating
+    const handleStarRatingChange = (rating: number) => {
+        setUpdatedRating(rating)
+    }   
 
     const handleSaveReviewUpdate = () => {
         if(validStringInput(updatedTitle as string)
@@ -136,6 +141,7 @@ const ItemReview: React.FC<{
             </Card.Body>
         </Card>
 
+        {/* modal to edit reveiw */}
         <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Edit review for {item.name}</Modal.Title>
@@ -144,13 +150,7 @@ const ItemReview: React.FC<{
                 <Card style={{ width: '14rem' }} className="m-1">
                 <Card.Header>
                 </Card.Header>
-                {/* <Card.Img variant="top" src={itemReview.item.image} className="mt-2"/> */}
                 <Card.Body>
-                    {/* <Card.Title>{itemReview.title}</Card.Title> */}
-                    {/* <Card.Text>
-                        {itemReview.body}
-                    </Card.Text> */}
-
                     {/* Edit Title */}
                     <Form.Label htmlFor="titleUpdate">Title</Form.Label>
                     <Form.Control
@@ -159,18 +159,20 @@ const ItemReview: React.FC<{
                         value={updatedTitle}
                         onChange={handleReviewTitleChange}
                     ></Form.Control>
-
                     {/* Edit Ratings */}
                     <Form.Label htmlFor="ratingUpdate">Rating</Form.Label>
-                    <Form.Control
-                        type="number"
-                        id="ratingUpdate"
-                        min="1"
-                        max="5"
-                        value={updatedRating?.toString()}
-                        onChange={handleReviewRatingChange}
-                    ></Form.Control>
-
+                    <StarRating
+                        review={itemReview}
+                        handleRatingChange={handleStarRatingChange}
+                        />
+                    {/* <Form.Control */}
+                        {/* type="number" */}
+                        {/* id="ratingUpdate" */}
+                        {/* min="1" */}
+                        {/* max="5" */}
+                        {/* value={updatedRating?.toString()} */}
+                        {/* onChange={handleReviewRatingChange} */}
+                    {/* ></Form.Control> */}
                     {/* Edit Description */}
                     <Form.Label htmlFor="bodyUpdate">Title</Form.Label>
                     <Form.Control
@@ -179,23 +181,19 @@ const ItemReview: React.FC<{
                         value={updatedBody}
                         onChange={handleReviewBodyChange}
                     ></Form.Control>
-
                 </Card.Body>
                 <Card.Footer>
                     <Button 
                         variant="primary"
                         onClick={handleSaveReviewUpdate}
                     >Save Changes</Button>
-                    {/* <Button 
-                        variant="danger"
-                    >Delete Review</Button> */}
                 </Card.Footer>
             </Card>
         </Modal.Body>
         <Modal.Footer>  
 
             </Modal.Footer>
-    </Modal>
+        </Modal>
     </>
     )
 }
