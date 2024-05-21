@@ -41,11 +41,15 @@ public class Item {
     @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Collection> collections;
+
     public Item() {
     }
 
 
-    public Item(String name, Producer producer, String description, String category, String image,  List<Review> reviews) {
+    public Item(String name, Producer producer, String description, String category, String image,  List<Review> reviews, List<Collection> collections) {
         this.name = name;
         this.producer = producer;
         this.rating = 0;
@@ -53,6 +57,7 @@ public class Item {
         this.category = category;
         this.image = image;
         this.reviews = reviews;
+        this.collections = collections;
     }
 
     public Item(String name, Producer producer, String description, String category, String image) {
@@ -124,6 +129,10 @@ public class Item {
 
     public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
+    public List<Collection> getCollections() { return collections; }
+
+    public void setCollections(List<Collection> collections) { this.collections = collections; }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -133,7 +142,6 @@ public class Item {
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
                 ", image='" + image + '\'' +
-                ", reviews='" + reviews + '\'' +
                 '}';
     }
 

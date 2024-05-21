@@ -569,7 +569,7 @@ UserController
 const loginEndpoint = "/users/login";
 const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users/user";
-const deleteUserEndpoint = "/users";
+const deleteUserEndpoint = "/users/delete";
 const getAllUsersEndpoint = "/users/all";
 const suspendUserEndpoint = "/users/suspend";
 

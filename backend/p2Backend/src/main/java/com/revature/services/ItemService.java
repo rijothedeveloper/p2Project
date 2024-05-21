@@ -109,6 +109,8 @@ public class ItemService {
      * */
     public Item deleteItem (int itemId) {
         Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with Id: " + itemId));
+        item.getProducer().getItems().remove(item);
+
         itemDAO.deleteById(itemId);
         return item;
     }

@@ -3,6 +3,7 @@ package com.revature.controllers;
 import com.revature.models.Item;
 import com.revature.models.dtos.ItemDTO;
 import com.revature.services.ItemService;
+import com.revature.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     private ItemService itemService;
+    private JwtTokenUtil jwtUtil;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, JwtTokenUtil jwtUtil) {
         this.itemService = itemService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/add")
@@ -57,7 +60,16 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ResponseEntity<Object> deleteItem(@PathVariable int itemId) {
+    public ResponseEntity<Object> deleteItem(@PathVariable int itemId, @RequestHeader("Authorization") String token) {
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            return ResponseEntity.status(401).body("You must be logged in to delete an item");
+        }
+        String role = jwtUtil.extractRole(jwt).toLowerCase();
+        if(!role.equals(("admin"))) {
+            return ResponseEntity.status(403).body("You must be an admin to delete an item");
+        }
         try {
             return ResponseEntity.ok(itemService.deleteItem(itemId));
         } catch (Exception e) {

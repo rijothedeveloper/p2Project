@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface";
 import { get } from "http";
 import { findUserByUsername, getUserReviews } from "../../FrontendAPI/api";
@@ -11,13 +11,13 @@ export const UserDetails: React.FC = () => {
 
     const { username } = useParams<{ username: string}>();
     const { currentUser } = useContext(UserContext);
+    const nav = useNavigate();
 
     const [user, setUser] = useState<UserInterface>({
         username: "",
         email: "",
         role: "",
         id: 0,
-        // TODO: this should be set to default user properties
     });
 
     const [reviews, setReviews] = useState<ReviewInterface[]>([]);
@@ -27,14 +27,16 @@ export const UserDetails: React.FC = () => {
         findUserByUsername(currentUser?.jwt as string, username as string).then((response) => {
             console.log("User found");
             setUser(() => ({...user, username: response.username, email: response.email, role: response.role, id: response.id}));
-                console.log(user.id);
-                getUserReviews(currentUser?.jwt as string, user.id as number).then((response) => {
+            if (response.id) {
+                nav("/review/" + response.id.toString());
+                getUserReviews(currentUser?.jwt as string, response.id as number).then((response) => {
                     if (Array.isArray(response)) {
                         setReviews(response);
                     }
                 }).catch((error) => {console.log(error.message)});
+            }
         }).catch((error) => {console.log(error.message)});
-}, []);
+    }, []);
 
     return (
 

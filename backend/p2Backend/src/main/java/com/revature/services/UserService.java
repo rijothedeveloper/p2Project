@@ -1,10 +1,7 @@
 package com.revature.services;
 
-import com.revature.daos.ReviewDAO;
-import com.revature.daos.UserDAO;
-import com.revature.models.Collection;
-import com.revature.models.Review;
-import com.revature.models.User;
+import com.revature.daos.*;
+import com.revature.models.*;
 import com.revature.models.dtos.CreateUserDTO;
 import com.revature.models.dtos.IncomingUserDTO;
 import com.revature.models.dtos.OutgoingUserDTO;
@@ -41,6 +38,10 @@ public class UserService {
     private AuthenticationManager authManager;
     private JwtTokenUtil jwtUtil;
     private PasswordEncoder passwordEncoder;
+    private CollectionDAO collectionDAO;
+    private ScoreDAO scoreDAO;
+    private FollowDAO followDAO;
+    private ReplyDAO replyDAO;
 
     private final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
@@ -48,12 +49,16 @@ public class UserService {
     private final Pattern pattern = Pattern.compile(EMAIL_REGEX);
 
     @Autowired
-    public UserService(UserDAO userDAO, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder, ReviewDAO reviewDAO) {
+    public UserService(UserDAO userDAO, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder, ReviewDAO reviewDAO, CollectionDAO collectionDAO, ScoreDAO scoreDAO, FollowDAO followDAO, ReplyDAO replyDAO) {
         this.userDAO = userDAO;
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.reviewDAO = reviewDAO;
+        this.collectionDAO = collectionDAO;
+        this.scoreDAO = scoreDAO;
+        this.followDAO = followDAO;
+        this.replyDAO = replyDAO;
     }
 
     public ResponseEntity<Object> addUser(CreateUserDTO input) {
@@ -231,10 +236,29 @@ public class UserService {
         if(user.isPresent()){
             //get all reviews and collecitons for user
             List<Review> reviews = user.get().getReviews();
-            reviews.clear();
-
             List<Collection> collections = user.get().getCollection();
-            collections.clear();
+            List<Score> scores = user.get().getScores();
+            List<Follow> follows = user.get().getFollow();
+            List<Reply> replies = user.get().getReplies();
+
+            for (Review review : reviews) {
+                reviewDAO.delete(review);
+            }
+            for (Collection collection : collections) {
+                collectionDAO.delete(collection); // assuming you have a CollectionDAO
+            }
+
+            for (Score score : scores) {
+                scoreDAO.delete(score);
+            }
+
+            for (Follow follow : follows) {
+                followDAO.delete(follow);
+            }
+
+            for (Reply reply : replies) {
+                replyDAO.delete(reply);
+            }
 
             //delete user
             userDAO.delete(user.get());
