@@ -109,7 +109,7 @@ export const ItemDetails: React.FC = () => {
                     </Col>
                 </Row>
             </Container>
-            <Container id="reviewContainer">
+            <Container id="reviewContainer" className="mt-3">
                 <Accordion>
                     {reviews.map((review, idx) => {
                         return (
