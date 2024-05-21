@@ -420,8 +420,8 @@ export const getItemReviews = async (token: string, itemId: number): Promise<{
  * @param token - JWT token
  * @param reviewid - ID of the review to delete
  */
-export const deleteReviewByID = async (token: string, reviewid: number) => {
-    const url = apiURL(`${reviewControllerEndpoint}/${reviewid}`);
+export const deleteReviewByID = async (token: string, reviewId: number) => {
+    const url = apiURL(`${reviewControllerEndpoint}/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
         const response = await axios.delete(url, {headers: authHeader});
