@@ -80,11 +80,11 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
 
     return (
         <Container>
-            <h2>Rate Review</h2>
+            <h5>Rate Review</h5>
             <Container className="d-flex">
-                {userVoteSignal < 0 ? <BsHandThumbsUpFill className="text-success" onClick={handleUpvote}/> : <BsHandThumbsUp onClick={handleUpvote}/>}
+                {userVoteSignal > 0 ? <BsHandThumbsUpFill className="text-success" onClick={handleUpvote}/> : <BsHandThumbsUp onClick={handleUpvote}/>}
                 <p>{votes}</p>
-                {userVoteSignal > 0 ? <BsHandThumbsDownFill className="text-danger" onClick={handleDownvote}/> : <BsHandThumbsDown onClick={handleDownvote}/>}
+                {userVoteSignal < 0 ? <BsHandThumbsDownFill className="text-danger" onClick={handleDownvote}/> : <BsHandThumbsDown onClick={handleDownvote}/>}
             </Container>
         </Container>
     )
