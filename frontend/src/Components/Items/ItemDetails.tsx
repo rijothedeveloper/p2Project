@@ -138,12 +138,12 @@ export const ItemDetails: React.FC = () => {
     return (
         <>
         {/* modal to add reply  */}
-        <Modal show={showAddReplyModal} onHide={handleAddReplyModalClose}>
+        <Modal size="sm" show={showAddReplyModal} onHide={handleAddReplyModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Reply</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Card style={{ width: '14rem' }} className="m-1">
+                <Card className="m-1">
                 <Card.Body>
                     <Form.Label htmlFor="reply">Your Reply</Form.Label>
                     <Form.Control
@@ -187,13 +187,6 @@ export const ItemDetails: React.FC = () => {
                 <Accordion>
                     {reviews.map((review, idx) => {
                         return (
-                            <>
-                            <Button 
-                                variant="outline-primary" 
-                                className="text-secondary"
-                                value={review.id as number}
-                                onClick={handleReplyButtonClick}
-                            >Reply</Button>
                             <Accordion.Item eventKey={`${idx}`} key={idx}>
                                 <Accordion.Header>
                                     <Container className="d-flex flex-column">
@@ -213,8 +206,13 @@ export const ItemDetails: React.FC = () => {
                                     <Container className="ms-3">
                                         <ReactToReview {...review} />
                                         <h5>Replies</h5> 
-                                        <Button size="sm" variant="outline-primary" onClick={()=>{setReplyModal(true)}} >Reply </Button>
-                                        { replyModal && <NewReply {...review}/>}
+                                        <Button 
+                                            variant="outline-primary" 
+                                            className="text-secondary"
+                                            value={review.id as number}
+                                            onClick={handleReplyButtonClick}
+                                        >Reply</Button>
+                                        {/* replyModal && <NewReply {...review}/>*/}
                                         <ListGroup as="ul" variant="flush">
                                             {replies[review?.id as number]?.map((reply, idx) => {
                                                 return (
@@ -230,7 +228,6 @@ export const ItemDetails: React.FC = () => {
                                     </Container>
                                 </Accordion.Body>
                             </Accordion.Item>
-                            </>
                         );
                     })}
                 </Accordion>

@@ -79,7 +79,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                 <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
                                 <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
                                 <Card.Text>
-                                    {truncateText(item.description, 30)}
+                                    {truncateText(item.description, 50)}
                                 </Card.Text>
                                 <Card.Text>
                                     <div className="d-flex align-items-center">
