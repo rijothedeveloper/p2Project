@@ -72,7 +72,9 @@ public class CollectionService {
         Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
         User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
         CollectionKey collectionkey = new CollectionKey(item, user);
-        Collection collection = new Collection (collectionkey);
+        Collection collection = collectionDAO.findById(collectionkey).orElseThrow(() -> new IllegalArgumentException("No collection found for item ID: " + itemId + " and user ID: " + userId));
+        user.getCollection().remove(collection);
+        //item.getCollection().remove(collection);
         collectionDAO.delete(collection);
     }
 
