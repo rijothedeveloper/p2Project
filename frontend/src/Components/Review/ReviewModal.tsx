@@ -38,14 +38,21 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
         }
     }, [currentUser])
 
-    return (
+    const handleStarRatingChange = (rating: number) => {
+        console.log(rating)
+    }
+
+   return (
             <div className="modal fade" id="reviewModal" tabIndex={-1} aria-labelledby="reviewModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="reviewModalLabel">{review.title}</h5>
                             <h6 className="modal-title">{review.username}</h6>
-                            <span>{<StarRating {...thisReview}/>} </span>
+                            <span>{<StarRating 
+                                review={thisReview}
+                                handleRatingChange={handleStarRatingChange}
+                                />} </span>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
@@ -63,5 +70,5 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                     </div>
                 </div> 
             </div>
-    )
+   )
 }
