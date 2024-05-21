@@ -32,13 +32,6 @@ const StarRating:React.FC<{
 
         return (
           <label key={i}>
-            <input
-              type="radio"
-              name="rating"
-              value={ratingValue}
-              hidden= {true}
-              onClick={handleRatingButtonClick}
-            />
             <FaStar
               className="star"
               color={ratingValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,4 +53,9 @@ public class FollowService {
             FollowKey key = new FollowKey(user.get(), targetUser.get());
             followDAO.deleteById(key);
     }
+
+    // Get a list of users that the user is following
+//public List<User> getFollowing(int userId) {
+        //return followDAO.findAllByIdFollowerId(userId).stream().map(follow -> follow.getId().getFollowingUser()).toList();
+    //}
 }
