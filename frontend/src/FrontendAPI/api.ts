@@ -478,6 +478,84 @@ export const newVote = async (token: string, reviewId: number, vote: number): Pr
     }
 };
 
+export const updateVote = async (token: string, reviewId: number, vote: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.put(url, vote, {headers: authHeader});
+        if (response.status !== 202) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully updated vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
+
+export const deleteVote = async (token: string, reviewId: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 204) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully deleted vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
+
+export const getUserVote = async (token: string, reviewId: number, vote: number): Promise<{
+    status: boolean,
+    message: string,
+    data: number
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.put(url, vote, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully updated vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: 0
+        });
+    }
+};
+
 /*------------------------------
 UserController
 ------------------------------*/
