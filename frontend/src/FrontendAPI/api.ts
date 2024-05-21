@@ -350,6 +350,7 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
 ReviewController
 ------------------------------*/
 const reviewControllerEndpoint = "/reviews";
+const getUserReviewsEndpoint = reviewControllerEndpoint + "/user";
 
 export const getAllReviews = async (token: string): Promise<{
     status: boolean,
@@ -378,7 +379,7 @@ export const getAllReviews = async (token: string): Promise<{
 };
 
 export const getUserReviews = async (token: string, userId: number): Promise<ReviewInterface[]|string> => {
-    const url = apiURL(`${reviewControllerEndpoint}/${userId}`);
+    const url = apiURL(`${getUserReviewsEndpoint}/${userId}`);
     const authHeader = buildAuthHeader(token);
     try {
         const response = await axios.get(url, {headers: authHeader});
@@ -486,7 +487,7 @@ export const register = async (user: UserInterface): Promise<string|boolean> => 
  * @param token - JWT token
  * @param username - username of the user to fetch
  */
-export const findUserByUsername = async (token: string, username: string) => {
+export const findUserByUsername = async (token: string, username: string): Promise<UserInterface>=> {
     const url = apiURL(`${findUserByUsernameEndpoint}/${username}`);
     const authHeader = buildAuthHeader(token);
     const response = await axios.get(url, {headers: authHeader})
@@ -496,6 +497,8 @@ export const findUserByUsername = async (token: string, username: string) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+
+    return response; // Add this line to return the response data
 };
 
 /**

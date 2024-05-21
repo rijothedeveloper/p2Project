@@ -13,25 +13,28 @@ export const UserDetails: React.FC = () => {
     const { currentUser } = useContext(UserContext);
 
     const [user, setUser] = useState<UserInterface>({
+        username: "",
+        email: "",
+        role: "",
+        id: 0,
         // TODO: this should be set to default user properties
     });
 
     const [reviews, setReviews] = useState<ReviewInterface[]>([]);
 
     useEffect(() => {
-        if (username) {
-            findUserByUsername(currentUser?.jwt as string, username).then((response) => {
-                setUser((response) => ({...response, user: response}));
-            }).catch((error) => {console.log(error.message)});
-        } else if (currentUser) { setUser(currentUser); }
-        
-        getUserReviews(currentUser?.jwt as string, user.id as number).then((response) => {
-            if (Array.isArray(response)) {
-                setReviews(response);
-            }
+        console.log(username);
+        findUserByUsername(currentUser?.jwt as string, username as string).then((response) => {
+            console.log("User found");
+            setUser(() => ({...user, username: response.username, email: response.email, role: response.role, id: response.id}));
+                console.log(user.id);
+                getUserReviews(currentUser?.jwt as string, user.id as number).then((response) => {
+                    if (Array.isArray(response)) {
+                        setReviews(response);
+                    }
+                }).catch((error) => {console.log(error.message)});
         }).catch((error) => {console.log(error.message)});
-       
-    }, [currentUser, user.id, username]);
+}, []);
 
     return (
 
