@@ -12,6 +12,7 @@ import { Dashboard } from './Components/Dashboard/Dashboard';
 import { AddItem } from './Components/Items/AddItem';
 import { AllItems } from './Components/Items/AllItems';
 import { ItemDetails } from './Components/Items/ItemDetails';
+import { ReviewManagement } from './Components/Review/ReviewManagement';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
                             <Route path="allusers" element={<AllUsers />} />
                             <Route path="items" element={<AllItems/>} />
                             <Route path="additem" element={<AddItem />} />
+                            <Route path="review-management" element={<ReviewManagement/>} />
                         </Route>
                     </Routes>
                 </BrowserRouter>
