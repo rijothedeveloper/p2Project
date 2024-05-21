@@ -67,6 +67,21 @@ public class UserController {
             return ResponseEntity.ok(userList); //200
         }
     }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<OutgoingUserDTO> getUserByUsername(@RequestHeader("Authorization") String token, @PathVariable String username) {
+        String jwt = token.substring(7);
+
+        OutgoingUserDTO user = userService.getUserByUsername(username);
+        if (user == null) {
+            return ResponseEntity
+                    .notFound()//404
+                    .build();
+        } else {
+            return ResponseEntity.ok(user); //200
+        }
+    }
+
 }
 
 

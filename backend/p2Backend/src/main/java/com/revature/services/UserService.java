@@ -202,4 +202,11 @@ public class UserService {
         return userOut;
     }
 
+    public OutgoingUserDTO getUserByUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        return convertOutgoingUserDTOFromUser(user);
+    }
 }
