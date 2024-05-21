@@ -1,12 +1,15 @@
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
-import { Accordion, Col, Container, Image, ListGroup, Row } from "react-bootstrap";
+import { Accordion, Button, Col, Container, Image, ListGroup, Row, Modal, Form, Card } from "react-bootstrap";
 import { getAllRepliesByReview, getItemById, getItemReviews } from "../../FrontendAPI/api";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { ReplyInterface } from "../../Interfaces/ReplyInterface";
 import { capitalize } from "../../Utils/StringUtils";
+import { addReply } from "../../FrontendAPI/api";
+import { ReactToReview } from "../Review/ReactToReview";
+import { DisplayStars } from "../Review/DisplayStars";
 
 export const ItemDetails: React.FC = () => {
 
@@ -16,6 +19,11 @@ export const ItemDetails: React.FC = () => {
     const [item, setItem] = useState<ItemInterface>();
     const [reviews, setReviews] = useState< ReviewInterface[]>([]);
     const [replies, setReplies] = useState<{[key: number]: ReplyInterface[]}>({});
+    const [showAddReplyModal, setShowAddReplyModal] = useState(false);
+    const [replyBody, setReplyBody] = useState("");
+    const [replyReviewId, setReplyReviewId] = useState(-1);
+
+    const [replyModal, setReplyModal] = useState<boolean>(false);
 
     // Get item by itemId
     const fetchItemById = async () => {
@@ -87,7 +95,76 @@ export const ItemDetails: React.FC = () => {
         }
     }, [reviews]);
 
+
+    // FUNCTIONS TO ADD REPLY
+
+    const handleReplyButtonClick = () => {
+        const reviewId = Number.parseInt((document.activeElement as HTMLButtonElement).value);
+        setReplyReviewId(reviewId);
+        setShowAddReplyModal(true);
+    }
+
+    const handleReplyBodyChange = (e: React.ChangeEvent<HTMLInputElement>) => setReplyBody(e.target.value);
+
+    const handleSaveReply = () => {
+        const createReply = async () => {
+            // Add item to the database
+            const replyToAdd: ReplyInterface = {
+                reviewId: replyReviewId,
+                body: replyBody,
+                username: currentUser?.username as string,
+            }
+            // console.log(`REPLY TO ADD: ${JSON.stringify(replyToAdd)}`)
+            // Add reply to the database
+            const response = await addReply(currentUser?.jwt as string, replyToAdd);
+        
+            // add new reply to teh replies of its review
+            const updatedReplies = replies
+            updatedReplies[replyReviewId] = [...updatedReplies[replyReviewId], replyToAdd];
+            setReplies(updatedReplies);         
+        };
+        createReply();    
+    }
+
+
+    const handleAddReplyModalClose = () => {
+        setShowAddReplyModal(false);
+        setReplyBody("");
+        setReplyReviewId(-1);  
+    }
+
+
+
     return (
+        <>
+        {/* modal to add reply  */}
+        <Modal size="sm" show={showAddReplyModal} onHide={handleAddReplyModalClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Reply</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Card className="m-1">
+                <Card.Body>
+                    <Form.Label htmlFor="reply">Your Reply</Form.Label>
+                    <Form.Control
+                        type="text"
+                        id="name"
+                        value={replyBody}
+                        onChange={handleReplyBodyChange}
+                    ></Form.Control>
+                </Card.Body>
+                <Card.Footer>
+                    <Button 
+                        variant="primary"
+                        onClick={handleSaveReply}
+                    >Save Changes</Button>
+                </Card.Footer>
+            </Card>
+            </Modal.Body>
+            <Modal.Footer>        
+            </Modal.Footer>
+        </Modal>
+
         <Container>
             <h1>{capitalize(item?.name as string||"")}</h1>
             <Container id="itemDetailsContainer">
@@ -106,14 +183,17 @@ export const ItemDetails: React.FC = () => {
                     </Col>
                 </Row>
             </Container>
-            <Container id="reviewContainer">
+            <Container id="reviewContainer" className="mt-3">
                 <Accordion>
                     {reviews.map((review, idx) => {
                         return (
                             <Accordion.Item eventKey={`${idx}`} key={idx}>
                                 <Accordion.Header>
                                     <Container className="d-flex flex-column">
-                                        <h3 className="fs-4">{review.title}</h3>
+                                        <div className="d-flex flex-row align-items-center mb-2">
+                                            <div className="fw-semibold fs-4 me-2">{review.title}</div>
+                                            <DisplayStars rating={review.rating as number} />
+                                        </div>
                                         <p className="text-wrap">
                                             {review.body}
                                             <span className="text-secondary"><small> - {review.username ? review.username : "anonymous"}</small></span>
@@ -122,10 +202,20 @@ export const ItemDetails: React.FC = () => {
                                             // TODO: add review rating and score components
                                         }
                                         {/* rating is the review's rating of the item, score is the vote tally of the review */}
+                                        
                                     </Container>
                                 </Accordion.Header>
                                 <Accordion.Body>
                                     <Container className="ms-3">
+                                        <ReactToReview {...review} />
+                                        <h5>Replies</h5> 
+                                        <Button 
+                                            variant="outline-primary" 
+                                            className="text-secondary"
+                                            value={review.id as number}
+                                            onClick={handleReplyButtonClick}
+                                        >Reply</Button>
+                                        {/* replyModal && <NewReply {...review}/>*/}
                                         <ListGroup as="ul" variant="flush">
                                             {replies[review?.id as number]?.map((reply, idx) => {
                                                 return (
@@ -146,5 +236,6 @@ export const ItemDetails: React.FC = () => {
                 </Accordion>
             </Container>
         </Container>
+        </>
     )
 }

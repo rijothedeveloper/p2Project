@@ -207,6 +207,24 @@ public class UserService {
 
         return userOut;
     }
+    public User suspendUser(String username){
+        Optional<User> userOptional = Optional.ofNullable(userDAO.findByUsername(username));
+        if(userOptional.isEmpty()){
+            throw new IllegalArgumentException("User does not exist!");
+        }
+        User user = userOptional.get();
+        user.setRole("SUSPENDED");
+        return userDAO.save(user);
+    }
+
+    public OutgoingUserDTO getUserByUsername(String username) {
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        return convertOutgoingUserDTOFromUser(user);
+    }
+
 
     public ResponseEntity<Void> deleteAccount(int userId) {
         Optional<User> user = userDAO.findById(userId);

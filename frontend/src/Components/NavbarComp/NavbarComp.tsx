@@ -13,8 +13,8 @@ export const NavbarComp: React.FC = () => {
         const currentURL = new URL(window.location.href);
         const path = currentURL.pathname;
         const navbarItems = document.querySelectorAll(".nav-link");
+        navbarItems.forEach(item => item.classList.remove("active"));
         navbarItems.forEach((item) => {
-            //item.classList.remove("active");
             if (item.getAttribute("href") === path) {
                 item.classList.add("active");
             }
@@ -24,7 +24,7 @@ export const NavbarComp: React.FC = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             upateNavbar();
-        }, 25);
+        }, 100);
         return () => clearTimeout(timer);
     }, []);
 
@@ -51,6 +51,7 @@ export const NavbarComp: React.FC = () => {
                             <Nav.Link href="/items">All Items</Nav.Link>
                             {currentUser.role?.toUpperCase() == "ADMIN" && <NavDropdown title="ADMIN">
                                 <NavDropdown.Item href="/allusers">Users</NavDropdown.Item>
+                                <NavDropdown.Item href="/review-management">Review Management</NavDropdown.Item>
                             </NavDropdown>}
                         </Nav>
                         <Button type="button" variant="danger" onClick={logout}>Logout</Button>

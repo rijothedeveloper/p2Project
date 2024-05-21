@@ -2,14 +2,9 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
-import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 import { ReviewInterface } from "../Interfaces/ReviewInterface";
-import { UserContext } from "../Contexts/UserContext";
-import { useContext } from "react";
-
-
 
 // Current base URL
 export const baseURL = "http://localhost:8080";
@@ -35,7 +30,9 @@ export const buildAuthHeader = (token: string|undefined) => {
 };
 
 
-// CollectionController
+/*------------------------------
+CollectionController
+------------------------------*/
 export const myCollectionEndpoint = "/collections/my_collection";
 const addItemToCollectionEndpoint = "/collections";
 const removeItemFromCollectionEndpoint = "/collections";
@@ -121,11 +118,15 @@ export const getCollectionItem = async (token: string, itemId: number, userId: n
     }
 };
 
-// FollowController
+/*------------------------------
+FollowController
+------------------------------*/
 
-// ItemController
+/*------------------------------
+ItemController
+------------------------------*/
 const itemControllerEndpoint = "/items";
-const addItemEndpoint = itemControllerEndpoint;
+const addItemEndpoint = itemControllerEndpoint + "/add";
 export const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";
@@ -279,7 +280,9 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
     });
 };
 
-// ReplyController
+/*------------------------------
+ReplyController
+------------------------------*/
 const replyControllerEndpoint = "/replies";
 const addReplyEndpoint = replyControllerEndpoint;
 
@@ -330,9 +333,11 @@ export const getAllRepliesByReview = async (token: string, reviewId: number) : P
  * @returns the reply that was added
  */
 export const addReply = async (token: string, reply: ReplyInterface) => {
-    const url = apiURL(`${addReplyEndpoint}/${reply.reviewId}`);
+    console.log(`REPLY TO ADD: ${JSON.stringify(reply)}`)
+    const url = apiURL(addReplyEndpoint);
+    console.log(`URL TO ADD REPLY: ${url}`)
     const authHeader = buildAuthHeader(token);
-    const response = await axios.post(url, {reply}, {headers: authHeader})
+    const response = await axios.post(url, reply, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })
@@ -341,11 +346,40 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
     });
 };
 
-// ReviewController
+/*------------------------------
+ReviewController
+------------------------------*/
 const reviewControllerEndpoint = "/reviews";
+const getUserReviewsEndpoint = reviewControllerEndpoint + "/user";
+
+export const getAllReviews = async (token: string): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface[]
+}> => {
+    const url = apiURL(reviewControllerEndpoint);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully retrieved all reviews",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: true,
+            message: error.message,
+            data: []
+        });
+    }
+};
 
 export const getUserReviews = async (token: string, userId: number): Promise<ReviewInterface[]|string> => {
-    const url = apiURL(`${reviewControllerEndpoint}/${userId}`);
+    const url = apiURL(`${getUserReviewsEndpoint}/${userId}`);
     const authHeader = buildAuthHeader(token);
     try {
         const response = await axios.get(url, {headers: authHeader});
@@ -389,29 +423,154 @@ export const getItemReviews = async (token: string, itemId: number): Promise<{
  * @param token - JWT token
  * @param reviewid - ID of the review to delete
  */
-export const deleteReviewByID = async (token: string, reviewid: number) => {
-    const url = apiURL(`${reviewControllerEndpoint}/${reviewid}`);
+export const deleteReviewByID = async (token: string, reviewId: number): Promise<{
+    status: boolean,
+    message: string
+}> => {
+    const url = apiURL(`${reviewControllerEndpoint}/delete/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
         const response = await axios.delete(url, {headers: authHeader});
         if (response.status !== 200) {
             throw new Error(response.data);
         }
-        return response.data;
+        return Object.assign({}, {
+            status: true,
+            message: response.data
+        });
     } catch (error: any) {
-        return error.message;
+        return Object.assign({}, {
+            status: false,
+            message: error.nmessage
+        })
     }
 };
 
 
-// ScoreController
+/*------------------------------
+ScoreController
+------------------------------*/
+const voteControllerEndpoint = "/scores";
 
-// UserController
+export const newVote = async (token: string, reviewId: number, vote: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    const headers = Object.assign(authHeader, {
+        'Content-Type': 'application/json'
+    });
+    try {
+        const response = await axios.post(url, vote, {headers: headers});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully casted new vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
+
+export const updateVote = async (token: string, reviewId: number, vote: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    const headers = Object.assign(authHeader, {
+        'Content-Type': 'application/json'
+    });
+    try {
+        const response = await axios.put(url, vote, {headers: headers});
+        if (response.status !== 202) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully updated vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
+
+export const deleteVote = async (token: string, reviewId: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.delete(url, {headers: authHeader});
+        if (response.status !== 204) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully deleted vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
+
+export const getUserVote = async (token: string, reviewId: number): Promise<{
+    status: boolean,
+    message: string,
+    data: number
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully updated vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: 0
+        });
+    }
+};
+
+/*------------------------------
+UserController
+------------------------------*/
 const loginEndpoint = "/users/login";
 const registerEndpoint = "/users/add";
-const findUserByUsernameEndpoint = "/users";
+const findUserByUsernameEndpoint = "/users/user";
 const deleteUserEndpoint = "/users";
 const getAllUsersEndpoint = "/users/all";
+const suspendUserEndpoint = "/users/suspend";
 
 export const login = async (user: UserInterface): Promise<UserInterface|string> => {
     const url = apiURL(loginEndpoint);
@@ -439,7 +598,7 @@ export const register = async (user: UserInterface): Promise<string|boolean> => 
  * @param token - JWT token
  * @param username - username of the user to fetch
  */
-export const findUserByUsername = async (token: string, username: string) => {
+export const findUserByUsername = async (token: string, username: string): Promise<UserInterface>=> {
     const url = apiURL(`${findUserByUsernameEndpoint}/${username}`);
     const authHeader = buildAuthHeader(token);
     const response = await axios.get(url, {headers: authHeader})
@@ -449,6 +608,8 @@ export const findUserByUsername = async (token: string, username: string) => {
     .catch((error: AxiosError) => {
         // Handle error response
     });
+
+    return response; // Add this line to return the response data
 };
 
 /**
@@ -488,4 +649,28 @@ export const getAllUsers = async (token: string): Promise<UserInterface[]|string
     } catch (error: any) {
         return error.message;
     }
+};
+
+export const suspendUserByUsername = async (token: string, username: string): Promise<{
+    status: boolean,
+    message: string
+}> => {
+    const url = apiURL(`${suspendUserEndpoint}/${username}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.patch(url, {}, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data)
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully suspended " + username
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: "Failed to suspend " + username
+        });
+    }
+
 }

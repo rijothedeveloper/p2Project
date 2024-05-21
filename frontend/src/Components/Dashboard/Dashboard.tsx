@@ -89,6 +89,41 @@ export const Dashboard: React.FC = () => {
     }    
 
 
+    const handleUpdateItem = (item: ItemInterface) => { 
+        console.log(`ITEM TO UPDATE: ${JSON.stringify(item)}`)
+
+        // delete item form database
+        // api call to delete item
+        const updateItem = async () => {
+            // console.log(`ITEM ID TO DELETE: ${itemId}`)
+            const url = apiURL(`items/new/${item.id}`);
+            // console.log(`URL TO DELETE ITEM: ${url}`)
+            const authHeader = buildAuthHeader(currentUser?.jwt as string);
+            const response = await axios.patch(url, item, {headers: authHeader})
+            .then((response: AxiosResponse) => {
+                return response.data;
+            })
+            .catch((error: AxiosError) => {
+                console.log(`ERROR IN DELETE ITEM: ${error}`)
+            });
+
+        }
+        // call delete item api call
+        updateItem()
+
+        // update collection state
+        // create new collection with the deleted item removed
+        const updatedCollection = collection.map(i => {
+            return i.id ===  item.id 
+            ? {... i, name : item.name, description: item.description, category: item.category} 
+            : i
+        })
+        // update collection state
+        setCollection(updatedCollection)
+
+
+    }
+
     // function to handle edit review
     const handleEditReview = (review: ReviewInterface) => {
 
@@ -134,8 +169,8 @@ export const Dashboard: React.FC = () => {
         // get collection of user
         const getUserCollection = async () => {
             // get collection from backend
-            // const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
-            const endpoint = userRole == "user" ? getAllItemsEndpoint : getAllItemsEndpoint
+            const endpoint = userRole == "user" ? myCollectionEndpoint : getAllItemsEndpoint
+            // const endpoint = userRole == "user" ? getAllItemsEndpoint : getAllItemsEndpoint
             const url = apiURL(endpoint);
             const authHeader = buildAuthHeader(jwt as string);
             const response  = await axios.get(url, {headers: authHeader})
@@ -167,7 +202,7 @@ export const Dashboard: React.FC = () => {
             .then((response: AxiosResponse) => {
                 // console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
                 // set reviews state
-                setReviews(response.data as ItemInterface[])
+                setReviews(response.data as ReviewInterface[])
             })
             .catch((error: AxiosError) => {
                 console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
@@ -184,14 +219,14 @@ export const Dashboard: React.FC = () => {
                 {/* Can add logged in user information here */}
             </Container>
             <Container id="select-view-container">
-                <Form id="select-view-form">
+                <Container>
                     <Form.FloatingLabel label="Select View" controlId="dashboard-select-view" onChange={handleSelectViewOnChange}>
                         <Form.Select id="selectMyView" defaultValue="myCollection">
                             <option value="myCollection">My Collection</option>
                             <option value="myReviews">My Reviews</option>
                         </Form.Select>
                     </Form.FloatingLabel>
-                </Form>
+                </Container>
             </Container>
             <Container id="collection-review-container">
                 {/* Conditionally render my collection or my reviews based on currentView */}
@@ -201,6 +236,7 @@ export const Dashboard: React.FC = () => {
                     reviews={reviews}
                     handleDeleteItem={handleDeleteItem}
                     handleEditReview={handleEditReview}
+                    handleUpdateItem={handleUpdateItem}
                     />
                 : <ReviewList
                     reviews={reviews}

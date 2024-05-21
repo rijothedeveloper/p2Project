@@ -61,7 +61,7 @@ class P2BackendApplicationTests {
 	//DTOs
 
 	private CreateUserDTO userdto = new CreateUserDTO("username", "password", "email", "firstName", "lastName");
-	private ReplyDTO replydto = new ReplyDTO(1,"body");
+	private ReplyDTO replydto = new ReplyDTO(1,"body","firstName");
 	private AddItemToCollectionDTO additemtocollectiondto = new AddItemToCollectionDTO(1, 1);
 	private IncomingUserDTO incomingUserDTO = new IncomingUserDTO("username", "password");
 	private ItemDTO itemDTO = new ItemDTO("item", 1, "description", "category", "image");
@@ -162,7 +162,7 @@ class P2BackendApplicationTests {
 		//test get collection
 		List<Collection> collections = new ArrayList<>();
 		collections.add(collection);
-		when(collectionDAO.findAllByIdUserId(1)).thenReturn(collections);
+		when(collectionDAO.findByIdUserId(1)).thenReturn(collections);
 		assertEquals(collections, collectionService.getCollection(1));
 	}
 

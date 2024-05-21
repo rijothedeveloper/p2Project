@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "react-bootstrap"
+import { Button, Card, Col, Container, Row } from "react-bootstrap"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { capitalize, truncateText } from "../../Utils/StringUtils"
 import { useContext, useEffect, useState } from "react"
@@ -6,6 +6,7 @@ import { UserContext } from "../../Contexts/UserContext"
 import { addItemToCollection, getCollectionItem, removeItemFromCollection } from "../../FrontendAPI/api"
 import { useNavigate } from "react-router-dom"
 import { CreateReviewModal } from "../Review/CreateReviewModal"
+import { BsStarFill } from "react-icons/bs"
 
 export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
@@ -65,31 +66,35 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
     }, [items])
 
     return (
-        <Row md={3} className="g-2">
+        <Row md={2} className="g-2">
             {items.map((item, idx) => {
                 return (
                     <Col key={idx}>
                         <Card className="h-100">
                             <Card.Header>{item.category}</Card.Header>
-                            <Card.Img variant="top" src={item.image} alt={item.name}/>
+                            <Container className="ratio ratio-1x1">
+                                <Card.Img className="rounded-0" variant="top" src={item.image} alt={item.name}/>
+                            </Container>
                             <Card.Body>
                                 <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
                                 <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
                                 <Card.Text>
-                                    {truncateText(item.description, 30)}
+                                    {truncateText(item.description, 50)}
                                 </Card.Text>
                                 <Card.Text>
-                                    {item.rating}
+                                    <div className="d-flex align-items-center">
+                                        {item.rating} <BsStarFill className="text-warning ms-2"/>'s
+                                    </div>
                                 </Card.Text>
                             </Card.Body>
                             <Card.Footer>
                                 {inCollection[item.id as number] ? (
-                                    <Button variant="danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove from Collection</Button>
+                                    <Button size="sm" variant="outline-danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove</Button>
                                 ) : (
-                                    <Button variant="success" onClick={async () => {await addToCollection(item)}}>Add to Collection</Button>
+                                    <Button size="sm" variant="outline-success" onClick={async () => {await addToCollection(item)}}>Add</Button>
                                 )}
-                                <Button className="ms-3" variant="info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
-                                <Button className="ms-3" onClick={openModal} >Review Item</Button>
+                                <Button className="ms-2" size="sm" variant="outline-info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
+                                <Button className="ms-2" size="sm" variant="outline-primary" onClick={openModal} >Review Item</Button>
                                 <CreateReviewModal isOpen={isReviewModalOpen} onClose={closeModal} itemIdToPass={item.id as number}/>
                             </Card.Footer>
                         </Card>

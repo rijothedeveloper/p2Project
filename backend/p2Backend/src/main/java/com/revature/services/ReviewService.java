@@ -1,7 +1,9 @@
 package com.revature.services;
 
+import com.revature.daos.CollectionDAO;
 import com.revature.daos.ItemDAO;
 import com.revature.daos.ReviewDAO;
+import com.revature.models.CollectionKey;
 import com.revature.models.Item;
 import com.revature.models.Review;
 import com.revature.models.dtos.OutgoingReviewDTO;
@@ -23,12 +25,14 @@ public class ReviewService {
     private UserDAO userDAO;
     private ItemDAO itemDAO;
     private ReviewDAO reviewDAO;
+    private CollectionDAO collectionDAO;
 
     @Autowired
-    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO, ItemDAO itemDAO) {
+    public ReviewService(ReviewDAO reviewDAO, UserDAO userDAO, ItemDAO itemDAO, CollectionDAO collectionDAO) {
         this.reviewDAO = reviewDAO;
         this.itemDAO = itemDAO;
         this.userDAO = userDAO;
+        this.collectionDAO = collectionDAO;
     }
     /**
      * Edits an existing review identified by the specified ID with the provided review data.
@@ -164,7 +168,7 @@ public class ReviewService {
 
     //This method gets all reviews
     //then converts them to a list of ReviewDTO's
-    public List<ReviewDTO> getAllReviews() {
+    public List<OutgoingReviewDTO> getAllReviews() {
         List<Review> allRevs;
         try {
             allRevs = reviewDAO.findAll();
@@ -172,9 +176,10 @@ public class ReviewService {
         catch(Exception e){
             throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
         }
-        List<ReviewDTO> allRevDTO = new ArrayList<ReviewDTO>();
+        List<OutgoingReviewDTO> allRevDTO = new ArrayList<>();
         for (Review rev : allRevs) {
-            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(), rev.getBody(), rev.getItem().getId(), rev.getRating());            allRevDTO.add(revDTO);
+            OutgoingReviewDTO revDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(), rev.getBody(), rev.getItem().getId(), rev.getRating(), rev.getUser().getUsername());
+            allRevDTO.add(revDTO);
         }
         return allRevDTO;
     }
@@ -221,6 +226,38 @@ public class ReviewService {
         r.setBody(review.getBody());
         r.setRating(review.getRating());
         r.setUser(user.get());
+        if(review.getItemId() > 0){
+            Optional<Item> item = itemDAO.findById(review.getItemId());
+            if(item.isEmpty()){
+                throw new IllegalArgumentException("Item not found.");
+            }
+            r.setItem(item.get());
+        }
+        if (r.getRating() < 0 || r.getRating() > 5) {
+            throw new IllegalArgumentException("Please rate between 0 to 5!");
+        }
+        if (!isValidText(r.getTitle())) {
+            throw new IllegalArgumentException("Please ensure your title meets the following conditions:\n" +
+                    "1. It cannot be empty.\n" +
+                    "2. It must be a maximum of 500 characters long.\n" +
+                    "3. It cannot contain vulgar terms.\n");
+        }
+        if (!isValidText(r.getBody())) {
+            throw new IllegalArgumentException("Please ensure your description meets the following conditions:\n" +
+                    "1. It cannot be empty.\n" +
+                    "2. It must be a maximum of 500 characters long.\n" +
+                    "3. It cannot contain vulgar terms.\n");
+        }
+        if (reviewDAO.findAllByUserId(userId).stream().anyMatch(rev -> rev.getItem().getId() == review.getItemId())) {
+            throw new IllegalArgumentException("You have already reviewed this item.");
+        }
+        if (collectionDAO.findById(new CollectionKey(r.getItem(), userDAO.findById(userId).get())).isEmpty()) {
+            throw new IllegalArgumentException("You must add the item to your collection before reviewing it.");
+        }
+
+        Item item = itemDAO.findById(review.getItemId()).orElseThrow(() -> new IllegalArgumentException("Item not found."));
+        item.setRating((item.getRating() * item.getReviewCount() + r.getRating()) / (item.getReviewCount() + 1));
+        itemDAO.save(item);
         return reviewDAO.save(r);
     }
 }

@@ -15,4 +15,6 @@ public interface CollectionDAO extends JpaRepository<Collection, CollectionKey> 
     //@Query("SELECT * FROM collections WHERE user_id = :userId")
     List<Collection> findByIdUserId(int userId);
     Optional<Collection> findById(CollectionKey id);
+
+    Optional<Collection> findByIdUserIdAndIdItemId(int userId, int itemId);
 }

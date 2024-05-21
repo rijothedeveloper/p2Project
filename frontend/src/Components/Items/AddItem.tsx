@@ -62,9 +62,9 @@ export const AddItem: React.FC = () => {
                 </div>
 
                 <div className="d-flex flex-row ms-3">
-                  <button className="btn btn-primary" onClick={createItem}>Add</button>
+                  <button className="btn btn-primary" onClick={createItem}>Add Item</button>
                   {/* Add a back button to navigate back to the home page or admin page*/}
-                  <button className="btn btn-secondary ms-2" onClick={() => navigate("/")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>back</button>
+                  {/* <button className="btn btn-secondary ms-2" onClick={() => navigate("/")} style={{ backgroundColor: '#343a40', borderColor: '#343a40' }}>back</button> */}
                 </div>
               </div>
             </div>
