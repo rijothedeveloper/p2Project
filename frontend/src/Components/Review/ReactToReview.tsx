@@ -8,19 +8,32 @@ import { addScore, getUserScore } from "../../FrontendAPI/api";
 export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     const { currentUser } = useContext(UserContext);
-
-    // TODO: get current logged in user vote signal for current review
-
     const [userVoteSignal, setUserVoteSignal] = useState<number>(0);
-    const [votes, setVotes] = useState(0);
+    const [votes, setVotes] = useState<number>(review.score || 0);
 
     const vote = addScore(currentUser?.jwt as string, review, userVoteSignal).then((response) => {
-                if (response) {
-                    console.log(response);
-                } else {
-                    console.error(response);
-                }
-            });
+        if (response) {
+            console.log(response);
+        } else {
+            console.error(response);
+        }
+    });
+
+    const handleVote = async (newSignal: number) => {
+        // reset vote to 0
+        if (newSignal === userVoteSignal) {
+            newSignal = 0;
+        }
+
+        // find vote difference
+        const voteChange = newSignal - userVoteSignal
+        setUserVoteSignal(newSignal);
+        setVotes(votes + voteChange);
+
+
+    }
+
+    
     const handleUpvote = () => {
         // handle changing user vote to neutral
         if (userVoteSignal > 0) {
@@ -65,18 +78,14 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
                 }
             });
         } else {}
-            
     };
+    
 
     useEffect(() => {
-            getUserScore(currentUser?.jwt as string, review.id as number).then((response) => {
-                setUserVoteSignal(response);
-            });
-        }, [currentUser, review.id]);
-
-    
-    
-    
+        getUserScore(currentUser?.jwt as string, review.id as number).then((response) => {
+            setUserVoteSignal(response);
+        });
+    }, [currentUser, review.id]);
 
     return (
         <Container>

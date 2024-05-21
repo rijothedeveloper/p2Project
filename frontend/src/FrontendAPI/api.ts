@@ -449,6 +449,33 @@ export const deleteReviewByID = async (token: string, reviewId: number): Promise
 /*------------------------------
 ScoreController
 ------------------------------*/
+const voteControllerEndpoint = "/scores";
+
+export const newVote = async (token: string, reviewId: number, vote: number): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface
+}> => {
+    const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.post(url, vote, {headers: authHeader});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully casted new vote!",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
+};
 
 /*------------------------------
 UserController

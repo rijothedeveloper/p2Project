@@ -163,9 +163,7 @@ export const ItemDetails: React.FC = () => {
             </Modal.Body>
             <Modal.Footer>        
             </Modal.Footer>
-        </Modal>       
-
-
+        </Modal>
 
         <Container>
             <h1>{capitalize(item?.name as string||"")}</h1>
@@ -215,7 +213,7 @@ export const ItemDetails: React.FC = () => {
                                     <Container className="ms-3">
                                         <ReactToReview {...review} />
                                         <h5>Replies</h5> 
-                                        <button onClick={()=>{setReplyModal(true)}} >Reply </button>
+                                        <Button size="sm" variant="outline-primary" onClick={()=>{setReplyModal(true)}} >Reply </Button>
                                         { replyModal && <NewReply {...review}/>}
                                         <ListGroup as="ul" variant="flush">
                                             {replies[review?.id as number]?.map((reply, idx) => {
