@@ -2,14 +2,9 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { ItemInterface } from "../Interfaces/ItemInterface";
-import { useNavigate } from "react-router-dom";
 import { UserInterface } from "../Interfaces/UserInterface";
 import { ReplyInterface } from "../Interfaces/ReplyInterface";
 import { ReviewInterface } from "../Interfaces/ReviewInterface";
-import { UserContext } from "../Contexts/UserContext";
-import { useContext } from "react";
-
-
 
 // Current base URL
 export const baseURL = "http://localhost:8080";
@@ -35,7 +30,9 @@ export const buildAuthHeader = (token: string|undefined) => {
 };
 
 
-// CollectionController
+/*------------------------------
+CollectionController
+------------------------------*/
 export const myCollectionEndpoint = "/collections/my_collection";
 const addItemToCollectionEndpoint = "/collections";
 const removeItemFromCollectionEndpoint = "/collections";
@@ -121,9 +118,13 @@ export const getCollectionItem = async (token: string, itemId: number, userId: n
     }
 };
 
-// FollowController
+/*------------------------------
+FollowController
+------------------------------*/
 
-// ItemController
+/*------------------------------
+ItemController
+------------------------------*/
 const itemControllerEndpoint = "/items";
 const addItemEndpoint = itemControllerEndpoint;
 export const getAllItemsEndpoint = itemControllerEndpoint;
@@ -279,7 +280,9 @@ export const updateItem = async (token: string, itemId: number, item: ItemInterf
     });
 };
 
-// ReplyController
+/*------------------------------
+ReplyController
+------------------------------*/
 const replyControllerEndpoint = "/replies";
 const addReplyEndpoint = replyControllerEndpoint;
 
@@ -341,8 +344,36 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
     });
 };
 
-// ReviewController
+/*------------------------------
+ReviewController
+------------------------------*/
 const reviewControllerEndpoint = "/reviews";
+
+export const getAllReviews = async (token: string): Promise<{
+    status: boolean,
+    message: string,
+    data: ReviewInterface[]
+}> => {
+    const url = apiURL(reviewControllerEndpoint);
+    const authHeader = buildAuthHeader(token);
+    try {
+        const response = await axios.get(url, {headers: authHeader});
+        if (response.status !== 200) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully retrieved all reviews",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: true,
+            message: error.message,
+            data: []
+        });
+    }
+};
 
 export const getUserReviews = async (token: string, userId: number): Promise<ReviewInterface[]|string> => {
     const url = apiURL(`${reviewControllerEndpoint}/${userId}`);
@@ -404,9 +435,13 @@ export const deleteReviewByID = async (token: string, reviewid: number) => {
 };
 
 
-// ScoreController
+/*------------------------------
+ScoreController
+------------------------------*/
 
-// UserController
+/*------------------------------
+UserController
+------------------------------*/
 const loginEndpoint = "/users/login";
 const registerEndpoint = "/users/add";
 const findUserByUsernameEndpoint = "/users";
