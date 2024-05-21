@@ -460,7 +460,7 @@ export const newVote = async (token: string, reviewId: number, vote: number): Pr
     const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
-        const response = await axios.post(url, vote, {headers: authHeader});
+        const response = await axios.post(url, {vote}, {headers: authHeader});
         if (response.status !== 201) {
             throw new Error(response.data);
         }
@@ -486,7 +486,7 @@ export const updateVote = async (token: string, reviewId: number, vote: number):
     const url = apiURL(`${voteControllerEndpoint}/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
-        const response = await axios.put(url, vote, {headers: authHeader});
+        const response = await axios.put(url, {vote}, {headers: authHeader});
         if (response.status !== 202) {
             throw new Error(response.data);
         }
