@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b3dd7e04-9145-4984-8604-f4af80b19180" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/revature/controllers/ItemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionItem.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Dashboard/CollectionList.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/Components/Items/AddItem.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/Components/Items/AddItem.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/src/FrontendAPI/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/src/FrontendAPI/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +32,7 @@
   "keyToString": {
     "Application.P2BackendApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "adminAddItem",
+    "git-widget-placeholder": "updateItem",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>

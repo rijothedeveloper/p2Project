@@ -17,7 +17,8 @@ const Collection: React.FC<{
     reviews : ReviewInterface[]
     handleDeleteItem: (itemId: number) => void
     handleEditReview: (review: ReviewInterface) => void
-}> = ({collection, handleDeleteItem, reviews, handleEditReview}) => {
+    handleUpdateItem: (item: ItemInterface) => void
+}> = ({collection, handleDeleteItem, reviews, handleEditReview, handleUpdateItem}) => {
 
     const [ nameFilter, setNameFilter ] = React.useState("")
     const [ showAddItemModal, setShowAddItemModal ] = React.useState(false)
@@ -70,6 +71,7 @@ const Collection: React.FC<{
                 <Button 
                     variant="primary" 
                     onClick={handleAddItemButtonClick}
+                    hidden={currentUser?.role === "USER"}
                 >Add Item</Button>
                 </Col>
             </Row>
@@ -87,6 +89,7 @@ const Collection: React.FC<{
                             handleDeleteItem= { handleDeleteItem }
                             handleEditReview={handleEditReview}
                             reviews={reviews}
+                            handleUpdateItem={handleUpdateItem}
                         />
                 )
                 })}
