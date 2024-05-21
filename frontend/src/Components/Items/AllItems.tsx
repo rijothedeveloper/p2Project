@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 import { Container, Form } from "react-bootstrap";
 import { UserContext } from "../../Contexts/UserContext";
-import { getAllItems, getItemsByCategory } from "../../FrontendAPI/api";
+import { getAllItems } from "../../FrontendAPI/api";
 import { ItemsByCategory } from "./ItemsByCategory";
 import { ItemColumns } from "./ItemColumns";
-import { ItemsByName } from "./ItemsByName";
+import { ObjectsByName } from "../GeneralUse/ObjectsByName";
 
 export const AllItems: React.FC = () => {
 
@@ -97,7 +97,7 @@ export const AllItems: React.FC = () => {
             <Container id="nameSwitch" className="mt-3 ms-3">
                 <Form.Switch inline id="nameFilter" name="selectView" label="Filter by Name" value="name" checked={view === "name"} onChange={handleSwitchChange} />
             </Container>
-            <ItemsByName setNameFilter={setNameFilter} />
+            <ObjectsByName setNameFilter={setNameFilter} />
             <Container id="itemGrid" className="mt-3">
                 <ItemColumns items={displayedItems} />
             </Container>

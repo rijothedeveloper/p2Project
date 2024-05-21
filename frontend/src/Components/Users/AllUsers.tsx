@@ -5,11 +5,13 @@ import { UserInterface } from "../../Interfaces/UserInterface";
 import { getAllUsers } from '../../FrontendAPI/api';
 import { UserContext } from '../../Contexts/UserContext';
 import { Table } from 'react-bootstrap';
+import { ObjectsByName } from '../GeneralUse/ObjectsByName';
 
 export const AllUsers: React.FC = () => {
     const navigate = useNavigate();
     const { currentUser } = useContext(UserContext);
     const [users, setUsers] = useState<UserInterface[]>([]);
+    const [nameFilter, setNameFilter] = useState<string>("");
 
     useEffect(() => {
         if (currentUser) {
@@ -34,7 +36,8 @@ export const AllUsers: React.FC = () => {
                 <div className="card shadow-sm">
                     <div className="card-body">
                         <h2 className="card-title text-center mb-4">User List</h2>
-                        <Table striped hover responsive>
+                        <ObjectsByName setNameFilter={setNameFilter} />
+                        <Table className="mt-3" striped hover responsive>
                             <thead>
                                 <tr>
                                     <th>User ID</th>
