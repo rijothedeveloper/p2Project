@@ -10,6 +10,7 @@ import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { UserInterface } from "../../Interfaces/UserInterface";
 import StarRating from "../Review/StarRating";
+import { DisplayStars } from "../Review/DisplayStars";
 
 /*
     This component will display a review
@@ -117,14 +118,12 @@ const ItemReview: React.FC<{
         <>
         <Card className="h-100">
             <Card.Header>
-                {/* <div>
-                    {itemReview.title}
-                </div> */}
                 <div>
                     {item.name}
                 </div>
                 <div>
-                    Rating: {itemReview.rating}
+                    {/* Rating: {itemReview.rating} */}
+                    <DisplayStars rating={itemReview.rating as number} />
                 </div>
             </Card.Header>
             <Container className="ratio ratio-1x1">
