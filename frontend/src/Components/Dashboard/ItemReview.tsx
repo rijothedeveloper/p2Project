@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, Card, Modal, Form }from 'react-bootstrap';
+import { Button, Card, Modal, Form, Container }from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { baseURL } from "../../FrontendAPI/api";
@@ -115,7 +115,7 @@ const ItemReview: React.FC<{
 
     return (
         <>
-        <Card style={{ width: '14rem' }} className="m-1">
+        <Card className="h-100">
             <Card.Header>
                 {/* <div>
                     {itemReview.title}
@@ -127,7 +127,9 @@ const ItemReview: React.FC<{
                     Rating: {itemReview.rating}
                 </div>
             </Card.Header>
-            <Card.Img variant="top" src={item.image} alt={`Image of ${item.name}`} className="mt-2"/>
+            <Container className="ratio ratio-1x1">
+                <Card.Img variant="top" src={item.image} alt={`Image of ${item.name}`} className="rounded-0"/>
+            </Container>
             <Card.Body>
                 <Card.Title>{itemReview.title}</Card.Title>
                 <Card.Text>
@@ -142,12 +144,12 @@ const ItemReview: React.FC<{
         </Card>
 
         {/* modal to edit reveiw */}
-        <Modal show={showEditReviewModal} onHide={handleEditReviewModalClose}>
+        <Modal size="sm" show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Edit review for {item.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Card style={{ width: '14rem' }} className="m-1">
+                <Card className="m-1">
                 <Card.Header>
                 </Card.Header>
                 <Card.Body>

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { UserContext } from "../../Contexts/UserContext"
-import { Container, Row } from "react-bootstrap"
+import { Col, Container, Row } from "react-bootstrap"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import Review from "./ItemReview"
 import { Login } from "../Login/Login"
@@ -28,17 +28,19 @@ const ReviewList: React.FC<{
     ?  (
         <>
         <Container className="mt-4 r-flex">
-            <Row className="justify-content-evenly" >
+            <Row md={2} className="g-2">
                 {/* display reviews */}
                 {reviews && reviews
                     // filter items based on nameFilter
                     .map(itemReview => {
                     return (
-                     <Review 
-                         itemReview = { itemReview } 
-                         handleEditReview = { handleEditReview }
-                         key={itemReview.id}
-                     />
+                        <Col>
+                            <Review 
+                                itemReview = { itemReview } 
+                                handleEditReview = { handleEditReview }
+                                key={itemReview.id}
+                            />
+                        </Col>
                 )
                 })}
             </Row>
