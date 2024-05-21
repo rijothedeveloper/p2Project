@@ -424,7 +424,7 @@ export const deleteReviewByID = async (token: string, reviewId: number): Promise
     status: boolean,
     message: string
 }> => {
-    const url = apiURL(`${reviewControllerEndpoint}/${reviewId}`);
+    const url = apiURL(`${reviewControllerEndpoint}/delete/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
         const response = await axios.delete(url, {headers: authHeader});
