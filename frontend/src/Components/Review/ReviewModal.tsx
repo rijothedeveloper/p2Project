@@ -63,7 +63,7 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                         <div className="modal-footer">
                             <span>{<ReactToReview/>}{thisReview.score}</span>
                             <button type="button" className="btn btn-secondary" >View Replies</button>
-                            {review.userId == currentUser?.id as number  || currentUser?.role == "ADMIN"? <DeleteReview {...review}/>:""}
+                            {/* {review.userId == currentUser?.id as number  || currentUser?.role == "ADMIN"? <DeleteReview {...review}/>:""} */}
                             {review.userId == currentUser?.id as number && <button type="button" className="btn btn-primary">Edit</button>}
                             {review.userId != currentUser?.id as number && <NewReply {...thisReview}/>}
                         </div>

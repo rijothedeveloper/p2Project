@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, Card, Modal, Form, Container }from 'react-bootstrap';
+import { Button, Card, Modal, Form, Container, Row }from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { baseURL } from "../../FrontendAPI/api";
@@ -10,6 +10,7 @@ import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { UserInterface } from "../../Interfaces/UserInterface";
 import StarRating from "../Review/StarRating";
+import { DeleteReview } from "../Review/DeleteReview";
 
 /*
     This component will display a review
@@ -17,7 +18,8 @@ import StarRating from "../Review/StarRating";
 const ItemReview: React.FC<{
     itemReview: ReviewInterface
     handleEditReview: (review: ReviewInterface) => void
-}> = ({ itemReview, handleEditReview }) => {
+    handleDeleteReview: (review: ReviewInterface) => void
+}> = ({ itemReview, handleEditReview, handleDeleteReview }) => {
     
     const [showEditReviewModal, setShowEditReviewModal] = React.useState(false)
     const [updatedTitle, setUpdatedTitle] = React.useState(itemReview.title)
@@ -31,6 +33,9 @@ const ItemReview: React.FC<{
     const { jwt } = currentUser as  UserInterface
     const userRole = currentUser?.role == "USER" ? "user" : "admin"
 
+
+
+    // FUNCTION TO EDIT REVIEW /////////////////////////////////////////////////
 
     const handleEditReviewButtonClick = () => {
         setShowEditReviewModal(true)
@@ -53,8 +58,7 @@ const ItemReview: React.FC<{
 
     // function to handle change in title
     const handleReviewTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setUpdatedTitle(e.target.value)
-            
+        setUpdatedTitle(e.target.value)          
     }
 
 
@@ -91,7 +95,11 @@ const ItemReview: React.FC<{
             alert("Please fill in all fields!")
         } 
     }
-    
+
+
+    // FUNCTION TO DELETE REVIEW /////////////////////////////////////////////////
+
+
     React.useEffect(() => {
         // get item
         const getItem = async () => {
@@ -135,12 +143,28 @@ const ItemReview: React.FC<{
                 <Card.Text>
                     {itemReview.body}
                 </Card.Text>
-                <Button 
-                    variant="outline-primary"                   
-                    onClick={handleEditReviewButtonClick}
-                    hidden={userRole == "admin"}
-                >Edit Review</Button>
             </Card.Body>
+            <Card.Footer>
+                <Row className="mb-2">
+                    <Button 
+                        variant="outline-primary"                   
+                        onClick={handleEditReviewButtonClick}
+                        hidden={userRole == "admin"}
+                    >Edit Review</Button>
+                </Row>
+                <Row>
+                    <DeleteReview 
+                        review={itemReview}
+                        handleDeleteReview={handleDeleteReview} 
+                    />
+                    {/* <Button 
+                        variant="outline-danger"                   
+                        onClick={handlDeleteReviewButtonClick}
+                        hidden={userRole == "admin"}
+                    >Delete Review</Button> */}
+                </Row>
+
+            </Card.Footer>
         </Card>
 
         {/* modal to edit reveiw */}

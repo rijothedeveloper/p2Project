@@ -24,7 +24,8 @@ const CollectionItem: React.FC<{
     reviews: ReviewInterface[]
     handleEditReview: (review: ReviewInterface) => void
     handleUpdateItem: (item: ItemInterface) => void
-}> = ({ item, handleDeleteItem, reviews, handleEditReview, handleUpdateItem}) => {
+    handleDeleteReview: (review: ReviewInterface) => void
+}> = ({ item, handleDeleteItem, reviews, handleEditReview, handleUpdateItem, handleDeleteReview}) => {
 
     const [ showItemDetails, setShowItemDetails ] = React.useState(false)
     const [ showReview, setShowReview ] = React.useState(false)
@@ -176,6 +177,7 @@ const CollectionItem: React.FC<{
             <ItemReview
                 itemReview = { currentItemReview as ReviewInterface }
                 handleEditReview={handleEditReview}
+                handleDeleteReview={handleDeleteReview}
             />
         </Modal>
 
