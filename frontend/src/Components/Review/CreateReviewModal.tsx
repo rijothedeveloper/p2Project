@@ -24,6 +24,8 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         itemId: itemIdToPass,
         rating: 0
     })
+
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const {currentUser} = useContext(UserContext)
     const jwt = currentUser ? currentUser.jwt : null
     
@@ -38,7 +40,8 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         console.log(itemIdToPass)
 
         const endpoint = "/reviews"
-        const url = `${apiURL(endpoint)}/${review.id as number}`
+        const url = `${apiURL(endpoint)}`
+        console.log(url)
         const authHeader = buildAuthHeader(jwt as string);
         const response = await axios.post(url, review, {headers: authHeader})    
         .then((response: AxiosResponse) => {
@@ -48,7 +51,10 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
             console.log(`ERROR IN UPDATE ITEM: ${error}`)
         });
 
-        isOpen = false
+        // will hide modal body and show review submitted message to user
+        setIsSubmitted(true)
+
+        
     }
 
     //Stores values from text boxes
@@ -70,8 +76,9 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         <Modal show={isOpen} onHide={onClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Review</Modal.Title>
-                    </Modal.Header>
-                        <Modal.Body>
+            </Modal.Header>
+
+                        <Modal.Body hidden={isSubmitted}>
             {/**
              * If you are the owner of this review we include the Delete Review component.  We need to pass it the review ID at least and possibly a function to refresh
              * the view of wherever we were when the review was deleted.  Without that information the view displaying the review will still show and might confuse users.
@@ -95,6 +102,9 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
                             ></StarRating>
                         </div>
                         </Modal.Body>
+                        <div hidden={!isSubmitted} className="text-center">
+                            <p>Your review is submitted</p>
+                        </div>
                         <Modal.Footer>
                             <div className="d-flex flex-row ms-3">
                                 <button className="btn btn-primary" onClick={submitReview}>Create</button>
