@@ -10,7 +10,7 @@ export const truncateText = (text: string, maxLength: number, useElipsis: boolea
         return text;
     }
     const truncatedText = text.substring(0, maxLength - (useElipsis ? 3 : 0));
-    return useElipsis ? `${truncateText}...` : truncatedText;
+    return useElipsis ? `${truncatedText}...` : truncatedText;
 }
 
 /**

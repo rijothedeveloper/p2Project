@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
@@ -8,6 +8,8 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { ReplyInterface } from "../../Interfaces/ReplyInterface";
 import { capitalize } from "../../Utils/StringUtils";
 import { addReply } from "../../FrontendAPI/api";
+import { ReactToReview } from "../Review/ReactToReview";
+import { NewReply } from "../Reply/NewReply";
 
 export const ItemDetails: React.FC = () => {
 
@@ -21,6 +23,7 @@ export const ItemDetails: React.FC = () => {
     const [replyBody, setReplyBody] = useState("");
     const [replyReviewId, setReplyReviewId] = useState(-1);
 
+    const [replyModal, setReplyModal] = useState<boolean>(false);
 
     // Get item by itemId
     const fetchItemById = async () => {
@@ -182,7 +185,7 @@ export const ItemDetails: React.FC = () => {
                     </Col>
                 </Row>
             </Container>
-            <Container id="reviewContainer">
+            <Container id="reviewContainer" className="mt-3">
                 <Accordion>
                     {reviews.map((review, idx) => {
                         return (
@@ -196,7 +199,7 @@ export const ItemDetails: React.FC = () => {
                             <Accordion.Item eventKey={`${idx}`} key={idx}>
                                 <Accordion.Header>
                                     <Container className="d-flex flex-column">
-                                        <h3 className="fs-4">{review.title}</h3>
+                                        <h3 className="fs-4">{review.title}: {review.rating}</h3>
                                         <p className="text-wrap">
                                             {review.body}
                                             <span className="text-secondary"><small> - {review.username ? review.username : "anonymous"}</small></span>
@@ -205,10 +208,15 @@ export const ItemDetails: React.FC = () => {
                                             // TODO: add review rating and score components
                                         }
                                         {/* rating is the review's rating of the item, score is the vote tally of the review */}
+                                        
                                     </Container>
                                 </Accordion.Header>
                                 <Accordion.Body>
                                     <Container className="ms-3">
+                                        <ReactToReview {...review} />
+                                        <h5>Replies</h5> 
+                                        <button onClick={()=>{setReplyModal(true)}} >Reply </button>
+                                        { replyModal && <NewReply {...review}/>}
                                         <ListGroup as="ul" variant="flush">
                                             {replies[review?.id as number]?.map((reply, idx) => {
                                                 return (

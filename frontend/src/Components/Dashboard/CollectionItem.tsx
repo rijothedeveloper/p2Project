@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Button, Card, Modal, Row, Col, Form }from 'react-bootstrap';
+import { Button, Card, Modal, Row, Container, Form }from 'react-bootstrap';
 import { Route, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { deleteItem } from "../../FrontendAPI/api";
@@ -235,7 +235,9 @@ const CollectionItem: React.FC<{
 
         {/* card to show item */}
         <Card style={{ width: '14rem' }} className="m-1">
-            <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`} className="mt-2"/>
+            <Container className="ratio ratio-1x1">
+                <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`} className="mt-2"/>
+            </Container>
             <Card.Body>
                 <Card.Title>{ name }</Card.Title>
                 <Card.Text>
