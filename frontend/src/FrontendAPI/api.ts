@@ -333,9 +333,11 @@ export const getAllRepliesByReview = async (token: string, reviewId: number) : P
  * @returns the reply that was added
  */
 export const addReply = async (token: string, reply: ReplyInterface) => {
-    const url = apiURL(`${addReplyEndpoint}/${reply.reviewId}`);
+    console.log(`REPLY TO ADD: ${JSON.stringify(reply)}`)
+    const url = apiURL(addReplyEndpoint);
+    console.log(`URL TO ADD REPLY: ${url}`)
     const authHeader = buildAuthHeader(token);
-    const response = await axios.post(url, {reply}, {headers: authHeader})
+    const response = await axios.post(url, reply, {headers: authHeader})
     .then((response: AxiosResponse) => {
         return response.data;
     })

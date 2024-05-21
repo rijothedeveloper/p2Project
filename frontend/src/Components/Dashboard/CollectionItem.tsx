@@ -1,6 +1,6 @@
 import * as React from "react"
-import { Button, Card, Container, Modal }from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { Button, Card, Modal, Row, Container, Form }from 'react-bootstrap';
+import { Route, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { deleteItem } from "../../FrontendAPI/api";
 import { ItemInterface } from "../../Interfaces/ItemInterface"
@@ -22,11 +22,19 @@ const CollectionItem: React.FC<{
     handleDeleteItem: (itemId: number) => void
     reviews: ReviewInterface[]
     handleEditReview: (review: ReviewInterface) => void
-}> = ({ item, handleDeleteItem, reviews, handleEditReview }) => {
+    handleUpdateItem: (item: ItemInterface) => void
+}> = ({ item, handleDeleteItem, reviews, handleEditReview, handleUpdateItem}) => {
 
     const [ showItemDetails, setShowItemDetails ] = React.useState(false)
     const [ showReview, setShowReview ] = React.useState(false)
     const [ showAddReviewModal, setShowAddReviewModal ] = React.useState(false) 
+    const [ showUpdateItemModal, setShowUpdateItemModal ] = React.useState(false)
+    // state for updated item
+    const [ updatedItemName, setUpdatedItemName ] = React.useState(item.name)
+    const [ updatedItemCategory, setUpdatedItemCategory ] = React.useState(item.category)
+    const [ updatedItemDescription, setUpdatedItemDescription ] = React.useState(item.description)
+    // const [ updatedItemProducerId, setUpdatedItemProducerId ] = React.useState(item.producerId)
+
 
     const currentItemReview = reviews.filter(review => review.itemId === item.id)[0] as ReviewInterface
     
@@ -58,6 +66,8 @@ const CollectionItem: React.FC<{
         setShowItemDetails(false)
     }
 
+
+
     // function to determine color of rating
     const ratingColor = () => {
       if(rating as number >= 4) return "text-success";
@@ -70,6 +80,47 @@ const CollectionItem: React.FC<{
     const isItemReviewed = (itemId: number) => {    
         // console.log(`ITEM ID: ${itemId}`)
         return reviews.filter(review => review.itemId === itemId).length > 0
+    }
+
+    // UPDATE ITEM MODAL FUNCTIONALITY
+
+    const handleUpdateItemButtonClick = () => {  
+        console.log(`ITEM TO UPDATE: ${JSON.stringify(item)}    `)
+        setShowUpdateItemModal(true)
+    }
+
+    const handleShowUpdateItemModalClose = () => {
+        setShowUpdateItemModal(false)
+    }
+
+    const handleItemNameUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setUpdatedItemName(event.target.value)
+    }
+
+    const handleItemCategoryUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {  
+        setUpdatedItemCategory(event.target.value)
+    }
+
+    const handleItemDescriptionUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setUpdatedItemDescription(event.target.value)
+    }   
+
+
+    // const handleItemProducerIdUpdate = (event: React.ChangeEvent<HTMLInputElement>) => {    
+    //     setUpdatedItemProducerId(parseInt(event.target.value, 10))
+    // }
+
+    const handleSaveItemUpdate = () => {
+        console.log(`SENDING ITEM TO UPDATE: ${JSON.stringify(item)}`)
+        handleUpdateItem({
+            id: item.id,
+            name: updatedItemName,
+            category: updatedItemCategory,
+            description: updatedItemDescription,
+            // producerId: updatedItemProducerId
+        
+        })
+        setShowUpdateItemModal(false)
     }
 
 
@@ -117,7 +168,7 @@ const CollectionItem: React.FC<{
     ?  (
         <>
 
-        {/* modal to edit review */}
+        {/* modal to show and edit  review */}
         <Modal show={showReview} onHide={handleShowReviewModalClose}>
             <Modal.Header closeButton>
             </Modal.Header>
@@ -126,6 +177,61 @@ const CollectionItem: React.FC<{
                 handleEditReview={handleEditReview}
             />
         </Modal>
+
+        {/* modal to edit item  */}
+        <Modal show={showUpdateItemModal} onHide={handleShowUpdateItemModalClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Update Item</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Card style={{ width: '14rem' }} className="m-1">
+                <Card.Body>
+                    {/* Edit Name */}
+                    <Form.Label htmlFor="name">Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        id="name"
+                        value={updatedItemName}
+                        onChange={handleItemNameUpdate}
+                    ></Form.Control>
+                    {/* Edit Category */}
+                    <Form.Label htmlFor="category">Category</Form.Label>                    
+                    <Form.Control
+                        type="text"
+                        id="name"
+                        value={updatedItemCategory}
+                        onChange={handleItemCategoryUpdate}
+                    ></Form.Control>
+                    {/* Edit Description */}
+                    <Form.Label htmlFor="description">Description</Form.Label>
+                    <Form.Control
+                        type="text"
+                        id="description"
+                        value={updatedItemDescription}
+                        onChange={handleItemDescriptionUpdate}
+                    ></Form.Control>                    
+                    {/* Edit Producer id
+                    <Form.Label htmlFor="producerId">Producer Id</Form.Label>
+                    <Form.Control
+                        type="number"
+                        id="producerId"
+                        min="1"
+                        value={updatedItemProducerId?.toString()}
+                        onChange={handleItemProducerIdUpdate}
+                    ></Form.Control> */}
+                </Card.Body>
+                <Card.Footer>
+                    <Button 
+                        variant="primary"
+                        onClick={handleSaveItemUpdate}
+                    >Save Changes</Button>
+                </Card.Footer>
+            </Card>
+            </Modal.Body>
+            <Modal.Footer>   
+                
+            </Modal.Footer>
+        </Modal>       
 
         {/* card to show item */}
         <Card style={{ width: '14rem' }} className="m-1">
@@ -141,12 +247,15 @@ const CollectionItem: React.FC<{
                             {`  ${rating}`}
                         </span>
                 </Card.Text>
+                <Row className="mb-2">
                 <Button 
                     variant="outline-primary"
                     size="sm"
                     className = "mr-6"
                     onClick={handleClickViewDetailsButton}
                 >View Details</Button>
+                </Row>
+                <Row>
                  <Button 
                     variant="outline-primary"
                     size="sm"
@@ -154,6 +263,8 @@ const CollectionItem: React.FC<{
                     hidden = { userRole === "admin" || !isItemReviewed(id as number)}
                     onClick={handleViewReviewButtonClick}
                 >View My Review</Button>
+                </Row>
+                <Row>
                  <Button 
                     variant="outline-primary"
                     size="sm"
@@ -161,13 +272,23 @@ const CollectionItem: React.FC<{
                     hidden = { userRole === "admin" || isItemReviewed(id as number)}
                     onClick={handleAddReviewButtonClick}
                 >Review Item</Button>
-                {`     `}
+                </Row>
+                <Row className="mb-2">
+                <Button
+                    variant="outline-success"
+                    size="sm"    
+                    onClick = { handleUpdateItemButtonClick }
+                    hidden = { userRole === "user" }
+                >Update Item</Button>
+                </Row>   
+                <Row    >             
                 <Button
                     variant="outline-danger"
                     size="sm"    
                     onClick = { handleDeleteItemButtonClick }
                     hidden = { userRole === "user" }
-                >Delete</Button>
+                >Delete Item</Button>
+                </Row>
             </Card.Body>
         </Card>   
 
