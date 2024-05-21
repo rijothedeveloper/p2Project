@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ItemInterface } from "../../Interfaces/ItemInterface";
 import { Container, Form } from "react-bootstrap";
 import { UserContext } from "../../Contexts/UserContext";
-import { getAllItems, getItemsByCategory } from "../../FrontendAPI/api";
+import { getAllItems } from "../../FrontendAPI/api";
 import { ItemsByCategory } from "./ItemsByCategory";
 import { ItemColumns } from "./ItemColumns";
 import { ObjectsByName } from "../GeneralUse/ObjectsByName";
