@@ -12,12 +12,25 @@ export const AllUsers: React.FC = () => {
     const { currentUser } = useContext(UserContext);
     const [users, setUsers] = useState<UserInterface[]>([]);
     const [nameFilter, setNameFilter] = useState<string>("");
+    const [filteredUsers, setFilteredUsers] = useState<UserInterface[]>([]);
 
+    // Get all users
     useEffect(() => {
         if (currentUser) {
             getUsers();
         }
     }, [currentUser]);
+    // Filter users by username
+    useEffect(() => {
+        if (nameFilter !== "") {
+            setFilteredUsers(users.filter(user => {
+                const username = user.username as string;
+                return username.toLowerCase().indexOf(nameFilter.toLowerCase()) > -1;
+            }));
+        } else {
+            setFilteredUsers(users);
+        }
+    }, [nameFilter, users]);
 
     const getUsers = async () => {
         const response = await getAllUsers(currentUser?.jwt as string);
@@ -36,7 +49,7 @@ export const AllUsers: React.FC = () => {
                 <div className="card shadow-sm">
                     <div className="card-body">
                         <h2 className="card-title text-center mb-4">User List</h2>
-                        <ObjectsByName setNameFilter={setNameFilter} />
+                        <ObjectsByName setNameFilter={setNameFilter} label="Filter by Username" />
                         <Table className="mt-3" striped hover responsive>
                             <thead>
                                 <tr>
@@ -50,7 +63,7 @@ export const AllUsers: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody className='table-group-divider'>
-                                {users.map((user) => (
+                                {filteredUsers.map((user) => (
                                     <tr key={user.id}>
                                         <td>{user.id}</td>
                                         <td>{user.firstName}</td>
