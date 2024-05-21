@@ -11,6 +11,7 @@ import ItemReview from "./ItemReview";
 import { ReviewModal } from "../Review/ReviewModal";
 import { CreateReviewModal } from "../Review/CreateReviewModal";
 import { BsStarFill } from "react-icons/bs";
+import { DisplayStars } from "../Review/DisplayStars";
 
 
 /*
@@ -236,7 +237,7 @@ const CollectionItem: React.FC<{
             </Modal.Footer>
         </Modal>       
 
-        {/* card to show item */}
+        {/*****  CARD TO SHOW ITEM  ******************************/}
         <Card className="h-100">
             <Container className="ratio ratio-1x1">
                 <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`}/>
@@ -252,53 +253,11 @@ const CollectionItem: React.FC<{
                         </span>
                     */}
                     <div className="d-flex align-items-center">
-                        <span className={ratingColor()}>{item.rating}</span> <BsStarFill className="text-warning ms-2"/>'s
+                        {/* <span className={ratingColor()}>{item.rating}</span> <BsStarFill className="text-warning ms-2"/>'s */}
+                        {/* <span className={ratingColor()}>{item.rating}</span>  */}
+                        <DisplayStars rating={item.rating as number}/>
                     </div>
                 </Card.Text>
-                {/*
-                <Row className="mb-2">
-                <Button 
-                    variant="outline-primary"
-                    size="sm"
-                    className = "mr-6"
-                    onClick={handleClickViewDetailsButton}
-                >View Details</Button>
-                </Row>
-                <Row>
-                 <Button 
-                    variant="outline-primary"
-                    size="sm"
-                    className = "mr-6"
-                    hidden = { userRole === "admin" || !isItemReviewed(id as number)}
-                    onClick={handleViewReviewButtonClick}
-                >View My Review</Button>
-                </Row>
-                <Row>
-                 <Button 
-                    variant="outline-primary"
-                    size="sm"
-                    className = "mr-6"
-                    hidden = { userRole === "admin" || isItemReviewed(id as number)}
-                    onClick={handleAddReviewButtonClick}
-                >Review Item</Button>
-                </Row>
-                <Row className="mb-2">
-                <Button
-                    variant="outline-success"
-                    size="sm"    
-                    onClick = { handleUpdateItemButtonClick }
-                    hidden = { userRole === "user" }
-                >Update Item</Button>
-                </Row>   
-                <Row    >             
-                <Button
-                    variant="outline-danger"
-                    size="sm"    
-                    onClick = { handleDeleteItemButtonClick }
-                    hidden = { userRole === "user" }
-                >Delete Item</Button>
-                </Row>
-                */}
             </Card.Body>
             <Card.Footer>
                 <div className="mb-2 general-button-container">
