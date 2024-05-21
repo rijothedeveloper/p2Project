@@ -420,7 +420,10 @@ export const getItemReviews = async (token: string, itemId: number): Promise<{
  * @param token - JWT token
  * @param reviewid - ID of the review to delete
  */
-export const deleteReviewByID = async (token: string, reviewId: number) => {
+export const deleteReviewByID = async (token: string, reviewId: number): Promise<{
+    status: boolean,
+    message: string
+}> => {
     const url = apiURL(`${reviewControllerEndpoint}/${reviewId}`);
     const authHeader = buildAuthHeader(token);
     try {
@@ -428,9 +431,15 @@ export const deleteReviewByID = async (token: string, reviewId: number) => {
         if (response.status !== 200) {
             throw new Error(response.data);
         }
-        return response.data;
+        return Object.assign({}, {
+            status: true,
+            message: response.data
+        });
     } catch (error: any) {
-        return error.message;
+        return Object.assign({}, {
+            status: false,
+            message: error.nmessage
+        })
     }
 };
 
