@@ -96,8 +96,8 @@ const CollectionItem: React.FC<{
         setShowAddReviewModal(false)
     }
 
-    console.log(JSON.stringify(reviews))
-    console.log(isItemReviewed(id as number))
+    // console.log(JSON.stringify(reviews))
+    // console.log(isItemReviewed(id as number))
 
 
     const handleAddReview = (review: ReviewInterface) => {
