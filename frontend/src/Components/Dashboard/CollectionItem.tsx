@@ -250,11 +250,11 @@ const CollectionItem: React.FC<{
                         {/* <span className={ratingColor()}>{item.rating}</span>  */}
                         {/* <DisplayStars rating={item.rating as number}/> */}
                     {/* </div> */}
-                    <Row className="mb-2">
-                        <Col>
+                    <Row className="mb-2 g-0">
+                        <Col md={4}>
                             <DisplayPartialStars rating={item.rating as number}/>
                         </Col>
-                        <Col className="text-start">
+                        <Col className="ms-2 text-start">
                             <span id="rating" className={ratingColor()}>{`(${rating})`}</span>
                             {/* <span id="rating" className={ratingColor()}>{`${rating}`}</span> */}
                         </Col>
