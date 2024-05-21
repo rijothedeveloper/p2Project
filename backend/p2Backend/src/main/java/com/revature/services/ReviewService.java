@@ -211,6 +211,18 @@ public class ReviewService {
     }
 
 
+    public Object addReview(ReviewDTO review, int userId) {
+        Optional<User> user = userDAO.findById(userId);
+        if(user.isEmpty()){
+            throw new IllegalArgumentException("User not found.");
+        }
+        Review r = new Review();
+        r.setTitle(review.getTitle());
+        r.setBody(review.getBody());
+        r.setRating(review.getRating());
+        r.setUser(user.get());
+        return reviewDAO.save(r);
+    }
 }
 
 

@@ -9,6 +9,7 @@ import { getUserReviews } from "../../FrontendAPI/api";
 
 export const AllRevByUser: React.FC = () => {
     const {userId} = useParams();
+    const userIdNumber = Number(userId);
     
 
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
@@ -19,7 +20,7 @@ export const AllRevByUser: React.FC = () => {
         getAllUsersRevs();
     },[])
     const getAllUsersRevs = async () => {
-        const response = await getUserReviews(currentUser?.jwt as string, userId as string);
+        const response = await getUserReviews(currentUser?.jwt as string, userIdNumber);
         if (typeof response === "string") {
             console.error(response);
             setRevsByUser([]);
