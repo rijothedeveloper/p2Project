@@ -134,7 +134,7 @@ const ItemReview: React.FC<{
                     {itemReview.body}
                 </Card.Text>
                 <Button 
-                    variant="primary"                   
+                    variant="outline-primary"                   
                     onClick={handleEditReviewButtonClick}
                     hidden={userRole == "admin"}
                 >Edit Review</Button>
