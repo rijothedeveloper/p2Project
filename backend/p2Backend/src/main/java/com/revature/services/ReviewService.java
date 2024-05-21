@@ -137,7 +137,7 @@ public class ReviewService {
         }
         List<OutgoingReviewDTO> allRevDTO = new ArrayList<OutgoingReviewDTO>();
         for (Review rev : allRevs) {
-            OutgoingReviewDTO outgoingReviewDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
+            OutgoingReviewDTO outgoingReviewDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating(), rev.getUser().getUsername());
 
             allRevDTO.add(outgoingReviewDTO);
         }
@@ -155,7 +155,7 @@ public class ReviewService {
         }
         List<OutgoingReviewDTO> allRevDTO = new ArrayList<OutgoingReviewDTO>();
         for (Review rev : allRevs) {
-            OutgoingReviewDTO outgoingReviewDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
+            OutgoingReviewDTO outgoingReviewDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating(), rev.getUser().getUsername());
 
             allRevDTO.add(outgoingReviewDTO);
         }
@@ -174,8 +174,7 @@ public class ReviewService {
         }
         List<ReviewDTO> allRevDTO = new ArrayList<ReviewDTO>();
         for (Review rev : allRevs) {
-            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(),rev.getBody(),rev.getItem().getId(),rev.getRating());
-            allRevDTO.add(revDTO);
+            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(), rev.getBody(), rev.getItem().getId(), rev.getRating());            allRevDTO.add(revDTO);
         }
         return allRevDTO;
     }
