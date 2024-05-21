@@ -168,7 +168,7 @@ public class ReviewService {
 
     //This method gets all reviews
     //then converts them to a list of ReviewDTO's
-    public List<ReviewDTO> getAllReviews() {
+    public List<OutgoingReviewDTO> getAllReviews() {
         List<Review> allRevs;
         try {
             allRevs = reviewDAO.findAll();
@@ -176,9 +176,10 @@ public class ReviewService {
         catch(Exception e){
             throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
         }
-        List<ReviewDTO> allRevDTO = new ArrayList<ReviewDTO>();
+        List<OutgoingReviewDTO> allRevDTO = new ArrayList<>();
         for (Review rev : allRevs) {
-            ReviewDTO revDTO = new ReviewDTO(rev.getTitle(), rev.getBody(), rev.getItem().getId(), rev.getRating());            allRevDTO.add(revDTO);
+            OutgoingReviewDTO revDTO = new OutgoingReviewDTO(rev.getId(), rev.getTitle(), rev.getBody(), rev.getItem().getId(), rev.getRating(), rev.getUser().getUsername());
+            allRevDTO.add(revDTO);
         }
         return allRevDTO;
     }
