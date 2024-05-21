@@ -225,6 +225,7 @@ export const getItemByName = async (token: string, name: string) => {
         return response.data;
     })
     .catch((error: AxiosError) => {
+        console.log(error.message);
         // Handle error response
     });
 };
@@ -343,7 +344,7 @@ export const addReply = async (token: string, reply: ReplyInterface) => {
 // ReviewController
 const reviewControllerEndpoint = "/reviews";
 
-export const getUserReviews = async (token: string, userId: string): Promise<ReviewInterface[]|string> => {
+export const getUserReviews = async (token: string, userId: number): Promise<ReviewInterface[]|string> => {
     const url = apiURL(`${reviewControllerEndpoint}/${userId}`);
     const authHeader = buildAuthHeader(token);
     try {
