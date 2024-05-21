@@ -9,7 +9,7 @@ import { ReplyInterface } from "../../Interfaces/ReplyInterface";
 import { capitalize } from "../../Utils/StringUtils";
 import { addReply } from "../../FrontendAPI/api";
 import { ReactToReview } from "../Review/ReactToReview";
-import { NewReply } from "../Reply/NewReply";
+import { DisplayStars } from "../Review/DisplayStars";
 
 export const ItemDetails: React.FC = () => {
 
@@ -190,7 +190,10 @@ export const ItemDetails: React.FC = () => {
                             <Accordion.Item eventKey={`${idx}`} key={idx}>
                                 <Accordion.Header>
                                     <Container className="d-flex flex-column">
-                                        <h3 className="fs-4">{review.title}: {review.rating}</h3>
+                                        <div className="d-flex flex-row align-items-center mb-2">
+                                            <div className="fw-semibold fs-4 me-2">{review.title}</div>
+                                            <DisplayStars rating={review.rating as number} />
+                                        </div>
                                         <p className="text-wrap">
                                             {review.body}
                                             <span className="text-secondary"><small> - {review.username ? review.username : "anonymous"}</small></span>
