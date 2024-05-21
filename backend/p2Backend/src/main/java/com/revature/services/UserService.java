@@ -1,6 +1,9 @@
 package com.revature.services;
 
+import com.revature.daos.ReviewDAO;
 import com.revature.daos.UserDAO;
+import com.revature.models.Collection;
+import com.revature.models.Review;
 import com.revature.models.User;
 import com.revature.models.dtos.CreateUserDTO;
 import com.revature.models.dtos.IncomingUserDTO;
@@ -17,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.swing.text.html.Option;
 
@@ -33,6 +37,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     UserDAO userDAO;
+    ReviewDAO reviewDAO;
     private AuthenticationManager authManager;
     private JwtTokenUtil jwtUtil;
     private PasswordEncoder passwordEncoder;
@@ -43,11 +48,12 @@ public class UserService {
     private final Pattern pattern = Pattern.compile(EMAIL_REGEX);
 
     @Autowired
-    public UserService(UserDAO userDAO, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder) {
+    public UserService(UserDAO userDAO, AuthenticationManager authManager, JwtTokenUtil jwtUtil, PasswordEncoder passwordEncoder, ReviewDAO reviewDAO) {
         this.userDAO = userDAO;
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
+        this.reviewDAO = reviewDAO;
     }
 
     public ResponseEntity<Object> addUser(CreateUserDTO input) {
@@ -219,5 +225,23 @@ public class UserService {
         return convertOutgoingUserDTOFromUser(user);
     }
 
+
+    public ResponseEntity<Void> deleteAccount(int userId) {
+        Optional<User> user = userDAO.findById(userId);
+        if(user.isPresent()){
+            //get all reviews and collecitons for user
+            List<Review> reviews = user.get().getReviews();
+            reviews.clear();
+
+            List<Collection> collections = user.get().getCollection();
+            collections.clear();
+
+            //delete user
+            userDAO.delete(user.get());
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
 
 }
