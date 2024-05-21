@@ -202,7 +202,7 @@ export const Dashboard: React.FC = () => {
             .then((response: AxiosResponse) => {
                 // console.log(`RESPONSE FROM BACKEND: ${JSON.stringify(response.data)}`)
                 // set reviews state
-                setReviews(response.data as ItemInterface[])
+                setReviews(response.data as ReviewInterface[])
             })
             .catch((error: AxiosError) => {
                 console.log(`AXIOS ERROR IN GET COLLECTION: ${error}`)
