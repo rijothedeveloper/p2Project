@@ -171,7 +171,7 @@ const CollectionItem: React.FC<{
     ?  (
         <>
 
-        {/* modal to show and edit  review */}
+        {/*** SHOW REVIEW MODAL  *******************************************************/}
         <Modal show={showReview} onHide={handleShowReviewModalClose}>
             <Modal.Header closeButton>
             </Modal.Header>
@@ -183,7 +183,7 @@ const CollectionItem: React.FC<{
         </Modal>
 
 
-        {/* modal to edit item  */}
+        {/*** EDIT REVIEW MODAL  *******************************************************/}
         <Modal size="sm" show={showUpdateItemModal} onHide={handleShowUpdateItemModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Update Item</Modal.Title>
@@ -229,7 +229,7 @@ const CollectionItem: React.FC<{
         </Modal>       
 
 
-        {/*****  CARD TO SHOW ITEM  ******************************/}
+        {/*****  SHOW ITEM  **********************************************************************/}
         <Card className="h-100">
             <Container className="ratio ratio-1x1">
                 <Card.Img variant="top" src={ image } alt={`Image of ${item.name}`}/>
@@ -255,7 +255,7 @@ const CollectionItem: React.FC<{
                             <DisplayPartialStars rating={item.rating as number}/>
                         </Col>
                         <Col className="ms-2 text-start">
-                            <span id="rating" className={ratingColor()}>{`(${rating})`}</span>
+                            <span id="rating" className={ratingColor()}>{`(${rating?.toFixed(1)})`}</span>
                             {/* <span id="rating" className={ratingColor()}>{`${rating}`}</span> */}
                         </Col>
                     </Row>    
@@ -306,7 +306,7 @@ const CollectionItem: React.FC<{
         </Card>   
 
 
-        {/*** MODAL TO SHOW ITEM DETAILS ************************************/}
+        {/*** SHOW ITEM DETAILS ***************************************************************/}
         <Modal size="sm" show={showItemDetails} onHide={handleItemDetailsModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>{item.name}</Modal.Title>
@@ -322,7 +322,7 @@ const CollectionItem: React.FC<{
                                     <DisplayPartialStars rating={item.rating as number}/>
                                 </Col>
                                 <Col className="text-start">
-                                    <span id="rating" className={ratingColor()}>{`(${rating})`}</span>
+                                    <span id="rating" className={ratingColor()}>{`(${rating?.toFixed(1)})`}</span>
                                     {/* <span id="rating" className={ratingColor()}>{`${rating}`}</span> */}
                                 </Col>
                             </Row>                        
