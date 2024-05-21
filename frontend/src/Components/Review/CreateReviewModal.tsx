@@ -47,6 +47,8 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         .catch((error: AxiosError) => {
             console.log(`ERROR IN UPDATE ITEM: ${error}`)
         });
+
+        isOpen = false
     }
 
     //Stores values from text boxes
