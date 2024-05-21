@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "react-bootstrap"
+import { Button, Card, Col, Container, Row } from "react-bootstrap"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { capitalize, truncateText } from "../../Utils/StringUtils"
 import { useContext, useEffect, useState } from "react"
@@ -71,7 +71,9 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                     <Col key={idx}>
                         <Card className="h-100">
                             <Card.Header>{item.category}</Card.Header>
-                            <Card.Img variant="top" src={item.image} alt={item.name}/>
+                            <Container className="ratio ratio-1x1">
+                                <Card.Img className="rounded-0" variant="top" src={item.image} alt={item.name}/>
+                            </Container>
                             <Card.Body>
                                 <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
                                 <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
@@ -84,12 +86,12 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                             </Card.Body>
                             <Card.Footer>
                                 {inCollection[item.id as number] ? (
-                                    <Button variant="danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove from Collection</Button>
+                                    <Button size="sm" variant="danger" onClick={async () => {await deleteFromCollection(item.id as number)}}>Remove</Button>
                                 ) : (
-                                    <Button variant="success" onClick={async () => {await addToCollection(item)}}>Add to Collection</Button>
+                                    <Button size="sm" variant="success" onClick={async () => {await addToCollection(item)}}>Add</Button>
                                 )}
-                                <Button className="ms-3" variant="info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
-                                <Button className="ms-3" onClick={openModal} >Review Item</Button>
+                                <Button size="sm" variant="info" onClick={() => navigate(`/item/${item.id as number}`)}>Details</Button>
+                                <Button size="sm" onClick={openModal} >Review Item</Button>
                                 <CreateReviewModal isOpen={isReviewModalOpen} onClose={closeModal} itemIdToPass={item.id as number}/>
                             </Card.Footer>
                         </Card>
