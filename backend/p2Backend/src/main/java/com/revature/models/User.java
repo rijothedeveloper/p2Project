@@ -41,19 +41,23 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String timestamp;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.followingUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Follow> follow;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<com.revature.models.Collection> collection;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Reply> replies;
 

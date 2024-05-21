@@ -221,6 +221,31 @@ public class ReviewService {
         r.setBody(review.getBody());
         r.setRating(review.getRating());
         r.setUser(user.get());
+        if(review.getItemId() > 0){
+            Optional<Item> item = itemDAO.findById(review.getItemId());
+            if(item.isEmpty()){
+                throw new IllegalArgumentException("Item not found.");
+            }
+            r.setItem(item.get());
+        }
+        if (r.getRating() < 0 || r.getRating() > 5) {
+            throw new IllegalArgumentException("Please rate between 0 to 5!");
+        }
+        if (!isValidText(r.getTitle())) {
+            throw new IllegalArgumentException("Please ensure your title meets the following conditions:\n" +
+                    "1. It cannot be empty.\n" +
+                    "2. It must be a maximum of 500 characters long.\n" +
+                    "3. It cannot contain vulgar terms.\n");
+        }
+        if (!isValidText(r.getBody())) {
+            throw new IllegalArgumentException("Please ensure your description meets the following conditions:\n" +
+                    "1. It cannot be empty.\n" +
+                    "2. It must be a maximum of 500 characters long.\n" +
+                    "3. It cannot contain vulgar terms.\n");
+        }
+        if (reviewDAO.findAllByUserId(userId).stream().anyMatch(rev -> rev.getItem().getId() == review.getItemId())) {
+            throw new IllegalArgumentException("You have already reviewed this item.");
+        }
         return reviewDAO.save(r);
     }
 }
