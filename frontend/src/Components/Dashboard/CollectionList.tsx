@@ -1,12 +1,11 @@
 import * as React from "react"
 import CollectionItem from "./CollectionItem"
 import { UserContext } from "../../Contexts/UserContext"
-import { Container, Row, Form, Button, Col } from "react-bootstrap"
+import { Modal, Card, Container, Row, Form, Button, Col } from "react-bootstrap"
 import { ItemInterface } from "../../Interfaces/ItemInterface"
 import { Login } from "../Login/Login"
 import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import { AddItem } from "../Items/AddItem"
-
 
 /*
     This componenet will display a list items aka collection
@@ -39,7 +38,19 @@ const Collection: React.FC<{
     return currentUser
     ? (
         showAddItemModal
-        ? (<AddItem />
+        ? (
+            <>
+            <Modal show={showAddItemModal} onHide={() => setShowAddItemModal(false)}>
+                <Modal.Header closeButton>
+                </Modal.Header>
+                <Modal.Body>    
+
+                    <AddItem />
+                    </Modal.Body>
+
+            </Modal>
+\        </>
+
         )
         : (
             <>

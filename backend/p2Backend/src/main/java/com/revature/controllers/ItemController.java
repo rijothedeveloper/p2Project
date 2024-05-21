@@ -19,7 +19,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<String> addItem(@RequestBody ItemDTO itemdto) {
         try {
             Item item = itemService.addItem(itemdto);
