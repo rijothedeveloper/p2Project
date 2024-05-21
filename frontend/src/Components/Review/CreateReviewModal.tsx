@@ -33,13 +33,13 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         
         console.log(review)
         console.log(itemIdToPass)
-        await axios.post(`http://localhost:8080/reviews/${itemIdToPass}`, review, {
+        await axios.post(`http://localhost:8080/reviews/`, review, {
             headers: {
                 "Authorization":"Bearer " + currentUser?.jwt
             },
         })
         .catch((error) => {
-            alert(error.response.data)
+            alert(error.message)
         }
     )}
     //Stores values from text boxes

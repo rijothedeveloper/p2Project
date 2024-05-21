@@ -43,8 +43,8 @@ public class CollectionKey implements Serializable{
     @Override
     public String toString() {
         return "CollectionKey{" +
-                "item=" + item +
-                ", user=" + user +
+                "item=" + item.getId() +
+                ", user=" + user.getId() +
                 '}';
     }
 }

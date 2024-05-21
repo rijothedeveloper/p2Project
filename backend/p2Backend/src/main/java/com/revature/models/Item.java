@@ -19,6 +19,7 @@ public class Item {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producer_id")
     private Producer producer;
@@ -128,7 +129,6 @@ public class Item {
         return "Item{" +
                 "itemId=" + id +
                 ", name='" + name + '\'' +
-                ", producer_id=" + producer +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +

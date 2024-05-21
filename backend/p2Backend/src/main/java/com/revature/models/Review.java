@@ -38,7 +38,7 @@ public class Review {
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(mappedBy = "vote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id.review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Score> scores;
 
     // added to prevent looping while reviewing item

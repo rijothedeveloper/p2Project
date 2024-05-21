@@ -64,8 +64,8 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
                             <span>{<ReactToReview/>}{thisReview.score}</span>
                             <button type="button" className="btn btn-secondary" >View Replies</button>
                             {review.userId == currentUser?.id as number  || currentUser?.role == "ADMIN"? <DeleteReview {...review}/>:""}
-                            {"TODO: user is owner then show" && <button type="button" className="btn btn-primary">Edit</button>}
-                            {"TODO: user is not ownder then show" && <NewReply {...thisReview}/>}
+                            {review.userId == currentUser?.id as number && <button type="button" className="btn btn-primary">Edit</button>}
+                            {review.userId != currentUser?.id as number && <NewReply {...thisReview}/>}
                         </div>
                     </div>
                 </div> 

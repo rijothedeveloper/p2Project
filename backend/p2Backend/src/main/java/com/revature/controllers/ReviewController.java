@@ -115,4 +115,18 @@ public class ReviewController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<Object> addReview(@RequestBody ReviewDTO review, @RequestHeader("Authorization") String token) {
+        String jwt = token.substring(7);
+        int userId = jwtUtil.extractUserId(jwt);
+        if (userId == 0) {
+            return ResponseEntity.status(401).body("You must be logged in to add a review.");
+        }
+        try {
+            return ResponseEntity.status(201).body(reviewService.addReview(review, userId));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
 }
