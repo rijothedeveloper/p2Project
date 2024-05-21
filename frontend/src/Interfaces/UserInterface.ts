@@ -1,4 +1,7 @@
+import { ReviewInterface } from "./ReviewInterface";
+
 export interface UserInterface {
+    reviews?: ReviewInterface[];
     id?: number,
     firstName?: string,
     lastName?: string,

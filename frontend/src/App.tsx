@@ -28,7 +28,7 @@ function App() {
                             <Route path="/" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="dashboard" element={< Dashboard />} />
-                            <Route path="user/:userId" element={<UserDetails />} />
+                            <Route path="user/:username" element={<UserDetails />} />
                             <Route path="review/:userId" element={<AllRevByUser/>}/>
                             <Route path='item/:itemId' element={<ItemDetails/>} />
                             <Route path="allusers" element={<AllUsers />} />

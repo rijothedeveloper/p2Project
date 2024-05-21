@@ -126,7 +126,7 @@ FollowController
 ItemController
 ------------------------------*/
 const itemControllerEndpoint = "/items";
-const addItemEndpoint = itemControllerEndpoint;
+const addItemEndpoint = itemControllerEndpoint + "/add";
 export const getAllItemsEndpoint = itemControllerEndpoint;
 const getItemByIdEndpoint = itemControllerEndpoint + "/id";
 const getItemByNameEndpoint = itemControllerEndpoint + "/name";

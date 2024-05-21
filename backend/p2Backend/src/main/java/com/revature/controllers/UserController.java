@@ -39,10 +39,11 @@ import java.util.Optional;
 public class UserController {
 
     UserService userService;
-
+    JwtTokenUtil jwtUtil;
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtTokenUtil jwtUtil){
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/add")
@@ -67,6 +68,63 @@ public class UserController {
             return ResponseEntity.ok(userList); //200
         }
     }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<OutgoingUserDTO> getUserByUsername(@RequestHeader("Authorization") String token, @PathVariable String username) {
+        String jwt = token.substring(7);
+
+        OutgoingUserDTO user = userService.getUserByUsername(username);
+        if (user == null) {
+            return ResponseEntity
+                    .notFound()//404
+                    .build();
+        } else {
+            return ResponseEntity.ok(user); //200
+        }
+    }
+
+
+    @PatchMapping("/suspend/{username}")
+    public ResponseEntity<?> suspendUser(@PathVariable String username, @RequestHeader("Authorization") String token) {
+        try {
+            //Extract the username from the token
+            String adminUsername = jwtUtil.extractUsername(token.substring(7));
+            //get user obj
+            User adminUser = userService.getUser(adminUsername);
+
+            if (!adminUser.getRole().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not authorized to suspend users");
+            }
+
+            //check if the user to be suspended exists
+            User userToSuspend = userService.getUser(username);
+
+            if (userToSuspend == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist");
+            }
+            //check if the user to be suspended is an admin
+            if (userToSuspend.getRole().equals("ADMIN")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot suspend another admin");
+            }
+
+            //suspend the user
+            User suspendedUser = userService.suspendUser(username);
+
+            if (suspendedUser.getRole().equals("SUSPENDED")) {
+                return ResponseEntity.ok().body("User has been suspended");
+            } else {
+                return ResponseEntity.status((HttpStatus.INTERNAL_SERVER_ERROR)).body("Failed to suspend user");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
+
+
 }
 
 
