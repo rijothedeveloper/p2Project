@@ -34,12 +34,12 @@ export const ToastProvider: React.FC<{children: ReactNode}> = ({children}) => {
                                 key={toast.id}
                                 className={toastStyle}
                                 onClose={() => removeToast(toast.id)}
-                                delay={3000}
+                                delay={30000}
                                 autohide
                             >
                                 <Toast.Header>
-                                    <strong>{toastHeader}</strong>
-                                    <small>{localTime}</small>
+                                    <strong className="me-auto">{toastHeader}</strong>
+                                    <small className="text-body-secondary">{localTime}</small>
                                 </Toast.Header>
                                 <Toast.Body>{toast.message}</Toast.Body>
                             </Toast>
