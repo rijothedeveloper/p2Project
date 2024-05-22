@@ -23,9 +23,9 @@ const ItemReview: React.FC<{
 }> = ({ itemReview, handleEditReview, handleDeleteReview }) => {
     
     const [showEditReviewModal, setShowEditReviewModal] = React.useState(false)
-    const [updatedTitle, setUpdatedTitle] = React.useState(itemReview.title)
-    const [updatedRating, setUpdatedRating] = React.useState(itemReview.rating)
-    const [updatedBody, setUpdatedBody] = React.useState(itemReview.body)
+    const [updatedTitle, setUpdatedTitle] = React.useState(itemReview ? itemReview.title : "")
+    const [updatedRating, setUpdatedRating] = React.useState(itemReview ? itemReview.rating : 0)
+    const [updatedBody, setUpdatedBody] = React.useState(itemReview ? itemReview.body : "")
     const [item, setItem] = React.useState({} as ItemInterface)
 
     // get current user from UserContext
@@ -122,8 +122,10 @@ const ItemReview: React.FC<{
 
     // console.log(`ITEM REVIEW PASSED FROM REVIEW LIST: ${JSON.stringify(itemReview)}`)   
 
-    return (
+    return itemReview
+    ? (
         <>
+        {/*** SHOW REVIEW *************************************************************/}
         <Card className="h-100">
             <Card.Header>
                 <div>
@@ -166,7 +168,9 @@ const ItemReview: React.FC<{
             </Card.Footer>
         </Card>
 
-        {/* modal to edit reveiw */}
+
+
+        {/*** EDIT REVIEW *******************************************************************/}
         <Modal size="sm" show={showEditReviewModal} onHide={handleEditReviewModalClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Edit review for {item.name}</Modal.Title>
@@ -216,11 +220,11 @@ const ItemReview: React.FC<{
             </Card>
         </Modal.Body>
         <Modal.Footer>  
-
-            </Modal.Footer>
+        </Modal.Footer>
         </Modal>
     </>
     )
+    : <p>Your review is deleted.</p>
 }
 
 export default ItemReview
