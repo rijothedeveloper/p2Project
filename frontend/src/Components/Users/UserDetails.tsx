@@ -1,3 +1,4 @@
+
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { UserInterface } from "../../Interfaces/UserInterface";
@@ -9,7 +10,7 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { useToast } from "../../Contexts/ToastContext";
 
 export const UserDetails: React.FC = () => {
-
+  const userId = useParams();
     const { username } = useParams<{ username: string}>();
     const { currentUser } = useContext(UserContext);
     const nav = useNavigate();

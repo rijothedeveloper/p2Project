@@ -49,6 +49,4 @@ export const DeleteMyAccount: React.FC = () => {
             </Modal>
         </div>
     )
-
-
 }

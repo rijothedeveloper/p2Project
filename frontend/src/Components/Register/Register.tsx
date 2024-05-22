@@ -7,8 +7,8 @@ import { register } from "../../FrontendAPI/api";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { useToast } from "../../Contexts/ToastContext";
 
-
 export const Register: React.FC = () => {
+  const navigate = useNavigate();
 
     const navigate = useNavigate()
     const { addToast } = useToast();
@@ -32,7 +32,51 @@ export const Register: React.FC = () => {
       setPasswordIsVisible(!passwordIsVisible);
     }
 
-
+  return (
+    <div>
+      {/* Navigation Bar */}
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container">
+          <a className="navbar-brand" href="/">
+            Logo
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <a className="nav-link" href="/">
+                  Home
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="/">
+                  Login
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/register"
+                >
+                  Register
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
     const signup_request = async () => {
         const response = await register(UserInterface);
         if (typeof response === 'string') {
@@ -95,5 +139,6 @@ export const Register: React.FC = () => {
           </div>
         </div>
       </div>
-    )
-}
+    </div>
+  );
+};
