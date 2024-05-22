@@ -26,6 +26,7 @@ export const Dashboard: React.FC = () => {
       const [ collection, setCollection ] = React.useState([] as ItemInterface[])
       // get reviews by user
       const [ reviews, setReviews ] = React.useState([] as ReviewInterface[])
+      const [ newItemAdded, setNewItemAdded ] = React.useState(false)
 
     // CURRENT USER
     // get current user from UserContext
@@ -61,6 +62,11 @@ export const Dashboard: React.FC = () => {
 
 
     // ITEM RELATED FUNCTIONS /////////////////////////////////////////////////
+
+    // ADD ITEM
+    const handleItemAdded = () => {
+        setNewItemAdded(true)
+    }
    
     // UPDATE ITEM
     const handleUpdateItem = (item: ItemInterface) => { 
@@ -69,9 +75,9 @@ export const Dashboard: React.FC = () => {
         // delete item form database
         // api call to delete item
         const updateItem = async () => {
-            // console.log(`ITEM ID TO DELETE: ${itemId}`)
-            const url = apiURL(`items/new/${item.id}`);
-            // console.log(`URL TO DELETE ITEM: ${url}`)
+            // console.log(`ITEM ID TO UPDATE: ${itemId}`)
+            const url = apiURL(`/items/new/${item.id}`);
+            console.log(`URL TO DELETE ITEM: ${url}`)
             const authHeader = buildAuthHeader(currentUser?.jwt as string);
             const response = await axios.patch(url, item, {headers: authHeader})
             .then((response: AxiosResponse) => {
@@ -131,7 +137,6 @@ export const Dashboard: React.FC = () => {
 
 
     // REVIEW RELATED FUNCTIONS /////////////////////////////////////////////////
-
 
     // UPDATE REVIEW
     const handleEditReview = (review: ReviewInterface) => {
@@ -244,7 +249,7 @@ export const Dashboard: React.FC = () => {
         }
         getReviews()
 
-    }, [currentUser]);
+    }, [currentUser, newItemAdded]);
 
     return currentUser 
     ?  (
@@ -272,6 +277,7 @@ export const Dashboard: React.FC = () => {
                     handleEditReview={handleEditReview}
                     handleUpdateItem={handleUpdateItem}
                     handleDleteReview={handleDeleteReview}
+                    handleItemAdded={handleItemAdded}
                     />
                 : <ReviewList
                     reviews={reviews}
