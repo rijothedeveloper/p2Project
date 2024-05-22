@@ -18,7 +18,7 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
                     const response = await getUserVote(currentUser.jwt, review.id);
                     if (!response.status) {
                         console.error(response.message);
-                        alert(response.message);
+                        //alert(response.message);
                     } else {
                         console.log(response.message);
                         setUserVoteSignal(response.data);
@@ -51,7 +51,7 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
 
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
         } else {
             console.log(response.message);
         }
