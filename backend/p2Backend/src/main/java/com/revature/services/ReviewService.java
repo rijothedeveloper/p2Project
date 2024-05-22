@@ -137,7 +137,7 @@ public class ReviewService {
             allRevs = reviewDAO.findAllByUserId(userId);
         }
         catch(Exception e){
-            throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
+            throw new IllegalArgumentException("Something went wrong when trying to receive all of a user's Reviews.");
         }
         List<OutgoingReviewDTO> allRevDTO = new ArrayList<OutgoingReviewDTO>();
         for (Review rev : allRevs) {
@@ -172,9 +172,12 @@ public class ReviewService {
         List<Review> allRevs;
         try {
             allRevs = reviewDAO.findAll();
+//            allRevs = reviewDAO.findAllWithScores();
+//            allRevs.addAll(reviewDAO.findAllWithReplies());
+
         }
         catch(Exception e){
-            throw new IllegalArgumentException("Something went wrong when trying to receive a user's Reviews.");
+            throw new IllegalArgumentException("Something went wrong when trying to receive all Reviews.");
         }
         List<OutgoingReviewDTO> allRevDTO = new ArrayList<>();
         for (Review rev : allRevs) {

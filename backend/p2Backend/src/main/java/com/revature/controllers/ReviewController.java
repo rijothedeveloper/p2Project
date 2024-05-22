@@ -54,7 +54,6 @@ public class ReviewController {
     //This method will return a List of all outbound review DTOs
     @GetMapping()
     public ResponseEntity<?> getAllReviews() {
-
         try {
             return ResponseEntity.ok(reviewService.getAllReviews());
         } catch (Exception e) {

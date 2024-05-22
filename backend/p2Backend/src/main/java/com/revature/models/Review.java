@@ -6,6 +6,7 @@ import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -38,13 +39,13 @@ public class Review {
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(mappedBy = "id.review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Score> scores;
+    @OneToMany(mappedBy = "id.review", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Score> scores;
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(mappedBy = "review", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Reply> replies; 
+    @OneToMany(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Reply> replies;
   
     @Column(nullable = false)
     @CurrentTimestamp
@@ -53,7 +54,7 @@ public class Review {
     public Review() {
     }
 
-    public Review(int id, String title, String body, User user, Item item, double rating, int score, List<Score> scores, String timestamp, List<Reply> replies) {
+    public Review(int id, String title, String body, User user, Item item, double rating, int score, Set<Score> scores, String timestamp, Set<Reply> replies) {
         this.id = id;
         this.title = title;
         this.body = body;
@@ -132,19 +133,19 @@ public class Review {
         this.score = score;
     }
 
-    public void setScores(List<Score> scores) {
+    public void setScores(Set<Score> scores) {
         this.scores = scores;
     }
 
-    public List<Reply> getReplies() {
+    public Set<Reply> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<Reply> replies) {
+    public void setReplies(Set<Reply> replies) {
         this.replies = replies;
     }
 
-    public List<Score> getScores() {
+    public Set<Score> getScores() {
         return scores;
     }
 

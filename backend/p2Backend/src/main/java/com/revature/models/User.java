@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -42,29 +43,29 @@ public class User implements UserDetails {
     private String timestamp;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.followingUser", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Follow> follow;
+    @OneToMany(mappedBy = "id.followingUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Follow> follow;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<com.revature.models.Collection> collection;
+    @OneToMany(mappedBy = "id.user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<com.revature.models.Collection> collection;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Review> reviews;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Score> scores;
+    @OneToMany(mappedBy = "id.user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Score> scores;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Reply> replies;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Reply> replies;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection) {
+    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, Set<Follow> follow, Set<Collection> collection) {
         Id = id;
         this.username = username;
         this.password = password;
@@ -77,7 +78,7 @@ public class User implements UserDetails {
         this.collection = collection;
     }
 
-    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, List<Follow> follow, List<Collection> collection, List<Review> reviews, List<Score> scores, List<Reply> replies) {
+    public User(int id, String username, String password, String firstName, String role, String lastName, String email, String timestamp, Set<Follow> follow, Set<Collection> collection, Set<Review> reviews, Set<Score> scores, Set<Reply> replies) {
         Id = id;
         this.username = username;
         this.password = password;
@@ -168,43 +169,43 @@ public class User implements UserDetails {
         this.timestamp = timestamp;
     }
 
-    public List<Follow> getFollow() {
+    public Set<Follow> getFollow() {
         return follow;
     }
 
-    public void setFollow(List<Follow> follow) {
+    public void setFollow(Set<Follow> follow) {
         this.follow = follow;
     }
 
-    public List<Collection> getCollection() {
+    public Set<Collection> getCollection() {
         return collection;
     }
 
-    public void setCollection(List<Collection> collection) {
+    public void setCollection(Set<Collection> collection) {
         this.collection = collection;
     }
 
-    public List<Review> getReviews() {
+    public Set<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
 
-    public List<Score> getScores() {
+    public Set<Score> getScores() {
         return scores;
     }
 
-    public void setScores(List<Score> scores) {
+    public void setScores(Set<Score> scores) {
         this.scores = scores;
     }
 
-    public List<Reply> getReplies() {
+    public Set<Reply> getReplies() {
         return replies;
     }
 
-    public void setReplies(List<Reply> replies) {
+    public void setReplies(Set<Reply> replies) {
         this.replies = replies;
     }
 
