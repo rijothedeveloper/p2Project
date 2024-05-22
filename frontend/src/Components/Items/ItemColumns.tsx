@@ -7,6 +7,7 @@ import { addItemToCollection, getCollectionItem, removeItemFromCollection } from
 import { useNavigate } from "react-router-dom"
 import { CreateReviewModal } from "../Review/CreateReviewModal"
 import { BsStarFill } from "react-icons/bs"
+import { DisplayPartialStars } from "../Review/DisplayPartialStars"
 
 export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
@@ -52,6 +53,13 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
             return response.status;
         }
     };
+    // function to determine color of rating
+    const ratingColor = (rating: number) => {
+        if(rating as number >= 4) return "text-success";
+        if(rating as number >= 3) return "text-primary";
+        if(rating as number >= 2) return "text-warning"
+        return "text-danger"
+    }
 
     useEffect(() => {
         const checkCollection = async () => {
@@ -76,16 +84,27 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                 <Card.Img className="rounded-0" variant="top" src={item.image} alt={item.name}/>
                             </Container>
                             <Card.Body>
-                                <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
-                                <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
-                                <Card.Text>
-                                    {truncateText(item.description, 50)}
-                                </Card.Text>
-                                <Card.Text>
-                                    <div className="d-flex align-items-center">
-                                        {item.rating} <BsStarFill className="text-warning ms-2"/>'s
+                                <div className="d-flex flex-column h-100">
+                                    <Card.Subtitle className="text-secondary">{item.producer?.name}</Card.Subtitle>
+                                    <Card.Title className="fs-5">{capitalize(item.name)}</Card.Title>
+                                    <Card.Text>
+                                        {truncateText(item.description, 50)}
+                                    </Card.Text>
+                                    <div className="flex-fill">
+                                        <div className="d-flex h-100 align-items-end">
+                                            <div className="flex-fill">
+                                                <Row className="g-0">
+                                                    <Col md={4}>
+                                                        <DisplayPartialStars rating={item.rating as number}/>
+                                                    </Col>
+                                                    <Col className="ms-2">
+                                                        <span id="rating" className={ratingColor(item.rating as number)}>{`(${item.rating})`}</span>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </div>
                                     </div>
-                                </Card.Text>
+                                </div>
                             </Card.Body>
                             <Card.Footer>
                                 {inCollection[item.id as number] ? (
