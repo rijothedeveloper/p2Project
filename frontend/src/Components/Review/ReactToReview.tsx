@@ -4,10 +4,12 @@ import { BsHandThumbsDown, BsHandThumbsDownFill, BsHandThumbsUp, BsHandThumbsUpF
 import { UserContext } from "../../Contexts/UserContext";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
 import { deleteVote, getUserVote, newVote, updateVote } from "../../FrontendAPI/api";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     const { currentUser } = useContext(UserContext);
+    const { addToast } = useToast();
     const [userVoteSignal, setUserVoteSignal] = useState<number>(0);
     const [votes, setVotes] = useState<number>(review.score || 0);
 
@@ -18,9 +20,11 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
                     const response = await getUserVote(currentUser.jwt, review.id);
                     if (!response.status) {
                         console.error(response.message);
+                        // addToast(response.message, false, new Date());
                         //alert(response.message);
                     } else {
                         console.log(response.message);
+                        // addToast(response.message, true, new Date());
                         setUserVoteSignal(response.data);
                     }
                 }
@@ -51,8 +55,10 @@ export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface)
 
         if (!response.status) {
             console.error(response.message);
+            addToast(response.message, true, new Date());
             //alert(response.message);
         } else {
+            addToast(response.message, false, new Date());
             console.log(response.message);
         }
     };

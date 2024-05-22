@@ -8,11 +8,13 @@ import { ReplyInterface } from "../../Interfaces/ReplyInterface"
 import { NewReply} from "../Reply/NewReply"
 import { ReactToReview } from "./ReactToReview"
 import { DeleteReview } from "./DeleteReview"
+import { useToast } from "../../Contexts/ToastContext"
 
 export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     // Moved to top to load currentUser ASAP - NEIL
     const { currentUser } = useContext(UserContext)
+    const { addToast } = useToast();
 
     const [thisReview, setThisReview] = useState<ReviewInterface>(review)
     const [replies, setReplies] = useState<ReplyInterface[]>([])
@@ -22,7 +24,8 @@ export const ReviewModal: React.FC<ReviewInterface> = (review:ReviewInterface) =
         const response = await getAllRepliesByReview(currentUser?.jwt as string,review.id as number);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            // alert(response.message);
+            addToast(response.message, true, new Date());
         } else {
             console.log(response.message);
             setReplies(response.data);

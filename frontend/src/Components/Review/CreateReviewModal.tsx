@@ -7,6 +7,7 @@ import { Button, FloatingLabel, Form, InputGroup, Modal } from "react-bootstrap"
 import StarRating from "./StarRating";
 import StarRatingForReview from "./StarRatingForReview";
 import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
+import { useToast } from "../../Contexts/ToastContext";
 
 
 
@@ -28,6 +29,8 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
     const [isSubmitted, setIsSubmitted] = useState(false)
     const {currentUser} = useContext(UserContext)
     const jwt = currentUser ? currentUser.jwt : null
+
+    const { addToast } = useToast();
     
     //if Modal button has not been pressed it will not show
     if(!isOpen) return null;
@@ -45,9 +48,11 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
         const authHeader = buildAuthHeader(jwt as string);
         const response = await axios.post(url, review, {headers: authHeader})    
         .then((response: AxiosResponse) => {
+            addToast("Succussfully submitted review!", false, new Date());
             return response.data;
         })
         .catch((error: AxiosError) => {
+            addToast("Failed to submit review!", true, new Date());
             console.log(`ERROR IN UPDATE ITEM: ${error}`)
         });
 

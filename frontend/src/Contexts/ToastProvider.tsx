@@ -22,7 +22,7 @@ export const ToastProvider: React.FC<{children: ReactNode}> = ({children}) => {
             <div aria-live="polite" aria-atomic="true" className="position-relative">
                 <ToastContainer position="bottom-end" className="p-3">
                     {toasts.map((toast) => {
-                        const toastStyle = toast.error ? "text-bg-danger": "text-bg-success";
+                        const toastStyle = toast.error ? "bg-danger bg-opacity-50": "text-bg-success bg-opacity-50";
                         const toastHeader = toast.error ? "Failed!": "Success!";
                         const localTime = toast.time.toLocaleTimeString("en-US", {
                             hour: "2-digit",
@@ -34,7 +34,7 @@ export const ToastProvider: React.FC<{children: ReactNode}> = ({children}) => {
                                 key={toast.id}
                                 className={toastStyle}
                                 onClose={() => removeToast(toast.id)}
-                                delay={30000}
+                                delay={20000}
                                 autohide
                             >
                                 <Toast.Header>

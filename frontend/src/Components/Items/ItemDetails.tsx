@@ -10,12 +10,13 @@ import { capitalize } from "../../Utils/StringUtils";
 import { addReply } from "../../FrontendAPI/api";
 import { ReactToReview } from "../Review/ReactToReview";
 import { DisplayStars } from "../Review/DisplayStars";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const ItemDetails: React.FC = () => {
 
     const { itemId } = useParams<{itemId: string}>();
     const { currentUser } = useContext(UserContext);
-
+    const { addToast } = useToast();
     const [item, setItem] = useState<ItemInterface>();
     const [reviews, setReviews] = useState< ReviewInterface[]>([]);
     const [replies, setReplies] = useState<{[key: number]: ReplyInterface[]}>({});
@@ -117,6 +118,11 @@ export const ItemDetails: React.FC = () => {
             // console.log(`REPLY TO ADD: ${JSON.stringify(replyToAdd)}`)
             // Add reply to the database
             const response = await addReply(currentUser?.jwt as string, replyToAdd);
+            if (!response.status) {
+                addToast(response.message, true, new Date());
+            } else {
+                addToast(response.message, false, new Date());
+            }
         
             // add new reply to teh replies of its review
             const updatedReplies = replies

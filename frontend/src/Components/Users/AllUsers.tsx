@@ -6,10 +6,12 @@ import { getAllUsers, suspendUserByUsername } from '../../FrontendAPI/api';
 import { UserContext } from '../../Contexts/UserContext';
 import { Button, Table } from 'react-bootstrap';
 import { ObjectsByName } from '../GeneralUse/ObjectsByName';
+import { useToast } from '../../Contexts/ToastContext';
 
 export const AllUsers: React.FC = () => {
     const navigate = useNavigate();
     const { currentUser } = useContext(UserContext);
+    const { addToast } = useToast();
     const [users, setUsers] = useState<UserInterface[]>([]);
     const [nameFilter, setNameFilter] = useState<string>("");
     const [filteredUsers, setFilteredUsers] = useState<UserInterface[]>([]);
@@ -36,7 +38,7 @@ export const AllUsers: React.FC = () => {
         const response = await getAllUsers(currentUser?.jwt as string);
         if (typeof response === "string") {
             console.error(response);
-            setUsers([]);
+            addToast(response, true, new Date());
         } else {
             console.log(response);
             setUsers(response);
@@ -46,11 +48,13 @@ export const AllUsers: React.FC = () => {
         const response = await suspendUserByUsername(currentUser?.jwt as string, username);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            // alert(response.message);
+            addToast(response.message, true, new Date());
         } else {
             console.log(response.message);
-            alert(response.message);
+            // alert(response.message);
             getUsers();
+            addToast(response.message, false, new Date());
         }
     }
 

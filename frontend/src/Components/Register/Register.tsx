@@ -5,11 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap"
 import { register } from "../../FrontendAPI/api";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { useToast } from "../../Contexts/ToastContext";
 
 
 export const Register: React.FC = () => {
 
     const navigate = useNavigate()
+    const { addToast } = useToast();
 
     const[UserInterface, setUser] = useState<UserInterface>({
         firstName:"",
@@ -34,8 +36,10 @@ export const Register: React.FC = () => {
     const signup_request = async () => {
         const response = await register(UserInterface);
         if (typeof response === 'string') {
-          alert(response);
+          // alert(response);
+          addToast(response, true, new Date());
         } else {
+          addToast("Successfully registered!", false, new Date());
           navigate("/");
         }
     }

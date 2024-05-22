@@ -6,12 +6,14 @@ import { findUserByUsername, getUserReviews } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
 import { ReviewModal } from "../Review/ReviewModal";
 import { ReviewInterface } from "../../Interfaces/ReviewInterface";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const UserDetails: React.FC = () => {
 
     const { username } = useParams<{ username: string}>();
     const { currentUser } = useContext(UserContext);
     const nav = useNavigate();
+    const { addToast } = useToast();
 
     const [user, setUser] = useState<UserInterface>({
         username: "",
@@ -33,9 +35,9 @@ export const UserDetails: React.FC = () => {
                     if (Array.isArray(response)) {
                         setReviews(response);
                     }
-                }).catch((error) => {console.log(error.message)});
+                }).catch((error) => {console.log(error.message); addToast(error.message, true, new Date())});
             }
-        }).catch((error) => {console.log(error.message)});
+        }).catch((error) => {console.log(error.message); addToast(error.message, true, new Date())});
     }, []);
 
     return (

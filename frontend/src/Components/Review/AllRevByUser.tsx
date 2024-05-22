@@ -5,6 +5,7 @@ import axios from "axios";
 import { Table } from "react-bootstrap";
 import { UserContext } from "../../Contexts/UserContext";
 import { getUserReviews } from "../../FrontendAPI/api";
+import { useToast } from "../../Contexts/ToastContext";
 
 
 export const AllRevByUser: React.FC = () => {
@@ -14,6 +15,7 @@ export const AllRevByUser: React.FC = () => {
 
     const[revsByUser, setRevsByUser] = useState<ReviewInterface[]>([])
     const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { addToast } = useToast();
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -23,6 +25,7 @@ export const AllRevByUser: React.FC = () => {
         const response = await getUserReviews(currentUser?.jwt as string, userIdNumber);
         if (typeof response === "string") {
             console.error(response);
+            addToast(response, true, new Date());
             setRevsByUser([]);
         } else {
             setRevsByUser(response);

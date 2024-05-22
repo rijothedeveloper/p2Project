@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { deleteUserByID } from "../../FrontendAPI/api";
 import { UserContext } from "../../Contexts/UserContext";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const DeleteMyAccount: React.FC = () => {
 
     const navigate = useNavigate();
     const { currentUser, setCurrentUser } = useContext(UserContext)
+    const { addToast } = useToast();
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -17,6 +19,7 @@ export const DeleteMyAccount: React.FC = () => {
         const response = await deleteUserByID(currentUser?.jwt as string,currentUser?.id as number);
         if (!response.status) {
             console.error(response.message);
+            addToast(response.message, true, new Date());
         } else {
             setShow(false);
             console.log(response.message);

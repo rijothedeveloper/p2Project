@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom"
 import { CreateReviewModal } from "../Review/CreateReviewModal"
 import { BsStarFill } from "react-icons/bs"
 import { DisplayPartialStars } from "../Review/DisplayPartialStars"
+import { useToast } from "../../Contexts/ToastContext"
 
 export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
 
     const { currentUser } = useContext(UserContext);
+    const { addToast } = useToast();
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -21,9 +23,11 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
         const response = await addItemToCollection(currentUser?.jwt as string, item);
         if (!response.status) {
             console.error(response.message);
+            addToast(response.message, true, new Date());
             //alert(response.message);
         } else {
             console.log(response.message);
+            addToast(response.message, false, new Date());
             //alert(response.message);
         }
     };
@@ -37,9 +41,11 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
         const response = await removeItemFromCollection(currentUser?.jwt as string, itemId);
         if (!response.status) {
             console.error(response.message);
+            addToast(response.message, true, new Date());
             //alert(response.message);
         } else {
             console.log(response.message);
+            addToast(response.message, false, new Date());
             //alert(response.message);
         }
     };

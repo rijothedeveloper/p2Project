@@ -4,11 +4,13 @@ import { FloatingLabel, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { addItem } from "../../FrontendAPI/api";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const AddItem: React.FC = () => {
 
     const navigate = useNavigate()
     const { currentUser } = useContext(UserContext)
+    const { addToast } = useToast();
     const[item, setItem] = useState<ItemInterface>({
         // Set the default values of the input fields
         name:"",
@@ -29,7 +31,11 @@ export const AddItem: React.FC = () => {
     const createItem = async () => {
         // Add item to the database
         const response = await addItem(currentUser?.jwt as string, item);
-        alert(response);
+        if (!response.status) {
+          addToast(response.message, true, new Date());
+        } else {
+          addToast(response.message, true, new Date());
+        }
     };
 
     return (

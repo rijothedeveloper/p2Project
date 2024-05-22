@@ -4,10 +4,12 @@ import { ReviewInterface } from "../../Interfaces/ReviewInterface"
 import { UserContext } from "../../Contexts/UserContext";
 import { deleteReviewByID, getAllReviews } from "../../FrontendAPI/api";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const ReviewManagement: React.FC = () => {
 
     const { currentUser } = useContext(UserContext);
+    const { addToast } = useToast();
     const navigate = useNavigate();
 
     const [reviews, setReviews] = useState<ReviewInterface[]>([]);
@@ -16,7 +18,8 @@ export const ReviewManagement: React.FC = () => {
         const response = await getAllReviews(currentUser?.jwt as string);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            // alert(response.message);
+            addToast(response.message, true, new Date());
         } else {
             console.log(response.message);
             setReviews(response.data);
@@ -26,11 +29,13 @@ export const ReviewManagement: React.FC = () => {
         const response = await deleteReviewByID(currentUser?.jwt as string, reviewId);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            // alert(response.message);
+            addToast(response.message, true, new Date());
         } else {
             console.log(response.message);
-            alert(response.message);
+            // alert(response.message);
             setReviews(reviews.filter(review => review.id !== reviewId));
+            addToast(response.message, false, new Date());
         }
     };
 

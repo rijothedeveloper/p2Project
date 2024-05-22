@@ -6,10 +6,12 @@ import { getAllItems } from "../../FrontendAPI/api";
 import { ItemsByCategory } from "./ItemsByCategory";
 import { ItemColumns } from "./ItemColumns";
 import { ObjectsByName } from "../GeneralUse/ObjectsByName";
+import { useToast } from "../../Contexts/ToastContext";
 
 export const AllItems: React.FC = () => {
 
     const { currentUser } = useContext(UserContext);
+    const { addToast } = useToast();
 
     const [category, setCategory] = useState("");
     // const [categoryItems, setCategoryItems] = useState<ItemInterface[]>([]);
@@ -24,11 +26,12 @@ export const AllItems: React.FC = () => {
     const fetchItems = async () => {
         const response = await getAllItems(currentUser?.jwt as string);
         if (!response.status) {
+            addToast(response.message, true, new Date());
             console.error(response.message);
-            setItems(response.data);
         } else {
             console.log(response.message);
             setItems(response.data);
+            addToast(response.message, false, new Date());
         }
     };
     // Handle switch change
