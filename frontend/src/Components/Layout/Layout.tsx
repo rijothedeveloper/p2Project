@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap"
+import { Container, ToastContainer } from "react-bootstrap"
 import { NavbarComp } from "../NavbarComp/NavbarComp"
 import { Outlet } from "react-router-dom"
 
@@ -12,6 +12,11 @@ export const Layout: React.FC<any> = () => {
                     <Outlet />
                 </Container>
             </Container>
+            <div aria-live="polite" aria-atomic="true" className="position-relative">
+                <ToastContainer position="bottom-end" className="p-3">
+
+                </ToastContainer>
+            </div>
         </>
-    )
-}
+    );
+};
