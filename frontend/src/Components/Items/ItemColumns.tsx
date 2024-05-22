@@ -21,10 +21,10 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
         const response = await addItemToCollection(currentUser?.jwt as string, item);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
         } else {
             console.log(response.message);
-            alert(response.message);
+            //alert(response.message);
         }
     };
     const openModal = () => {
@@ -37,10 +37,10 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
         const response = await removeItemFromCollection(currentUser?.jwt as string, itemId);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
         } else {
             console.log(response.message);
-            alert(response.message);
+            //alert(response.message);
         }
     };
     const checkUserCollection = async (itemId: number) => {
