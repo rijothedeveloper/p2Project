@@ -34,7 +34,7 @@ export const AddItem: React.FC = () => {
         if (!response.status) {
           addToast(response.message, true, new Date());
         } else {
-          addToast(response.message, true, new Date());
+          addToast(response.message, false, new Date());
         }
     };
 
