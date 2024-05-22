@@ -345,12 +345,12 @@ const CollectionItem: React.FC<{
                 </Card>
             </Modal.Body>
             <Modal.Footer>
-                <Button
+                {/* <Button
                     variant="outline-danger"
                     size="sm"    
                     onClick = { handleDeleteItemButtonClick }
                     hidden = { userRole == "user" }
-                >Delete</Button>
+                >Delete</Button> */}
                 <Button size="sm" variant="outline-secondary" onClick={handleItemDetailsModalClose}
                 > Close</Button>
             </Modal.Footer>
