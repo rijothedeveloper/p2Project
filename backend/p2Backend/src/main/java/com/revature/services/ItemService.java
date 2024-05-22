@@ -97,8 +97,8 @@ public class ItemService {
         itemToBeSaved.setName(item.getName());
         itemToBeSaved.setDescription(item.getDescription());
         itemToBeSaved.setCategory(item.getCategory());
-        itemToBeSaved.setRating(item.getRating());
-        itemToBeSaved.setImage(item.getImage());
+        //itemToBeSaved.setRating(item.getRating());
+        //itemToBeSaved.setImage(item.getImage());
 
         itemDAO.save(itemToBeSaved);
         return itemToBeSaved;
