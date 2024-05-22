@@ -23,7 +23,7 @@ const ReviewList: React.FC<{
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
-    console.log(`REVIEWS: ${JSON.stringify(reviews)}`)
+    // console.log(`REVIEWS: ${JSON.stringify(reviews)}`)
 
     return currentUser
     ?  (

@@ -14,7 +14,7 @@ const StarRating:React.FC<{
   handleRatingChange: (rating: number) => void
 }> = ({review, handleRatingChange}) => {
 
-  console.log(`INCOMING REVIEW IN STA: ${JSON.stringify(review)}`)
+  // console.log(`INCOMING REVIEW IN STA: ${JSON.stringify(review)}`)
   const [rating, setRating] = useState(review.rating as number);
   const [hover, setHover] = useState(0);
 

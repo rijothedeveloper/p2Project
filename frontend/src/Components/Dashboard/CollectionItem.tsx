@@ -146,7 +146,10 @@ const CollectionItem: React.FC<{
         setShowAddReviewModal(true)
     }
 
-    const handleAddReviewModalClose = () => {
+    const handleAddReviewModalClose = (review: ReviewInterface) => {
+        // console.log(`REVIEW ADDED ${JSON.stringify(review)}`)
+        // update reviews array
+        reviews.push(review)
         setShowAddReviewModal(false)
     }
 
@@ -356,7 +359,9 @@ const CollectionItem: React.FC<{
             </Modal.Footer>
         </Modal>
 
-        {/* modal to add review */}
+
+
+        {/*** ADD REVIEW MODAL *******************************************************************/}
         <CreateReviewModal
             isOpen={showAddReviewModal}
             onClose={handleAddReviewModalClose}
