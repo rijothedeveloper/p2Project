@@ -30,7 +30,7 @@ export const ItemDetails: React.FC = () => {
         const response = await getItemById(currentUser?.jwt as string, Number.parseInt(itemId as string));
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
         } else {
             console.log(response.message);
             setItem(response.data);
@@ -41,7 +41,7 @@ export const ItemDetails: React.FC = () => {
         const response = await getItemReviews(currentUser?.jwt as string, Number.parseInt(itemId as string));
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
         } else {
             console.log(response.message);
             setReviews(response.data);
@@ -52,7 +52,7 @@ export const ItemDetails: React.FC = () => {
         const response = await getAllRepliesByReview(currentUser?.jwt as string, reviewId);
         if (!response.status) {
             console.error(response.message);
-            alert(response.message);
+            //alert(response.message);
             return [];
         } else {
             console.log(response.message);
