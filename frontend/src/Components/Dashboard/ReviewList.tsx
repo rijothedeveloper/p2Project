@@ -23,7 +23,7 @@ const ReviewList: React.FC<{
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
-    console.log(`REVIEWS: ${JSON.stringify(reviews)}`)
+    // console.log(`REVIEWS: ${JSON.stringify(reviews)}`)
 
     return currentUser
     ?  (
@@ -34,11 +34,10 @@ const ReviewList: React.FC<{
                 {reviews && reviews
                     // filter items based on nameFilter
                     .map(itemReview => {
-                    {console.log(`ITEM REVIEW ID: ${JSON.stringify(itemReview.id)}`)}
+                    // {console.log(`ITEM REVIEW ID: ${JSON.stringify(itemReview.id)}`)}
                     return (
-                        <Col>
+                        <Col key = {itemReview.id as number}>
                             <Review 
-                                key = {itemReview.id as number}
                                 itemReview = { itemReview } 
                                 handleEditReview = { handleEditReview }
                                 handleDeleteReview={handleDeleteReview}

@@ -146,7 +146,10 @@ const CollectionItem: React.FC<{
         setShowAddReviewModal(true)
     }
 
-    const handleAddReviewModalClose = () => {
+    const handleAddReviewModalClose = (review: ReviewInterface) => {
+        // console.log(`REVIEW ADDED ${JSON.stringify(review)}`)
+        // update reviews array
+        reviews.push(review)
         setShowAddReviewModal(false)
     }
 
@@ -345,18 +348,20 @@ const CollectionItem: React.FC<{
                 </Card>
             </Modal.Body>
             <Modal.Footer>
-                <Button
+                {/* <Button
                     variant="outline-danger"
                     size="sm"    
                     onClick = { handleDeleteItemButtonClick }
                     hidden = { userRole == "user" }
-                >Delete</Button>
+                >Delete</Button> */}
                 <Button size="sm" variant="outline-secondary" onClick={handleItemDetailsModalClose}
                 > Close</Button>
             </Modal.Footer>
         </Modal>
 
-        {/* modal to add review */}
+
+
+        {/*** ADD REVIEW MODAL *******************************************************************/}
         <CreateReviewModal
             isOpen={showAddReviewModal}
             onClose={handleAddReviewModalClose}

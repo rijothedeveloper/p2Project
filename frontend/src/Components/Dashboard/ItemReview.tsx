@@ -125,7 +125,8 @@ const ItemReview: React.FC<{
     return itemReview
     ? (
         <>
-        {/*** SHOW REVIEW *************************************************************/}
+
+        {/*** SHOW REVIEW *************************************************************/}        
         <Card className="h-100">
             <Card.Header>
                 <div>

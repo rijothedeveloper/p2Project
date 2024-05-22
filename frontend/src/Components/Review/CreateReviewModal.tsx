@@ -12,7 +12,7 @@ import { apiURL, buildAuthHeader } from "../../FrontendAPI/api"
 
 interface ReviewModalProps {
     isOpen: boolean
-    onClose: () => void
+    onClose: (review:ReviewInterface) => void
     itemIdToPass: number
     children?: React.ReactNode
 }
@@ -73,7 +73,7 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
 
 
    return (
-        <Modal show={isOpen} onHide={onClose}>
+        <Modal show={isOpen} onHide={() => onClose(review)}>
             <Modal.Header closeButton>
                 <Modal.Title>Review</Modal.Title>
             </Modal.Header>
@@ -108,7 +108,7 @@ export const CreateReviewModal: React.FC<ReviewModalProps> = ({isOpen, onClose, 
                         <Modal.Footer>
                             <div className="d-flex flex-row ms-3">
                                 <button className="btn btn-primary" onClick={submitReview}>Create</button>
-                                <button className="btn btn-secondary ms-2" onClick={onClose}>Close</button>
+                                <button className="btn btn-secondary ms-2" onClick={() => onClose(review)}>Close</button>
                             </div>
                         </Modal.Footer>
         </Modal>
