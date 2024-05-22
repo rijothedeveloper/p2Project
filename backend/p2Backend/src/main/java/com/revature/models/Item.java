@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -38,18 +39,18 @@ public class Item {
 
     // added to prevent looping while reviewing item
     @JsonIgnore
-    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Review> reviews;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "id.item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Collection> collections;
+    @OneToMany(mappedBy = "id.item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Collection> collections;
 
     public Item() {
     }
 
 
-    public Item(String name, Producer producer, String description, String category, String image,  List<Review> reviews, List<Collection> collections) {
+    public Item(String name, Producer producer, String description, String category, String image,  Set<Review> reviews, Set<Collection> collections) {
         this.name = name;
         this.producer = producer;
         this.rating = 0;
@@ -125,13 +126,13 @@ public class Item {
         this.producer = producer;
     }
 
-    public List<Review> getReviews() { return reviews; }
+    public Set<Review> getReviews() { return reviews; }
 
-    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+    public void setReviews(Set<Review> reviews) { this.reviews = reviews; }
 
-    public List<Collection> getCollections() { return collections; }
+    public Set<Collection> getCollections() { return collections; }
 
-    public void setCollections(List<Collection> collections) { this.collections = collections; }
+    public void setCollections(Set<Collection> collections) { this.collections = collections; }
 
     @Override
     public String toString() {
