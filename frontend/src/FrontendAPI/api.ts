@@ -138,7 +138,10 @@ const updateItemEndpoint = itemControllerEndpoint;
  * @param token - JWT token
  * @param item - the item to add to the collection
  */
-export const addItem = async (token: string, item: ItemInterface): Promise<string> => {
+export const addItem = async (token: string, item: ItemInterface): Promise<{
+    status: boolean,
+    message: string
+}> => {
     const url = apiURL(addItemEndpoint);
     const authHeader = buildAuthHeader(token);
     try {
@@ -146,9 +149,15 @@ export const addItem = async (token: string, item: ItemInterface): Promise<strin
         if (response.status !== 201) {
             throw new Error(response.data);
         }
-        return "Item added successfully!";
+        return Object.assign({}, {
+            status: true,
+            message: "Item added successfully!"
+        });
     } catch (error: any) {
-        return error.message;
+        return Object.assign({}, {
+            status: true,
+            message: error.message
+        });
     }
 };
 
@@ -332,18 +341,32 @@ export const getAllRepliesByReview = async (token: string, reviewId: number) : P
  * @param reply - the reply to add
  * @returns the reply that was added
  */
-export const addReply = async (token: string, reply: ReplyInterface) => {
+export const addReply = async (token: string, reply: ReplyInterface): Promise<{
+    status: boolean,
+    message: string,
+    data: ReplyInterface
+}> => {
     console.log(`REPLY TO ADD: ${JSON.stringify(reply)}`)
     const url = apiURL(addReplyEndpoint);
     console.log(`URL TO ADD REPLY: ${url}`)
     const authHeader = buildAuthHeader(token);
-    const response = await axios.post(url, reply, {headers: authHeader})
-    .then((response: AxiosResponse) => {
-        return response.data;
-    })
-    .catch((error: AxiosError) => {
-        // Handle error response
-    });
+    try {
+        const response = await axios.post(url, reply, {headers: authHeader});
+        if (response.status !== 201) {
+            throw new Error(response.data);
+        }
+        return Object.assign({}, {
+            status: true,
+            message: "Successfully added a reply",
+            data: response.data
+        });
+    } catch (error: any) {
+        return Object.assign({}, {
+            status: false,
+            message: error.message,
+            data: {}
+        });
+    }
 };
 
 /*------------------------------
