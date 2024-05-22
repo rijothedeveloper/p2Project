@@ -177,7 +177,7 @@ public class ReviewService {
 
         }
         catch(Exception e){
-            throw new IllegalArgumentException("Something went wrong when trying to receive all Reviews." + e.getMessage());
+            throw new IllegalArgumentException("Something went wrong when trying to receive all Reviews.");
         }
         List<OutgoingReviewDTO> allRevDTO = new ArrayList<>();
         for (Review rev : allRevs) {
