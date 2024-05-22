@@ -20,9 +20,9 @@ export const ToastProvider: React.FC<{children: ReactNode}> = ({children}) => {
         <ToastContext.Provider value={{ addToast, removeToast }}>
             {children}
             <div aria-live="polite" aria-atomic="true" className="position-relative">
-                <ToastContainer position="bottom-end" className="p-3">
+                <ToastContainer position="bottom-end" className="position-fixed p-3">
                     {toasts.map((toast) => {
-                        const toastStyle = toast.error ? "bg-danger bg-opacity-50": "text-bg-success bg-opacity-50";
+                        const toastStyle = toast.error ? "bg-danger bg-opacity-75": "text-bg-success bg-opacity-75";
                         const toastHeader = toast.error ? "Failed!": "Success!";
                         const localTime = toast.time.toLocaleTimeString("en-US", {
                             hour: "2-digit",
