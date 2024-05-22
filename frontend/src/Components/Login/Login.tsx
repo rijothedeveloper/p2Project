@@ -5,6 +5,7 @@ import { UserContext } from "../../Contexts/UserContext";
 import { login } from "../../FrontendAPI/api";
 import { Button, FloatingLabel, Form, InputGroup } from "react-bootstrap";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { useToast } from "../../Contexts/ToastContext";
 
 
 export const Login: React.FC = () => {
@@ -13,6 +14,7 @@ export const Login: React.FC = () => {
     const navigate = useNavigate()
 
     const { setCurrentUser } = useContext(UserContext)
+    const { addToast } = useToast();
 
     const[UserInterface, setUser] = useState<UserInterface>({
         username:"",
@@ -33,9 +35,11 @@ export const Login: React.FC = () => {
     const login_request = async () => {
         const response = await login(UserInterface);
         if (typeof response === "string") {
-          alert(response);
+          addToast(response, true, new Date());
+          // alert(response);
         } else {
-          alert("Welcome!");
+          addToast(`Welcome, ${response.username}`, false, new Date());
+          // alert("Welcome!");
           console.log(`LOGIN RESPONSE`)
           console.log(JSON.stringify(response));
           setCurrentUser(response);
