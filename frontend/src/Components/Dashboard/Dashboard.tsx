@@ -26,6 +26,7 @@ export const Dashboard: React.FC = () => {
       const [ collection, setCollection ] = React.useState([] as ItemInterface[])
       // get reviews by user
       const [ reviews, setReviews ] = React.useState([] as ReviewInterface[])
+      const [ newItemAdded, setNewItemAdded ] = React.useState(false)
 
     // CURRENT USER
     // get current user from UserContext
@@ -61,6 +62,11 @@ export const Dashboard: React.FC = () => {
 
 
     // ITEM RELATED FUNCTIONS /////////////////////////////////////////////////
+
+    // ADD ITEM
+    const handleItemAdded = () => {
+        setNewItemAdded(true)
+    }
    
     // UPDATE ITEM
     const handleUpdateItem = (item: ItemInterface) => { 
@@ -131,7 +137,6 @@ export const Dashboard: React.FC = () => {
 
 
     // REVIEW RELATED FUNCTIONS /////////////////////////////////////////////////
-
 
     // UPDATE REVIEW
     const handleEditReview = (review: ReviewInterface) => {
@@ -244,7 +249,7 @@ export const Dashboard: React.FC = () => {
         }
         getReviews()
 
-    }, [currentUser]);
+    }, [currentUser, newItemAdded]);
 
     return currentUser 
     ?  (
@@ -272,6 +277,7 @@ export const Dashboard: React.FC = () => {
                     handleEditReview={handleEditReview}
                     handleUpdateItem={handleUpdateItem}
                     handleDleteReview={handleDeleteReview}
+                    handleItemAdded={handleItemAdded}
                     />
                 : <ReviewList
                     reviews={reviews}

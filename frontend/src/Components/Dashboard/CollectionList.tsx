@@ -20,7 +20,8 @@ const Collection: React.FC<{
     handleEditReview: (review: ReviewInterface) => void
     handleUpdateItem: (item: ItemInterface) => void
     handleDleteReview: (review: ReviewInterface) => void
-}> = ({collection, handleDeleteItem, reviews, handleEditReview, handleUpdateItem, handleDleteReview}) => {
+    handleItemAdded: () => void
+}> = ({collection, handleDeleteItem, reviews, handleEditReview, handleUpdateItem, handleDleteReview, handleItemAdded}) => {
 
     const [ nameFilter, setNameFilter ] = React.useState("")
     const [ showAddItemModal, setShowAddItemModal ] = React.useState(false)
@@ -28,24 +29,32 @@ const Collection: React.FC<{
     const { currentUser } = React.useContext(UserContext)
     // console.log(`CURRENT USER: ${JSON.stringify(currentUser)}`)
 
-    // ADD ITEM FUNCTINOALITY
+
+    //*** ADD ITEM FUNCTINOALITY ****************************************************
     const handleAddItemButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setShowAddItemModal(true)
     }   
+    const handleAddItemModalClose = () => {
+        // let parent component know that an item has been added
+        handleItemAdded()
+        // close the modal
+        setShowAddItemModal(false)
+    }
+
    
+
     return currentUser
     ? (
         showAddItemModal
         ? (
             // *** ADD ITEM MODAL  ****************************************************
             <>
-            <Modal show={showAddItemModal} onHide={() => setShowAddItemModal(false)}>
+            <Modal show={showAddItemModal} onHide={handleAddItemModalClose}>
                 <Modal.Header closeButton>
                 </Modal.Header>
                 <Modal.Body>    
-
                     <AddItem />
-                    </Modal.Body>
+                </Modal.Body>
             </Modal>
 \        </>
         )
