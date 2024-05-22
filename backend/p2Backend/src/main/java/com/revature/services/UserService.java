@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -180,8 +181,8 @@ public class UserService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
         String formattedDateTime = now.format(formatter);
         user.setTimestamp(formattedDateTime);
-        user.setFollow(Collections.emptyList());
-        user.setCollection(Collections.emptyList());
+        user.setFollow(Collections.emptySet());
+        user.setCollection(Collections.emptySet());
 
         return user;
     }
@@ -235,11 +236,11 @@ public class UserService {
         Optional<User> user = userDAO.findById(userId);
         if(user.isPresent()){
             //get all reviews and collecitons for user
-            List<Review> reviews = user.get().getReviews();
-            List<Collection> collections = user.get().getCollection();
-            List<Score> scores = user.get().getScores();
-            List<Follow> follows = user.get().getFollow();
-            List<Reply> replies = user.get().getReplies();
+            Set<Review> reviews = user.get().getReviews();
+            Set<Collection> collections = user.get().getCollection();
+            Set<Score> scores = user.get().getScores();
+            Set<Follow> follows = user.get().getFollow();
+            Set<Reply> replies = user.get().getReplies();
 
             for (Review review : reviews) {
                 reviewDAO.delete(review);
