@@ -98,7 +98,7 @@ export const ItemColumns: React.FC<{items: ItemInterface[]}> = ({items}) => {
                                                         <DisplayPartialStars rating={item.rating as number}/>
                                                     </Col>
                                                     <Col className="ms-2">
-                                                        <span id="rating" className={ratingColor(item.rating as number)}>{`(${item.rating})`}</span>
+                                                        <span id="rating" className={ratingColor(item.rating as number)}>{`(${item.rating?.toFixed(1)})`}</span>
                                                     </Col>
                                                 </Row>
                                             </div>
