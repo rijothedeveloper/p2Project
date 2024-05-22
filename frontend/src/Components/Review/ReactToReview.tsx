@@ -1,53 +1,76 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { BsHandThumbsDown, BsHandThumbsDownFill, BsHandThumbsUp, BsHandThumbsUpFill } from "react-icons/bs";
 import { UserContext } from "../../Contexts/UserContext";
+import { ReviewInterface } from "../../Interfaces/ReviewInterface";
+import { deleteVote, getUserVote, newVote, updateVote } from "../../FrontendAPI/api";
+import { useToast } from "../../Contexts/ToastContext";
 
-export const ReactToReview: React.FC = () => {
+export const ReactToReview: React.FC<ReviewInterface> = (review:ReviewInterface) => {
 
     const { currentUser } = useContext(UserContext);
-
-    // TODO: get current logged in user vote signal for current review
-
+    const { addToast } = useToast();
     const [userVoteSignal, setUserVoteSignal] = useState<number>(0);
-    const [votes, setVotes] = useState(0);
+    const [votes, setVotes] = useState<number>(review.score || 0);
 
-    const handleUpvote = () => {
-        // handle changing user vote to neutral
-        if (userVoteSignal > 0) {
-            setVotes(votes - 1);
-            setUserVoteSignal(0);
-            return;
+    useEffect(() => {
+        if (currentUser) {
+            const fetchVote = async () => {
+                if (currentUser?.jwt && review.id) {
+                    const response = await getUserVote(currentUser.jwt, review.id);
+                    if (!response.status) {
+                        console.error(response.message);
+                        // addToast(response.message, false, new Date());
+                        //alert(response.message);
+                    } else {
+                        console.log(response.message);
+                        // addToast(response.message, true, new Date());
+                        setUserVoteSignal(response.data);
+                    }
+                }
+            }
+            fetchVote();
         }
-        // Handle changing user vote from downvote to upvote
-        if (userVoteSignal < 0) {
-            setVotes(votes + 1);
+    }, [currentUser, review.id]);
+
+    const handleVote = async (newSignal: number) => {
+        // reset vote to 0
+        if (newSignal === userVoteSignal) {
+            newSignal = 0;
         }
-        setVotes(votes + 1);
-        setUserVoteSignal(1);
-    };
-    const handleDownvote = () => {
-        // handle changing user vote to neutral
-        if (userVoteSignal < 0) {
-            setVotes(votes + 1);
-            setUserVoteSignal(0);
-            return;
+
+        // find vote difference
+        const voteChange = newSignal - userVoteSignal
+        setUserVoteSignal(newSignal);
+        setVotes(votes + voteChange);
+
+        let response;
+        if (newSignal === 0) {
+            response = await deleteVote(currentUser?.jwt as string, review.id as number);
+        } else if (userVoteSignal === 0) {
+            response = await newVote(currentUser?.jwt as string, review.id as number, newSignal);
+        } else {
+            response = await updateVote(currentUser?.jwt as string, review.id as number, newSignal);
         }
-        // handle changing user vote from upvote to downvote
-        if (userVoteSignal > 0) {
-            setVotes(votes - 1);
+
+        if (!response.status) {
+            console.error(response.message);
+            addToast(response.message, true, new Date());
+            //alert(response.message);
+        } else {
+            addToast(response.message, false, new Date());
+            console.log(response.message);
         }
-        setVotes(votes - 1);
-        setUserVoteSignal(-1)
     };
 
     return (
         <Container>
-            <h2>Rate Review</h2>
-            <Container className="d-flex">
-                {userVoteSignal < 0 ? <BsHandThumbsUpFill className="text-success" onClick={handleUpvote}/> : <BsHandThumbsUp onClick={handleUpvote}/>}
-                <p>{votes}</p>
-                {userVoteSignal > 0 ? <BsHandThumbsDownFill className="text-danger" onClick={handleDownvote}/> : <BsHandThumbsDown onClick={handleDownvote}/>}
+            <h5>Rate Review</h5>
+            <Container className="d-flex align-items-center">
+                {userVoteSignal > 0 ?
+                <BsHandThumbsUpFill className="text-success" onClick={()=> handleVote(1)}/> : <BsHandThumbsUp onClick={() => handleVote(1)}/>}
+                <div className="align-self-center">{votes}</div>
+                {userVoteSignal < 0 ? <BsHandThumbsDownFill className="text-danger" onClick={() => handleVote(-1)}/> : <BsHandThumbsDown onClick={() => handleVote(-1)}/>}
             </Container>
         </Container>
     )

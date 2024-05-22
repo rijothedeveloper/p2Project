@@ -1,10 +1,12 @@
 package com.revature.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -18,7 +20,8 @@ public class Item {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producer_id")
     private Producer producer;
 
@@ -34,14 +37,20 @@ public class Item {
     @Column
     private String image;
 
-    @OneToMany(mappedBy = "item", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Review> reviews;
+    // added to prevent looping while reviewing item
+    @JsonIgnore
+    @OneToMany(mappedBy = "item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Review> reviews;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.item", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Collection> collections;
 
     public Item() {
     }
 
 
-    public Item(String name, Producer producer, String description, String category, String image,  List<Review> reviews) {
+    public Item(String name, Producer producer, String description, String category, String image,  Set<Review> reviews, Set<Collection> collections) {
         this.name = name;
         this.producer = producer;
         this.rating = 0;
@@ -49,6 +58,7 @@ public class Item {
         this.category = category;
         this.image = image;
         this.reviews = reviews;
+        this.collections = collections;
     }
 
     public Item(String name, Producer producer, String description, String category, String image) {
@@ -116,21 +126,27 @@ public class Item {
         this.producer = producer;
     }
 
-    public List<Review> getReviews() { return reviews; }
+    public Set<Review> getReviews() { return reviews; }
 
-    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+    public void setReviews(Set<Review> reviews) { this.reviews = reviews; }
+
+    public Set<Collection> getCollections() { return collections; }
+
+    public void setCollections(Set<Collection> collections) { this.collections = collections; }
 
     @Override
     public String toString() {
         return "Item{" +
                 "itemId=" + id +
                 ", name='" + name + '\'' +
-                ", producer_id=" + producer +
                 ", rating=" + rating +
                 ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
                 ", image='" + image + '\'' +
-                ", reviews='" + reviews + '\'' +
                 '}';
+    }
+
+    public double getReviewCount() {
+        return reviews.size();
     }
 }

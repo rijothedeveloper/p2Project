@@ -1,4 +1,7 @@
+import { ReviewInterface } from "./ReviewInterface";
+
 export interface UserInterface {
+    reviews?: ReviewInterface[];
     id?: number,
     firstName?: string,
     lastName?: string,
@@ -9,5 +12,5 @@ export interface UserInterface {
     timestamp?:string,
     follow?:any
     collection?:any
-    jwt?:string
+    jwt?:string;
 }

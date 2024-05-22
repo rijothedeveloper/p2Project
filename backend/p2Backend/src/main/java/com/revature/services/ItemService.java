@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.revature.daos.ProducerDAO;
 
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -31,15 +34,35 @@ public class ItemService {
             throw new IllegalArgumentException("Item Description cannot be empty");
         }
 
-        if(itemdto.getCategory().isBlank() || itemdto.getCategory() == null){
+        if(itemdto.getCategory().isBlank() || itemdto.getCategory() == null) {
             throw new IllegalArgumentException("Item Category cannot be empty");
         }
 
-        Producer producer = producerDAO.findById(itemdto.getProducerId()).orElseThrow(()-> new IllegalArgumentException("No producer exists with Id: " + itemdto.getProducerId()));
+        Optional<Producer> producer = producerDAO.findById(itemdto.getProducerId());
+        if (producer.isEmpty()) {
+            throw new IllegalArgumentException("No producer found for ID: " + itemdto.getProducerId());
+        }
 
-        Item item = new Item(itemdto.getName(), producer, itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
+        Item item = new Item(itemdto.getName(), producer.get(), itemdto.getDescription(), itemdto.getCategory(), itemdto.getImage());
         itemDAO.save(item);
         return item;
+    }
+
+    /**
+     * Retrieves a list of items belonging to the specified category.
+     *
+     * @param category The category to search for.
+     * @return A list of item belonging to the specified category.
+     * @throws IllegalArgumentException if no items are found in the specified category.
+     */
+    public List<Item> findItemByCategory(String category) {
+        // Retrieve items from the database based on the specified category
+        List<Item> items = itemDAO.findByCategory(category);
+
+        if (items.isEmpty()) {
+            throw new IllegalArgumentException("No item found in " + category + " category!");
+        }
+        return items;
     }
 
     public Item getItemById(int itemId) {
@@ -74,8 +97,8 @@ public class ItemService {
         itemToBeSaved.setName(item.getName());
         itemToBeSaved.setDescription(item.getDescription());
         itemToBeSaved.setCategory(item.getCategory());
-        itemToBeSaved.setRating(item.getRating());
-        itemToBeSaved.setImage(item.getImage());
+        //itemToBeSaved.setRating(item.getRating());
+        //itemToBeSaved.setImage(item.getImage());
 
         itemDAO.save(itemToBeSaved);
         return itemToBeSaved;
@@ -86,6 +109,8 @@ public class ItemService {
      * */
     public Item deleteItem (int itemId) {
         Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found with Id: " + itemId));
+        item.getProducer().getItems().remove(item);
+
         itemDAO.deleteById(itemId);
         return item;
     }

@@ -31,8 +31,15 @@ public class CollectionService {
 
 
     public List<Item> getCollection(int userId) {
-        return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
 
+//        return collectionDAO.findAllByIdUserId(userId).stream().map(collection -> collection.getId().getItem()).toList();
+
+        // my playground
+        List<Collection> collectionDAOResponse = collectionDAO.findByIdUserId(userId);
+        System.out.println("In collection service got collection below: ");
+        System.out.println(collectionDAOResponse);
+        collectionDAOResponse.forEach(item -> System.out.println(item));
+        return collectionDAOResponse.stream().map(collectionKey -> collectionKey.getId().getItem()).toList();
     }
 
     /*
@@ -45,7 +52,7 @@ public class CollectionService {
     public Collection addItemToCollection(AddItemToCollectionDTO addItemToCollectionDTO) throws IllegalArgumentException {
 
         int userId = addItemToCollectionDTO.getUserId();
-        int itemId = addItemToCollectionDTO.getUserId();
+        int itemId = addItemToCollectionDTO.getItemId();
 
         if (userId <= 0) {
             throw new IllegalArgumentException("User ID must be greater than zero");
@@ -59,5 +66,21 @@ public class CollectionService {
         CollectionKey collectionkey = new CollectionKey(item, user);
         Collection collection = new Collection (collectionkey);
         return collectionDAO.save(collection);
+    }
+
+    public void deleteCollectionItemById(int itemId, int userId) {
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
+        User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
+        CollectionKey collectionkey = new CollectionKey(item, user);
+        Collection collection = collectionDAO.findById(collectionkey).orElseThrow(() -> new IllegalArgumentException("No collection found for item ID: " + itemId + " and user ID: " + userId));
+        user.getCollection().remove(collection);
+        item.getCollections().remove(collection);
+        collectionDAO.delete(collection);
+    }
+
+    public Object getCollectionItemById(int itemId, int userId) {
+        Item item = itemDAO.findById(itemId).orElseThrow(() -> new IllegalArgumentException("No item found for ID: " + itemId));
+        User user = userDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("No user found for ID: " + userId));
+        return collectionDAO.findById(new CollectionKey(item, user)).orElseThrow(() -> new IllegalArgumentException("No collection found for item ID: " + itemId + " and user ID: " + userId));
     }
 }

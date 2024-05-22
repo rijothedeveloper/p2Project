@@ -7,13 +7,13 @@ import java.io.Serializable;
 public class CollectionKey implements Serializable{
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;;
+    private User user;
 
     public CollectionKey() {
     }
@@ -22,6 +22,7 @@ public class CollectionKey implements Serializable{
         this.item = item;
         this.user = user;
     }
+
 
     public Item getItem() {
         return item;
@@ -42,8 +43,8 @@ public class CollectionKey implements Serializable{
     @Override
     public String toString() {
         return "CollectionKey{" +
-                "item=" + item +
-                ", user=" + user +
+                "item=" + item.getId() +
+                ", user=" + user.getId() +
                 '}';
     }
 }
